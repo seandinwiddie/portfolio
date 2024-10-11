@@ -139,3 +139,4 @@ expo-env.d.ts
 .tamagui/
 .expo/
 package-lock.json
+.vercel
