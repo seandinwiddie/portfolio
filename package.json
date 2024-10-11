@@ -11,7 +11,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "vercel-build": "expo export -p web && mv web-build dist",
+    "vercel-build": "expo export -p web",
     "postbuild": "ls -R web-build"
   },
   "jest": {
