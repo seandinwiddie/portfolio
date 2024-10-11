@@ -2,5 +2,5 @@
   "buildCommand": "yarn vercel-build",
   "outputDirectory": "dist",
   "devCommand": "expo start --web",
-  "framework": "expo"
+  "framework": null
 }
