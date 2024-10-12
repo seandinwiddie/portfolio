@@ -1,4 +1,5 @@
 import '../../tamagui-web.css'
+import '../styles/body.css'
 
 import { useEffect } from 'react'
 import { StatusBar, useColorScheme } from 'react-native'
@@ -6,7 +7,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { Provider } from './Provider'
-import { useTheme, Theme } from 'tamagui'
+import { YStack, Theme } from 'tamagui'
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './store'
 import { useAppSelector } from './hooks'

@@ -21,6 +21,7 @@
     "@react-navigation/native": "^6.1.17",
     "@reduxjs/toolkit": "^2.2.8",
     "@tamagui/config": "^1.114.2",
+    "@tamagui/linear-gradient": "^1.114.2",
     "@tamagui/lucide-icons": "^1.114.2",
     "@tamagui/toast": "^1.114.2",
     "babel-preset-expo": "^11.0.6",
