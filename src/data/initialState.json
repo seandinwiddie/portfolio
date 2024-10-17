@@ -2,5 +2,19 @@
   "brandName": "Portfolio.sdin.dev",
   "description": "React.js & RTK Developer",
   "iniTheme": "mirage",
-  "themes": ["light", "dark", "mirage", "neon"]
+  "themes": ["light", "dark", "mirage", "neon"],
+  "portfolioFeatures": [
+    {
+      "title": "Web Development.",
+      "description": "Creating responsive and interactive web applications using modern frameworks."
+    },
+    {
+      "title": "Mobile Development.",
+      "description": "Building cross-platform mobile apps with RTK Query and Expo Go."
+    },
+    {
+      "title": "UI/UX Design.",
+      "description": "Designing intuitive and visually appealing user interfaces for optimal user experience."
+    }
+  ]
 }
