@@ -6,19 +6,12 @@ import { ToastProvider, ToastViewport } from '@tamagui/toast'
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   const colorScheme = useColorScheme()
-  const themeMode = useAppSelector((state) => state.themeToggle.mode)
-
-  const getTheme = () => {
-    if (themeMode === 'light' || themeMode === 'dark') {
-      return themeMode
-    }
-    return colorScheme === 'dark' ? 'dark' : 'light'
-  }
+  const themeMode = useAppSelector((state) => state.themeToggle?.mode) || 'system'
 
   return (
     <TamaguiProvider
       config={config}
-      defaultTheme={getTheme()}
+      defaultTheme={themeMode === 'system' ? colorScheme : themeMode}
       {...rest}
     >
       <ToastProvider

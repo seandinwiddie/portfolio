@@ -1,6 +1,6 @@
 {
   "brandName": "Portfolio.sdin.dev",
   "description": "React.js & RTK Developer",
-  "themeMode": "system",
-  "availableThemes": ["light", "dark", "system"]
+  "iniTheme": "mirage",
+  "themes": ["light", "dark", "mirage", "neon"]
 }

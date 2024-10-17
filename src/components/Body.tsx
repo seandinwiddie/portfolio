@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Text, Spinner, YStack, Card, H2, Paragraph } from 'tamagui';
 import { useGetAppDataQuery } from '../features/api/apiSlice';
 import { useAppSelector } from '../app/hooks';
@@ -24,7 +23,7 @@ const Body: React.FC = () => {
   ];
 
   return (
-    <YStack f={1} className="gradient-background" padding="$4" space>
+    <YStack f={1} padding="$4" space className="gradient-background" style={{ minHeight: '100vh' }}>
       {isLoading ? (
         <Spinner />
       ) : error ? (

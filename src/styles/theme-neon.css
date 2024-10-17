@@ -1,0 +1,84 @@
+:root {
+  --theme-neon-background: #2b213a;
+  --theme-neon-foreground: #ffffff;
+  --theme-neon-text: #ffffff;
+  --theme-neon-accent: #f92aad;
+  --theme-neon-tag: #36f9f6;
+  --theme-neon-function: #fede5d;
+  --theme-neon-keyword: #f97e72;
+  --theme-neon-error: #fe4450;
+  --theme-neon-string: #ff8b39;
+  --theme-neon-comment: #848bbd;
+  --theme-neon-constant: #ff8b39;
+  --theme-neon-selection-bg: #34294f;
+  --theme-neon-selection-fg: #ffffff;
+  --theme-neon-line-highlight: #1f1a2e;
+  --theme-neon-gutter: #848bbd;
+  --theme-neon-card-bg: #241b2f;
+  --theme-icon-neon: 🌈;
+}
+
+.theme-neon {
+  --background-color: var(--theme-neon-background);
+  --foreground-color: var(--theme-neon-foreground);
+  --text-color: var(--theme-neon-text);
+  --accent-color: var(--theme-neon-accent);
+  --card-background: var(--theme-neon-card-bg);
+  --theme-icon: var(--theme-icon-neon);
+}
+
+body.theme-neon {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-neon .card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.theme-neon .gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--background-color),
+    var(--theme-neon-selection-bg)
+  );
+}
+
+.theme-neon h1, 
+.theme-neon h2, 
+.theme-neon h3, 
+.theme-neon h4, 
+.theme-neon h5, 
+.theme-neon h6 {
+  color: var(--accent-color);
+  text-shadow: 0 0 5px var(--accent-color);
+}
+
+.theme-neon a {
+  color: var(--accent-color);
+  text-shadow: 0 0 3px var(--accent-color);
+}
+
+.theme-neon button {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+  border: none;
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.theme-neon button:hover {
+  background-color: var(--text-color);
+  box-shadow: 0 0 15px var(--text-color);
+}
+
+.theme-neon .theme-icon::before {
+  content: var(--theme-icon);
+}
+
+.theme-neon .nav-text {
+  color: var(--text-color);
+  text-shadow: 0 0 5px var(--theme-neon-tag), 0 0 10px var(--theme-neon-tag);
+}

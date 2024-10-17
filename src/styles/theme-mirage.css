@@ -1,0 +1,51 @@
+:root {
+  --theme-mirage-background: #1F2430;
+  --theme-mirage-foreground: #CBCCC6;
+  --theme-mirage-text: #CBCCC6;
+  --theme-mirage-accent: #FFC44C;
+  --theme-mirage-tag: #5CCFE6;
+  --theme-mirage-function: #FFD580;
+  --theme-mirage-keyword: #FFA759;
+  --theme-mirage-error: #FF3333;
+  --theme-mirage-string: #BAE67E;
+  --theme-mirage-comment: #5C6773;
+  --theme-mirage-constant: #D4BFFF;
+  --theme-mirage-selection-bg: #34455A;
+  --theme-mirage-selection-fg: #CBCCC6;
+  --theme-mirage-line-highlight: #191E2A;
+  --theme-mirage-gutter: #707A8C;
+  --theme-mirage-card-bg: #232834;
+  --theme-icon-mirage: 🌌;
+}
+
+.theme-mirage {
+  --background-color: var(--theme-mirage-background);
+  --foreground-color: var(--theme-mirage-foreground);
+  --text-color: var(--theme-mirage-text);
+  --accent-color: var(--theme-mirage-accent);
+  --card-background: var(--theme-mirage-card-bg);
+  --theme-icon: var(--theme-icon-mirage);
+}
+
+body.theme-mirage {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-mirage .card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+}
+
+.theme-mirage .gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--background-color),
+    var(--theme-mirage-selection-bg)
+  );
+}
+
+.theme-mirage .theme-icon::before {
+  content: var(--theme-icon);
+}

@@ -5,12 +5,15 @@ export type ThemeMode = string;
 
 interface ThemeState {
   mode: ThemeMode;
-  availableThemes: ThemeMode[];
+  themes: ThemeMode[];
 }
 
 const themeToggleSlice = createSlice({
   name: 'themeToggle',
-  initialState: {} as ThemeState,
+  initialState: {
+    mode: 'mirage',
+    themes: [],
+  } as ThemeState,
   reducers: {
     setThemeMode: (state, action: PayloadAction<ThemeMode>) => {
       state.mode = action.payload;
@@ -20,8 +23,8 @@ const themeToggleSlice = createSlice({
     builder.addMatcher(
       api.endpoints.getAppData.matchFulfilled,
       (state, { payload }) => {
-        state.mode = payload.themeMode;
-        state.availableThemes = payload.availableThemes;
+        state.mode = payload.iniTheme;
+        state.themes = payload.themes;
       }
     );
   },

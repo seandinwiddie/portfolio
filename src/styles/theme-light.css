@@ -1,0 +1,51 @@
+:root {
+  --theme-light-background: #FAFAFA;
+  --theme-light-foreground: #5C6773;
+  --theme-light-text: #5C6773;
+  --theme-light-accent: #FF9940;
+  --theme-light-tag: #55B4D4;
+  --theme-light-function: #F2AE49;
+  --theme-light-keyword: #FA8D3E;
+  --theme-light-error: #F51818;
+  --theme-light-string: #86B300;
+  --theme-light-comment: #ABB0B6;
+  --theme-light-constant: #A37ACC;
+  --theme-light-selection-bg: #F0EEE4;
+  --theme-light-selection-fg: #5C6773;
+  --theme-light-line-highlight: #F2F2F2;
+  --theme-light-gutter: #9DA4AB;
+  --theme-light-card-bg: #FFFFFF;
+  --theme-icon-light: 🌞;
+}
+
+.theme-light {
+  --background-color: var(--theme-light-background);
+  --foreground-color: var(--theme-light-foreground);
+  --text-color: var(--theme-light-text);
+  --accent-color: var(--theme-light-accent);
+  --card-background: var(--theme-light-card-bg);
+  --theme-icon: var(--theme-icon-light);
+}
+
+body.theme-light {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-light .card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+}
+
+.theme-light .gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--background-color),
+    var(--theme-light-selection-bg)
+  );
+}
+
+.theme-light .theme-icon::before {
+  content: var(--theme-icon);
+}

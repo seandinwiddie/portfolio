@@ -35,4 +35,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  navText: {
+    color: '#ffffff',
+    textShadow: '0 0 5px #36f9f6, 0 0 10px #36f9f6',
+  },
 })

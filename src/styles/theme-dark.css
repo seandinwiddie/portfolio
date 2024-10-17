@@ -1,0 +1,51 @@
+:root {
+  --theme-dark-background: #0A0E14;
+  --theme-dark-foreground: #B3B1AD;
+  --theme-dark-text: #B3B1AD;
+  --theme-dark-accent: #E6B450;
+  --theme-dark-tag: #39BAE6;
+  --theme-dark-function: #FFB454;
+  --theme-dark-keyword: #FF8F40;
+  --theme-dark-error: #FF3333;
+  --theme-dark-string: #C2D94C;
+  --theme-dark-comment: #626A73;
+  --theme-dark-constant: #FFEE99;
+  --theme-dark-selection-bg: #253340;
+  --theme-dark-selection-fg: #B3B1AD;
+  --theme-dark-line-highlight: #151A1E;
+  --theme-dark-gutter: #5C6773;
+  --theme-dark-card-bg: #0F1419;
+  --theme-icon-dark: 🌙;
+}
+
+.theme-dark {
+  --background-color: var(--theme-dark-background);
+  --foreground-color: var(--theme-dark-foreground);
+  --text-color: var(--theme-dark-text);
+  --accent-color: var(--theme-dark-accent);
+  --card-background: var(--theme-dark-card-bg);
+  --theme-icon: var(--theme-icon-dark);
+}
+
+body.theme-dark {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-dark .card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+}
+
+.theme-dark .gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--background-color),
+    var(--theme-dark-selection-bg)
+  );
+}
+
+.theme-dark .theme-icon::before {
+  content: var(--theme-icon);
+}

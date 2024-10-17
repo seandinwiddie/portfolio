@@ -1,0 +1,13 @@
+.nav-container {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+
+.nav-text {
+  color: var(--nav-text-color, #ffffff);
+  text-shadow: 0 0 5px #36f9f6, 0 0 10px #36f9f6;
+}
+

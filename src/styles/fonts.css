@@ -1,0 +1,6 @@
+@import url('https://seandinwiddie.com/wp-content/themes/visual-composer-starter-theme-child/dank-mono.css');
+
+body, button, input, select, textarea {
+  font-family: 'Dank Mono', monospace;
+}
+

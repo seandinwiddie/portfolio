@@ -1,0 +1,45 @@
+/* Global styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--background-color),
+    var(--accent-color)
+  );
+}
+
+.card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+}
+
+.theme-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.theme-icon.theme-light::before {
+  content: var(--theme-icon-light);
+}
+
+.theme-icon.theme-dark::before {
+  content: var(--theme-icon-dark);
+}
+
+.theme-icon.theme-mirage::before {
+  content: var(--theme-icon-mirage);
+}
+
+.theme-icon.theme-neon::before {
+  content: var(--theme-icon-neon);
+}

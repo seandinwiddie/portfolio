@@ -1,8 +1,15 @@
 import '../../tamagui-web.css'
 import '../styles/body.css'
+import '../styles/fonts.css'
+import '../styles/app.css'
+import '../styles/nav.css'
+import '../styles/theme-light.css'
+import '../styles/theme-dark.css'
+import '../styles/theme-mirage.css'
+import '../styles/theme-neon.css'
 
 import { useEffect } from 'react'
-import { StatusBar, useColorScheme } from 'react-native'
+import { StatusBar } from 'react-native'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
@@ -25,61 +32,49 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
-    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
-    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-  })
+  const [fontsLoaded] = useFonts({
+    'Dank Mono': require('../../assets/fonts/DankMono-Regular.otf'),
+  });
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (fontsLoaded) {
       // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
       SplashScreen.hideAsync()
     }
-  }, [fontsLoaded, fontError])
+  }, [fontsLoaded])
 
-  if (!fontsLoaded && !fontError) {
+  if (!fontsLoaded) {
     return null
   }
 
   return (
-    <Providers>
-      <RootLayoutInner />
-    </Providers>
+    <ReduxProvider store={store}>
+      <Provider>
+        <RootLayoutInner />
+      </Provider>
+    </ReduxProvider>
   )
 }
 
-const Providers = ({ children }: { children: React.ReactNode }) => (
-  <ReduxProvider store={store}>
-    <Provider>{children}</Provider>
-  </ReduxProvider>
-)
-
 function RootLayoutInner() {
-  const colorScheme = useColorScheme()
-  const themeMode = useAppSelector((state) => state.themeToggle.mode)
+  const themeMode = useAppSelector((state) => state.themeToggle?.mode) || 'mirage';
 
-  const getTheme = () => {
-    switch (themeMode) {
-      case 'light':
-        return DefaultTheme
-      case 'dark':
-        return DarkTheme
-      default:
-        return colorScheme === 'dark' ? DarkTheme : DefaultTheme
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.className = `theme-${themeMode}`;
     }
-  }
-
-  const currentTheme = getTheme()
-  const isDarkTheme = currentTheme === DarkTheme
+  }, [themeMode]);
 
   return (
-    <ThemeProvider value={currentTheme}>
-      <Theme name={isDarkTheme ? 'dark' : 'light'}>
-        <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-        </Stack>
+    <ThemeProvider value={themeMode === 'dark' ? DarkTheme : DefaultTheme}>
+      <Theme name={themeMode as any}>
+        <StatusBar barStyle={themeMode === 'dark' ? 'light-content' : 'dark-content'} />
+        <YStack f={1}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+          </Stack>
+        </YStack>
       </Theme>
     </ThemeProvider>
-  )
+  );
 }

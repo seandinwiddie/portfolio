@@ -4,20 +4,16 @@ import initialState from '../../data/initialState.json';
 interface AppData {
   brandName: string;
   description: string;
-  themeMode: string;
-  availableThemes: string[];
+  iniTheme: string;
+  themes: string[];
 }
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.example.com' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   endpoints: (builder) => ({
     getAppData: builder.query<AppData, void>({
       queryFn: () => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ data: initialState });
-          }, 1000);
-        });
+        return { data: initialState as AppData };
       },
     }),
   }),
