@@ -1,0 +1,12 @@
+flowchart TD
+    A["initialState.json"] -- Fetched by --> B("apiSlice")
+    B -- Dispatches actions --> C{"Redux Store"}
+    C -- Updates --> D["themeToggleSlice"] & E["navSlice"] & F["bodySlice"]
+    D -- Provides state --> G["ThemeToggle Component"]
+    E -- Provides state --> H["Nav Component"]
+    F -- Provides state --> I["Body Component"]
+    n1["theme files"] --> D
+    D --> C
+    G --> D
+
+    n1@{ shape: rect}

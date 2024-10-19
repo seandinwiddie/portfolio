@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'tamagui';
-import Home from '../components/Home';
+import Status from '../components/Status';
 
-export default function Index() {
+export default function StatusPage() {
   return (
     <View flex={1}>
-      <Home />
+      <Status />
     </View>
   );
 }

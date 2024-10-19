@@ -1,20 +1,39 @@
 {
   "brandName": "Portfolio.sdin.dev",
-  "description": "React.js & RTK Developer",
+  "description": "Expo Go and RTK Developer",
   "iniTheme": "mirage",
-  "themes": ["light", "dark", "mirage", "neon"],
   "portfolioFeatures": [
     {
-      "title": "Web Development.",
-      "description": "Creating responsive and interactive web applications using modern frameworks."
+      "id": "1",
+      "title": "Redux Web and Native Application Development",
+      "description": "I develop custom Redux web and native applications using the latest Expo and React Native technologies. I use RTK Query for data fetching and Redux Toolkit for state management."
     },
     {
-      "title": "Mobile Development.",
-      "description": "Building cross-platform mobile apps with RTK Query and Expo Go."
+      "id": "2",
+      "title": "UX and UI Development",
+      "description": "I develop custom UX and UI designs for web and mobile applications."
+    }
+  ],
+  "appProcedures": [
+    {
+      "id": "1",
+      "title": "Data Flow and Logic",
+      "description": "No hardcoded data is to live in component or slice files. Data is fetched from the API and stored in the Redux store. The data is then used by the components through their respective slices and reducers. https://redux.js.org/style-guide/#put-as-much-logic-as-possible-in-reducers"
     },
     {
-      "title": "UI/UX Design.",
-      "description": "Designing intuitive and visually appealing user interfaces for optimal user experience."
+      "id": "2",
+      "title": "Theming",
+      "description": "Theming is implemented using the Tamagui library. The theme is stored in the Redux store and is used by the components. Theme files are located in the src/styles/themes directory using a theme-<themeName>.css naming convention. There is a theme toggle button in the navigation bar that allows the user to switch between themes that are dynamically loaded from the src/styles/themes directory. There is a theme template download button and theme load button for loading custom themes."
+    },
+    {
+      "id": "3",
+      "title": "Routing",
+      "description": "Routing is implemented using the Expo Router library. The routing is stored in the Redux store and is used by the components."
+    },
+    {
+      "id": "4",
+      "title": "Data",
+      "description": "The data flow should be json > api slice > store > * slice > * component. Example: json > api slice > store > nav slice > nav component."
     }
   ]
 }

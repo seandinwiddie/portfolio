@@ -1,36 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { api } from '../api/apiSlice';
-
-interface PortfolioFeature {
-  title: string;
-  description: string;
-}
-
-interface BodyState {
-  description: string;
-  portfolioFeatures: PortfolioFeature[];
-}
+import { apiSlice } from '../api/apiSlice';
 
 const bodySlice = createSlice({
   name: 'body',
   initialState: {
     description: '',
     portfolioFeatures: [],
-  } as BodyState,
+  },
   reducers: {
     setDescription: (state, action: PayloadAction<string>) => {
       state.description = action.payload;
     },
-    setPortfolioFeatures: (state, action: PayloadAction<PortfolioFeature[]>) => {
+    setPortfolioFeatures: (state, action: PayloadAction<any[]>) => {
       state.portfolioFeatures = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      api.endpoints.getAppData.matchFulfilled,
+      apiSlice.endpoints.getAppData.matchFulfilled,
       (state, { payload }) => {
-        state.description = payload.description;
-        state.portfolioFeatures = payload.portfolioFeatures;
+        if (payload) {
+          state.description = payload.description;
+          state.portfolioFeatures = payload.portfolioFeatures;
+        }
       }
     );
   },

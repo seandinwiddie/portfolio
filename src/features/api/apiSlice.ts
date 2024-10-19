@@ -1,28 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import initialState from '../../data/initialState.json';
 
-interface PortfolioFeature {
-  title: string;
-  description: string;
-}
-
-interface AppData {
+export interface AppData {
   brandName: string;
   description: string;
   iniTheme: string;
-  themes: string[];
-  portfolioFeatures: PortfolioFeature[];
+  portfolioFeatures: Array<{ id: string; title: string; description: string }>;
+  appProcedures: Array<{ id: string; title: string; description: string }>;
 }
 
-export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+export const apiSlice = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: (builder) => ({
     getAppData: builder.query<AppData, void>({
-      queryFn: () => {
-        return { data: initialState as AppData };
-      },
+      query: () => 'app-data',
     }),
   }),
 });
 
-export const { useGetAppDataQuery } = api;
+export const { useGetAppDataQuery } = apiSlice;

@@ -1,32 +1,55 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { api } from '../api/apiSlice';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { ThemeToggleState } from '../../data/schemas';
 
-export type ThemeMode = string;
+// Function to dynamically fetch theme names
+const getThemeNames = async () => {
+  if (typeof window !== 'undefined') {
+    const themeContext = require.context('../../styles/themes', false, /theme-.*\.css$/);
+    return themeContext.keys().map(key => {
+      const match = key.match(/theme-(.+)\.css$/);
+      return match ? match[1] : '';
+    }).filter(Boolean);
+  }
+  return [];
+};
 
-interface ThemeState {
-  mode: ThemeMode;
-  themes: ThemeMode[];
-}
+export const fetchAvailableThemes = createAsyncThunk(
+  'themeToggle/fetchAvailableThemes',
+  async () => {
+    const themeNames = await getThemeNames();
+    return themeNames;
+  }
+);
 
 const themeToggleSlice = createSlice({
   name: 'themeToggle',
   initialState: {
-    mode: 'mirage',
+    mode: '',
     themes: [],
-  } as ThemeState,
+    status: 'idle',
+    error: null
+  } as ThemeToggleState,
   reducers: {
-    setThemeMode: (state, action: PayloadAction<ThemeMode>) => {
+    setThemeMode: (state, action: PayloadAction<string>) => {
       state.mode = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      api.endpoints.getAppData.matchFulfilled,
-      (state, { payload }) => {
-        state.mode = payload.iniTheme;
-        state.themes = payload.themes;
-      }
-    );
+    builder
+      .addCase(fetchAvailableThemes.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAvailableThemes.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.themes = action.payload;
+        if (!state.mode) {
+          state.mode = action.payload[0] || 'light';
+        }
+      })
+      .addCase(fetchAvailableThemes.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch themes';
+      });
   },
 });
 

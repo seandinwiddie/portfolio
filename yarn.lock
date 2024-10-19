@@ -1938,6 +1938,13 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.0"
 
+"@react-native-async-storage/async-storage@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-2.0.0.tgz"
+  integrity sha512-af6H9JjfL6G/PktBfUivvexoiFKQTJGQCtSWxMdivLzNIY94mu9DdiY0JqCSg/LyPCLGKhHPUlRQhNvpu3/KVA==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native-community/cli-clean@13.6.9":
   version "13.6.9"
   resolved "https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-13.6.9.tgz"
@@ -2936,7 +2943,7 @@
     "@tamagui/compose-refs" "1.114.2"
     "@tamagui/web" "1.114.2"
 
-"@tamagui/font-inter@1.114.2":
+"@tamagui/font-inter@^1.114.2", "@tamagui/font-inter@1.114.2":
   version "1.114.2"
   resolved "https://registry.npmjs.org/@tamagui/font-inter/-/font-inter-1.114.2.tgz"
   integrity sha512-I2W31+CfrmIOz+8gqOQez0IWQkSd5HGGgd+O28WkZtaaomeinsRXLWjpBd1xq+tp32QEALxycI/80xHJEFzTtQ==
@@ -3223,7 +3230,7 @@
     "@tamagui/use-controllable-state" "1.114.2"
     "@tamagui/use-previous" "1.114.2"
 
-"@tamagui/react-native-media-driver@1.114.2":
+"@tamagui/react-native-media-driver@^1.114.2", "@tamagui/react-native-media-driver@1.114.2":
   version "1.114.2"
   resolved "https://registry.npmjs.org/@tamagui/react-native-media-driver/-/react-native-media-driver-1.114.2.tgz"
   integrity sha512-pv3Q8N7XgaHoeX7nOMl7aNFhbrKPuY2eQyywvyYXpqy2T50kuArZUWme17G1khp/IcPN2AnX52KOG064fdICNA==
@@ -3364,7 +3371,7 @@
     "@tamagui/use-controllable-state" "1.114.2"
     "@tamagui/use-keyboard-visible" "1.114.2"
 
-"@tamagui/shorthands@1.114.2":
+"@tamagui/shorthands@^1.114.2", "@tamagui/shorthands@1.114.2":
   version "1.114.2"
   resolved "https://registry.npmjs.org/@tamagui/shorthands/-/shorthands-1.114.2.tgz"
   integrity sha512-O6g/EcUVIxmxkck15MuODTs9bOtae/P6mu2steSQj+xqWJ8Hi8w1/xLErHhYFo7WHK9N0yBEGdF1QTfetAF9Vw==
@@ -3514,7 +3521,7 @@
     "@tamagui/constants" "1.114.2"
     "@tamagui/web" "1.114.2"
 
-"@tamagui/themes@1.114.2":
+"@tamagui/themes@^1.114.2", "@tamagui/themes@1.114.2":
   version "1.114.2"
   resolved "https://registry.npmjs.org/@tamagui/themes/-/themes-1.114.2.tgz"
   integrity sha512-JoSu4pR2FWRGbnTG5E8dc6jmuOnOb98cMQVJ4x/Iao9TQ0XfM5zp6+irRx8XPAtkyv/SFSSXYVlMh2WZH8RkAw==
@@ -5800,7 +5807,12 @@ expo-constants@*, expo-constants@~16.0.0:
     "@expo/config" "~9.0.0"
     "@expo/env" "~0.3.0"
 
-expo-file-system@~17.0.1:
+expo-document-picker@~12.0.2:
+  version "12.0.2"
+  resolved "https://registry.npmjs.org/expo-document-picker/-/expo-document-picker-12.0.2.tgz"
+  integrity sha512-tmwuRWoCPv6SmNDSMEWcttMBJ95k8/g5sMWnHdmvOx0UKp0pFXP8FI+55HKtQpo6k2+118MkdDDhQSwKqASVAw==
+
+expo-file-system@^17.0.1, expo-file-system@~17.0.1:
   version "17.0.1"
   resolved "https://registry.npmjs.org/expo-file-system/-/expo-file-system-17.0.1.tgz"
   integrity sha512-dYpnZJqTGj6HCYJyXAgpFkQWsiCH3HY1ek2cFZVHFoEc5tLz9gmdEgTF6nFHurvmvfmXqxi7a5CXyVm0aFYJBw==
@@ -5859,6 +5871,11 @@ expo-router@~3.5.23:
     expo-splash-screen "0.27.5"
     react-native-helmet-async "2.0.4"
     schema-utils "^4.0.1"
+
+expo-sharing@^12.0.1:
+  version "12.0.1"
+  resolved "https://registry.npmjs.org/expo-sharing/-/expo-sharing-12.0.1.tgz"
+  integrity sha512-wBT+WeXwapj/9NWuLJO01vi9bdlchYu/Q/xD8slL/Ls4vVYku8CPqzkTtDFcjLrjtlJqyeHsdQXwKLvORmBIew==
 
 expo-splash-screen@~0.27.5:
   version "0.27.6"
@@ -7023,6 +7040,11 @@ is-path-inside@^3.0.2:
   resolved "https://registry.npmjs.org/is-path-inside/-/is-path-inside-3.0.3.tgz"
   integrity sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==
 
+is-plain-obj@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-2.1.0.tgz"
+  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
+
 is-plain-obj@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-3.0.0.tgz"
@@ -7751,6 +7773,13 @@ merge-descriptors@1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.3.tgz"
   integrity sha512-gaNvAS7TZ897/rVaZ0nMtAyxNyi/pdbjbAwUpFQpN70GqnVfOiXpeUUMKRBmzXaSQ8DdTX4/0ms62r2K+hE6mQ==
+
+merge-options@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.npmjs.org/merge-options/-/merge-options-3.0.4.tgz"
+  integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
+  dependencies:
+    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -9132,7 +9161,7 @@ react-native-web@^0.19.12:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.3"
 
-react-native@*, react-native@>=0.64.0, react-native@0.74.5:
+react-native@*, "react-native@^0.0.0-0 || >=0.65 <1.0", react-native@>=0.64.0, react-native@0.74.5:
   version "0.74.5"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.74.5.tgz"
   integrity sha512-Bgg2WvxaGODukJMTZFTZBNMKVaROHLwSb8VAGEdrlvKwfb1hHg/3aXTUICYk7dwgAnb+INbGMwnF8yeAgIUmqw==

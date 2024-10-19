@@ -1,41 +1,24 @@
-import React, { useCallback } from 'react';
-import { Button } from 'tamagui';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../app/store';
 import { setThemeMode } from '../features/themeToggle/themeToggleSlice';
-import { useGetAppDataQuery } from '../features/api/apiSlice';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-
-const AnimatedButton = Animated.createAnimatedComponent(Button);
+import { Button } from 'tamagui';
 
 const ThemeToggle: React.FC = () => {
-  const { isLoading, error } = useGetAppDataQuery();
-  const themeMode = useAppSelector((state) => state.themeToggle.mode);
-  const themes = useAppSelector((state) => state.themeToggle.themes);
-  const dispatch = useAppDispatch();
-  const rotation = useSharedValue(0);
+  const dispatch = useDispatch();
+  const themes = useSelector((state: RootState) => state.themeToggle.themes);
+  const currentTheme = useSelector((state: RootState) => state.themeToggle.mode);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ rotate: `${rotation.value}deg` }],
-    };
-  });
-
-  const toggleTheme = useCallback(() => {
-    const currentIndex = themes.indexOf(themeMode);
+  const handleToggle = () => {
+    const currentIndex = themes.indexOf(currentTheme);
     const nextIndex = (currentIndex + 1) % themes.length;
     dispatch(setThemeMode(themes[nextIndex]));
-    rotation.value = withSpring(rotation.value + 360);
-  }, [dispatch, rotation, themeMode, themes]);
-
-  if (isLoading) return null;
-  if (error) return <Button>Error loading theme data</Button>;
-
-  const themeIcon = getComputedStyle(document.documentElement).getPropertyValue(`--theme-icon-${themeMode}`).trim();
+  };
 
   return (
-    <AnimatedButton onPress={toggleTheme} size="$2" style={animatedStyle}>
-      <span>{themeIcon}</span>
-    </AnimatedButton>
+    <Button onPress={handleToggle} variant="outlined">
+      Theme: {currentTheme}
+    </Button>
   );
 };
 

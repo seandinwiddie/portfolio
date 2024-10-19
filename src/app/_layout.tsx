@@ -1,80 +1,75 @@
-import '../../tamagui-web.css'
-import '../styles/body.css'
-import '../styles/fonts.css'
-import '../styles/app.css'
-import '../styles/nav.css'
-import '../styles/theme-light.css'
-import '../styles/theme-dark.css'
-import '../styles/theme-mirage.css'
-import '../styles/theme-neon.css'
-
-import { useEffect } from 'react'
-import { StatusBar } from 'react-native'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
-import { Provider } from './Provider'
-import { YStack, Theme } from 'tamagui'
-import { Provider as ReduxProvider } from 'react-redux'
-import { store } from './store'
-import { useAppSelector } from './hooks'
-
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router'
+import React, { useEffect } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from './store';
+import { TamaguiProvider, Theme } from 'tamagui';
+import { useFonts } from 'expo-font';
+import { SplashScreen, Slot } from 'expo-router';
+import { StatusBar, useColorScheme } from 'react-native';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useAppSelector, useAppDispatch } from './hooks';
+import { config } from '../../tamagui.config';
+import { ToastProvider, ToastViewport } from '@tamagui/toast';
+import Nav from '../components/Nav';
+import { fetchAvailableThemes, setThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { apiSlice } from '../features/api/apiSlice';
 
 export const unstable_settings = {
   initialRouteName: 'index',
-}
+};
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    'Dank Mono': require('../../assets/fonts/DankMono-Regular.otf'),
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
-      SplashScreen.hideAsync()
-    }
-  }, [fontsLoaded])
-
-  if (!fontsLoaded) {
-    return null
-  }
-
-  return (
-    <ReduxProvider store={store}>
-      <Provider>
-        <RootLayoutInner />
-      </Provider>
-    </ReduxProvider>
-  )
-}
-
-function RootLayoutInner() {
-  const themeMode = useAppSelector((state) => state.themeToggle?.mode) || 'mirage';
+function RootLayoutNav() {
+  const colorScheme = useColorScheme();
+  const dispatch = useAppDispatch();
+  const themeMode = useAppSelector((state) => state.themeToggle?.mode);
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.body.className = `theme-${themeMode}`;
+    dispatch(fetchAvailableThemes());
+    dispatch(apiSlice.endpoints.getAppData.initiate());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined' && themeMode) {
+      const sanitizedThemeName = themeMode.replace(/[^a-zA-Z0-9-_]/g, '');
+      document.body.className = `theme-${sanitizedThemeName}`;
+
+      // Remove existing theme stylesheets
+      document.querySelectorAll('link[data-theme]').forEach(el => el.remove());
+
+      // Load the current theme stylesheet
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `/styles/themes/theme-${sanitizedThemeName}.css`;
+      link.setAttribute('data-theme', sanitizedThemeName);
+      document.head.appendChild(link);
     }
   }, [themeMode]);
 
+  const currentTheme = themeMode || (colorScheme === 'dark' ? 'dark' : 'light');
+
   return (
-    <ThemeProvider value={themeMode === 'dark' ? DarkTheme : DefaultTheme}>
-      <Theme name={themeMode as any}>
-        <StatusBar barStyle={themeMode === 'dark' ? 'light-content' : 'dark-content'} />
-        <YStack f={1}>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-          </Stack>
-        </YStack>
-      </Theme>
+    <ThemeProvider value={currentTheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <TamaguiProvider config={config} defaultTheme={currentTheme}>
+        <ToastProvider swipeDirection="horizontal" duration={6000} native={[]}>
+          <Theme name={currentTheme as any}>
+            <StatusBar barStyle={currentTheme === 'dark' ? 'light-content' : 'dark-content'} />
+            <Nav />
+            <Slot />
+            <ToastViewport top="$8" left={0} right={0} />
+          </Theme>
+        </ToastProvider>
+      </TamaguiProvider>
     </ThemeProvider>
   );
 }
+
+const AppLayout = () => {
+  return (
+    <ReduxProvider store={store}>
+      <RootLayoutNav />
+    </ReduxProvider>
+  );
+};
+
+export default AppLayout;

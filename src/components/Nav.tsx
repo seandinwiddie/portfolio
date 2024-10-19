@@ -1,39 +1,40 @@
-import React, { useEffect } from 'react';
-import { Text, Spinner, YStack } from 'tamagui';
-import { useGetAppDataQuery } from '../features/api/apiSlice';
+import React from 'react';
+import { XStack, Text, Button, Separator } from 'tamagui';
 import { useAppSelector } from '../app/hooks';
-import '../styles/nav.css';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
+import ThemeToggle from './ThemeToggle';
+import ThemeCustom from './ThemeCustom';
+import { Link } from 'expo-router';
 
 const Nav: React.FC = () => {
-  const { isLoading, error } = useGetAppDataQuery();
   const brandName = useAppSelector((state) => state.nav.brandName);
-  const opacity = useSharedValue(0);
-
-  useEffect(() => {
-    opacity.value = withTiming(1, { duration: 1000, easing: Easing.ease });
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-    };
-  });
 
   return (
-    <Animated.View style={animatedStyle}>
-      <YStack className="nav-container">
-        {isLoading ? (
-          <Spinner />
-        ) : error ? (
-          <Text>Error loading brand name</Text>
-        ) : (
-          <Text fontSize={24} fontWeight="bold" className="nav-text" textAlign="center">
-            🚀 {brandName}
-          </Text>
-        )}
-      </YStack>
-    </Animated.View>
+    <XStack
+      backgroundColor="$background"
+      borderBottomColor="$borderColor"
+      borderBottomWidth={1}
+      paddingHorizontal="$4"
+      paddingVertical="$2"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <XStack space="$4" alignItems="center">
+        <Text fontSize={24} fontWeight="bold" color="$color">
+          {brandName || 'My Portfolio'}
+        </Text>
+        <Separator vertical />
+        <Link href="/">
+          <Button variant="outlined">Home</Button>
+        </Link>
+        <Link href="/status">
+          <Button variant="outlined">Status</Button>
+        </Link>
+      </XStack>
+      <XStack space="$2" alignItems="center">
+        <ThemeCustom />
+        <ThemeToggle />
+      </XStack>
+    </XStack>
   );
 };
 

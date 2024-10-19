@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { api } from '../api/apiSlice';
+import { apiSlice } from '../api/apiSlice';
 
 interface NavState {
   brandName: string;
 }
 
+const initialState: NavState = {
+  brandName: '',
+};
+
 const navSlice = createSlice({
   name: 'nav',
-  initialState: {} as NavState,
+  initialState,
   reducers: {
     setBrandName: (state, action: PayloadAction<string>) => {
       state.brandName = action.payload;
@@ -15,7 +19,7 @@ const navSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      api.endpoints.getAppData.matchFulfilled,
+      apiSlice.endpoints.getAppData.matchFulfilled,
       (state, { payload }) => {
         state.brandName = payload.brandName;
       }
