@@ -1,5 +1,5 @@
 import React from 'react';
-import { YStack, XStack, Text, Button, H1, Paragraph } from 'tamagui';
+import { YStack, XStack, Text, Button, H1, Paragraph, AnimatePresence } from 'tamagui';
 import { useRouter } from 'expo-router';
 
 const Welcome: React.FC = () => {
@@ -7,17 +7,19 @@ const Welcome: React.FC = () => {
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
-      <YStack space="$4" maw={600}>
-        <H1 ta="center" fow="800">Welcome to Sean's Portfolio</H1>
-        <Paragraph ta="center" theme="alt2">
-          Explore the world of Expo Go and RTK development through my projects and experiences.
-        </Paragraph>
-      </YStack>
-      <XStack space>
-        <Button theme="active" size="$5" onPress={() => router.push('/home')}>
+      <AnimatePresence>
+        <YStack space="$4" maw={600} animation="quick" enterStyle={{ opacity: 0, scale: 0.9 }} exitStyle={{ opacity: 0, scale: 0.9 }}>
+          <H1 ta="center" fontFamily="$heading" fontWeight="bold">Welcome to Sean's Portfolio</H1>
+          <Paragraph ta="center" theme="alt2" fontFamily="$body">
+            Explore the world of Expo Go and RTK development through my projects and experiences.
+          </Paragraph>
+        </YStack>
+      </AnimatePresence>
+      <XStack space animation="lazy" enterStyle={{ opacity: 0, y: 10 }} exitStyle={{ opacity: 0, y: 10 }}>
+        <Button theme="active" size="$5" onPress={() => router.push('/home')} animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
           Explore Portfolio
         </Button>
-        <Button theme="alt2" size="$5" onPress={() => router.push('/status')}>
+        <Button theme="alt2" size="$5" onPress={() => router.push('/status')} animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
           View Status
         </Button>
       </XStack>

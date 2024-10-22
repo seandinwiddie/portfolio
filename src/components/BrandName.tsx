@@ -10,8 +10,15 @@ const BrandName: React.FC = () => {
   }
 
   return (
-    <Text fontSize={24} fontWeight="bold" color="$color">
-      <a href="/">{brandName}</a>
+    <Text 
+      fontSize={24} 
+      fontWeight="bold" 
+      color="$color" 
+      fontFamily="$heading"  // This ensures Dank Mono is used
+    >
+      <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+        {brandName}
+      </a>
     </Text>
   );
 };

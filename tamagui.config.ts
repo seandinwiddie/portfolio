@@ -1,44 +1,107 @@
 import { createTamagui } from 'tamagui'
-import { createInterFont } from '@tamagui/font-inter'
 import { shorthands } from '@tamagui/shorthands'
 import { themes, tokens } from '@tamagui/themes'
 import { createMedia } from '@tamagui/react-native-media-driver'
 import { createAnimations } from '@tamagui/animations-react-native'
 
 const animations = createAnimations({
-  // your animations
+  bouncy: {
+    type: 'spring',
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100,
+  },
+  lazy: {
+    type: 'spring',
+    damping: 20,
+    stiffness: 60,
+  },
+  quick: {
+    type: 'spring',
+    damping: 20,
+    mass: 1.2,
+    stiffness: 250,
+  },
 })
 
-const headingFont = createInterFont()
-const bodyFont = createInterFont()
+const dankMonoFont = {
+  family: 'Dank Mono',
+  size: {
+    1: 12,
+    2: 14,
+    3: 15,
+    4: 16,
+    5: 18,
+    6: 20,
+    7: 24,
+    8: 28,
+    9: 32,
+    10: 40,
+    11: 48,
+    12: 56,
+    13: 64,
+    14: 72,
+    15: 80,
+    16: 96,
+  },
+  lineHeight: {
+    1: 17,
+    2: 22,
+    3: 25,
+    4: 28,
+    5: 32,
+    6: 36,
+    7: 40,
+    8: 44,
+    9: 48,
+    10: 56,
+    11: 64,
+    12: 72,
+    13: 80,
+    14: 88,
+    15: 96,
+    16: 112,
+  },
+  weight: {
+    4: '400',
+    7: '700',
+  },
+  letterSpacing: {
+    4: 0,
+    7: -1,
+  },
+}
 
-const appConfig = createTamagui({
+const config = createTamagui({
   animations,
   defaultTheme: 'light',
   shouldAddPrefersColorThemes: true,
   themeClassNameOnRoot: true,
   shorthands,
   fonts: {
-    heading: headingFont,
-    body: bodyFont,
+    heading: dankMonoFont,
+    body: dankMonoFont,
   },
   themes: {
-    ...themes,
     light: {
       background: '#FAFAFA',
-      color: '#575F66',
+      color: '#000000',
     },
     dark: {
-      background: '#0A0E14',
-      color: '#B3B1AD',
+      background: '#000000',
+      color: '#FFFFFF',
     },
-    mirage: {
-      background: '#1F2430',
-      color: '#CBCCC6',
+    dracula: {
+      background: '#282a36',
+      color: '#f8f8f2',
     },
     neon: {
       background: '#2b213a',
       color: '#ffffff',
+    },
+    mirage: {
+      background: '#1f2430',
+      color: '#cbccc6',
     },
   },
   tokens,
@@ -58,12 +121,12 @@ const appConfig = createTamagui({
     hoverNone: { hover: 'none' },
     pointerCoarse: { pointer: 'coarse' },
   }),
-  defaultProps: {
-    Text: {
-      // You can add default props for Text here if needed
-    }
-  }
 })
 
-export type AppConfig = typeof appConfig
-export default appConfig
+export type AppConfig = typeof config
+
+declare module 'tamagui' {
+  interface TamaguiCustomConfig extends AppConfig {}
+}
+
+export default config

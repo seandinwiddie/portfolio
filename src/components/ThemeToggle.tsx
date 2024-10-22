@@ -12,6 +12,12 @@ const ThemeToggle: React.FC = () => {
     dispatch(cycleTheme());
   };
 
+  React.useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.className = `theme-${currentTheme}`;
+    }
+  }, [currentTheme]);
+
   return (
     <Button onPress={handleToggle} variant="outlined">
       Theme: {currentTheme}

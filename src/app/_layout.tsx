@@ -18,6 +18,13 @@ import ErrorBoundary from '../components/ErrorBoundary';
 
 // process.env.TAMAGUI_DISABLE_NO_THEME_WARNING = '1';
 
+// Import all theme CSS files
+import '../styles/themes/theme-light.css';
+import '../styles/themes/theme-dark.css';
+import '../styles/themes/theme-dracula.css';
+import '../styles/themes/theme-neon.css';
+import '../styles/themes/theme-mirage.css';
+
 export const unstable_settings = {
   initialRouteName: 'index',
 };
@@ -51,16 +58,7 @@ function RootLayoutNav() {
 
   useEffect(() => {
     if (typeof document !== 'undefined' && themeMode) {
-      const link = document.getElementById('theme-stylesheet') as HTMLLinkElement;
-      if (link) {
-        link.href = `/styles/themes/theme-${themeMode}.css`;
-      } else {
-        const newLink = document.createElement('link');
-        newLink.rel = 'stylesheet';
-        newLink.id = 'theme-stylesheet';
-        newLink.href = `/styles/themes/theme-${themeMode}.css`;
-        document.head.appendChild(newLink);
-      }
+      document.body.className = `theme-${themeMode}`;
     }
   }, [themeMode]);
 
