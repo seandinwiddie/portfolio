@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store } from './store';
-import { TamaguiProvider, Theme } from 'tamagui';
+import { TamaguiProvider, Theme, YStack } from 'tamagui';
 import config from '../../tamagui.config';  // Import the config
 import { useFonts } from 'expo-font';
-import { SplashScreen, Slot } from 'expo-router';
+import { SplashScreen, Slot, usePathname } from 'expo-router';
 import { StatusBar, useColorScheme } from 'react-native';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useAppSelector, useAppDispatch } from './hooks';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import Nav from '../components/Nav';
+import Footer from '../components/Footer';
 import { fetchAvailableThemes } from '../features/themeToggle/themeToggleSlice';
 import { apiSlice } from '../features/api/apiSlice';
 import { Text } from 'tamagui';
@@ -29,13 +30,13 @@ function RootLayoutNav() {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector((state) => state.themeToggle?.mode);
   const bodyState = useAppSelector((state) => state.body);
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchAvailableThemes());
-        const result = await dispatch(apiSlice.endpoints.getInitialState.initiate());
-        console.log('API response:', result);
+        await dispatch(apiSlice.endpoints.getInitialState.initiate());
         console.log('Body state after API call:', bodyState);
       } catch (error) {
         console.error('Error fetching initial state:', error);
@@ -47,6 +48,21 @@ function RootLayoutNav() {
 
     fetchData();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined' && themeMode) {
+      const link = document.getElementById('theme-stylesheet') as HTMLLinkElement;
+      if (link) {
+        link.href = `/styles/themes/theme-${themeMode}.css`;
+      } else {
+        const newLink = document.createElement('link');
+        newLink.rel = 'stylesheet';
+        newLink.id = 'theme-stylesheet';
+        newLink.href = `/styles/themes/theme-${themeMode}.css`;
+        document.head.appendChild(newLink);
+      }
+    }
+  }, [themeMode]);
 
   if (isLoading) {
     return <Text>Loading... Please wait.</Text>;
@@ -61,9 +77,14 @@ function RootLayoutNav() {
       <TamaguiProvider config={config} defaultTheme={currentTheme}>
         <Theme name={currentTheme}>
           <ToastProvider swipeDirection="horizontal" duration={6000} native={[]}>
-            <StatusBar barStyle={currentTheme === 'dark' ? 'light-content' : 'dark-content'} />
-            <Nav />
-            <Slot />
+            <YStack flex={1}>
+              <StatusBar barStyle={currentTheme === 'dark' ? 'light-content' : 'dark-content'} />
+              {pathname !== '/' && <Nav />}
+              <YStack flex={1}>
+                <Slot />
+              </YStack>
+              <Footer />
+            </YStack>
             <ToastViewport top="$8" left={0} right={0} />
           </ToastProvider>
         </Theme>

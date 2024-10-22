@@ -22,20 +22,6 @@ const Status: React.FC = () => {
           {!isBrandNameLoading && (
             <>
               <Text fontSize="$4">Brand Name: {brandName}</Text>
-              <Text fontSize="$5" fontWeight="bold" marginTop="$2">Portfolio Features:</Text>
-              {portfolioFeatures.map((feature) => (
-                <Card key={feature.id} padding="$2" marginTop="$1">
-                  <Text fontSize="$4" fontWeight="bold">{feature.title}</Text>
-                  <Text fontSize="$3">{feature.description}</Text>
-                </Card>
-              ))}
-              <Text fontSize="$5" fontWeight="bold" marginTop="$2">App Procedures:</Text>
-              {appProcedures.map((procedure) => (
-                <Card key={procedure.id} padding="$2" marginTop="$1">
-                  <Text fontSize="$4" fontWeight="bold">{procedure.title}</Text>
-                  <Text fontSize="$3">{procedure.description}</Text>
-                </Card>
-              ))}
             </>
           )}
         </Card>

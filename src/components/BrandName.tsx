@@ -11,7 +11,7 @@ const BrandName: React.FC = () => {
 
   return (
     <Text fontSize={24} fontWeight="bold" color="$color">
-      {brandName}
+      <a href="/">{brandName}</a>
     </Text>
   );
 };
