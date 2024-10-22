@@ -1,5 +1,5 @@
 import React from 'react';
-import { XStack, Button, Separator, Spinner } from 'tamagui';
+import { XStack, Button, Separator, YStack } from 'tamagui';
 import ThemeToggle from './ThemeToggle';
 import ThemeCustom from './ThemeCustom';
 import BrandName from './BrandName';
@@ -21,16 +21,16 @@ const Nav: React.FC = () => {
     >
       <XStack space="$4" alignItems="center">
         {isLoading ? (
-          <Spinner size="small" color="$color" />
+          <YStack width={150} height={40} backgroundColor="$gray5" borderRadius="$2" />
         ) : (
           <>
             <BrandName />
             <Separator vertical />
             <Link href="/home" asChild>
-              <Button variant="outlined">Home</Button>
+              <Button variant="ghost">Home</Button>
             </Link>
-            <Link href="/status">
-              <Button variant="outlined">Status</Button>
+            <Link href="/status" asChild>
+              <Button variant="ghost">Status</Button>
             </Link>
           </>
         )}

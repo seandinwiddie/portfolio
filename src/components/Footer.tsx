@@ -1,5 +1,5 @@
 import React from 'react';
-import { XStack, Anchor, Text } from 'tamagui';
+import { XStack, Anchor, Paragraph } from 'tamagui';
 
 const Footer: React.FC = () => {
   return (
@@ -13,10 +13,10 @@ const Footer: React.FC = () => {
       justifyContent="space-between"
     >
       <Anchor href="https://github.com/seandinwiddie/portfolio" target="_blank" rel="noopener noreferrer">
-        <Text color="$color">Portfolio Repo</Text>
+        <Paragraph>Portfolio Repo</Paragraph>
       </Anchor>
       <Anchor href="https://github.com/seandinwiddie/api.sdin.dev" target="_blank" rel="noopener noreferrer">
-        <Text color="$color">API Repo</Text>
+        <Paragraph>API Repo</Paragraph>
       </Anchor>
     </XStack>
   );

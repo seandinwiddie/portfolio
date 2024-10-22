@@ -1,15 +1,27 @@
 import React from 'react';
-import { View, Text, Button } from 'tamagui';
+import { YStack, XStack, Text, Button, H1, Paragraph } from 'tamagui';
 import { useRouter } from 'expo-router';
 
 const Welcome: React.FC = () => {
   const router = useRouter();
 
   return (
-    <View flex={1} justifyContent="center" alignItems="center">
-      <Text fontSize="$6" marginBottom="$4"><i>Welcome!!</i></Text>
-      <Button onPress={() => router.push('/home')}>Enter Sean's Portfolio</Button>
-    </View>
+    <YStack f={1} jc="center" ai="center" p="$4" space>
+      <YStack space="$4" maw={600}>
+        <H1 ta="center" fow="800">Welcome to Sean's Portfolio</H1>
+        <Paragraph ta="center" theme="alt2">
+          Explore the world of Expo Go and RTK development through my projects and experiences.
+        </Paragraph>
+      </YStack>
+      <XStack space>
+        <Button theme="active" size="$5" onPress={() => router.push('/home')}>
+          Explore Portfolio
+        </Button>
+        <Button theme="alt2" size="$5" onPress={() => router.push('/status')}>
+          View Status
+        </Button>
+      </XStack>
+    </YStack>
   );
 };
 

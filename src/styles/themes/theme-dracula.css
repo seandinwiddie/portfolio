@@ -1,0 +1,127 @@
+:root {
+  --dracula-background: #282a36;
+  --dracula-current-line: #44475a;
+  --dracula-foreground: #f8f8f2;
+  --dracula-comment: #6272a4;
+  --dracula-cyan: #8be9fd;
+  --dracula-green: #50fa7b;
+  --dracula-orange: #ffb86c;
+  --dracula-pink: #ff79c6;
+  --dracula-purple: #bd93f9;
+  --dracula-red: #ff5555;
+  --dracula-yellow: #f1fa8c;
+}
+
+.theme-dracula {
+  --background-color: var(--dracula-background);
+  --foreground-color: var(--dracula-foreground);
+  --text-color: var(--dracula-foreground);
+  --accent-color: var(--dracula-purple);
+  --card-background: var(--dracula-current-line);
+  --theme-icon: 🧛;
+}
+
+body.theme-dracula {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.theme-dracula .card {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--dracula-purple);
+  box-shadow: 0 0 10px var(--dracula-purple);
+}
+
+.theme-dracula .gradient-background {
+  background: linear-gradient(
+    45deg,
+    var(--dracula-background),
+    var(--dracula-current-line)
+  );
+}
+
+.theme-dracula h1, 
+.theme-dracula h2, 
+.theme-dracula h3, 
+.theme-dracula h4, 
+.theme-dracula h5, 
+.theme-dracula h6 {
+  color: var(--dracula-pink);
+}
+
+.theme-dracula a {
+  color: var(--dracula-cyan);
+  text-decoration: none;
+}
+
+.theme-dracula a:hover {
+  text-decoration: underline;
+}
+
+.theme-dracula button {
+  background-color: var(--dracula-purple);
+  color: var(--dracula-background);
+  border: none;
+  box-shadow: 0 0 5px var(--dracula-purple);
+}
+
+.theme-dracula button:hover {
+  background-color: var(--dracula-pink);
+  box-shadow: 0 0 10px var(--dracula-pink);
+}
+
+.theme-dracula .theme-icon::before {
+  content: var(--theme-icon);
+}
+
+.theme-dracula .nav-text {
+  color: var(--dracula-orange);
+}
+
+.theme-dracula code {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-yellow);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.theme-dracula pre {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.theme-dracula .highlight {
+  color: var(--dracula-green);
+}
+
+.theme-dracula .error {
+  color: var(--dracula-red);
+}
+
+.theme-dracula .warning {
+  color: var(--dracula-orange);
+}
+
+.theme-dracula .success {
+  color: var(--dracula-green);
+}
+
+.theme-dracula input,
+.theme-dracula textarea,
+.theme-dracula select {
+  background-color: var(--dracula-current-line);
+  color: var(--dracula-foreground);
+  border: 1px solid var(--dracula-comment);
+}
+
+.theme-dracula input:focus,
+.theme-dracula textarea:focus,
+.theme-dracula select:focus {
+  border-color: var(--dracula-purple);
+  outline: none;
+  box-shadow: 0 0 5px var(--dracula-purple);
+}

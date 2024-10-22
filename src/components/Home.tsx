@@ -1,39 +1,35 @@
 import React from 'react';
-import { ScrollView, YStack, Text, Card, Separator } from 'tamagui';
+import { ScrollView, YStack, Text, Card, H2, Paragraph } from 'tamagui';
 import { useAppSelector } from '../app/hooks';
-import { View } from 'react-native';
 
 const Home: React.FC = () => {
-  const bodyState = useAppSelector((state) => state.body);
-  const { portfolioFeatures, appProcedures } = bodyState;
+  const { portfolioFeatures, appProcedures } = useAppSelector((state) => state.body);
   
-  console.log('Body state in Home:', bodyState);
-
   return (
-    <ScrollView flex={1} padding="$4" backgroundColor="$background">
-      <YStack space="$4">
-        <Text fontSize="$6" fontWeight="bold" color="$color">Portfolio Features</Text>
+    <ScrollView>
+      <YStack padding="$4" space="$4">
+        <H2>Portfolio Features</H2>
         {portfolioFeatures.length > 0 ? (
           portfolioFeatures.map((feature) => (
-            <Card key={feature.id} padding="$4" backgroundColor="$backgroundStrong">
-              <Text fontSize="$5" fontWeight="bold" color="$color">{feature.title}</Text>
-              <Text color="$color">{feature.description}</Text>
+            <Card key={feature.id} padding="$4" elevate>
+              <H2 color="$color">{feature.title}</H2>
+              <Paragraph>{feature.description}</Paragraph>
             </Card>
           ))
         ) : (
-          <Text color="$color">No portfolio features available</Text>
+          <Paragraph>No portfolio features available</Paragraph>
         )}
-        <Separator />
-        <Text fontSize="$6" fontWeight="bold" color="$color">App Procedures</Text>
+        
+        <H2>App Procedures</H2>
         {appProcedures.length > 0 ? (
           appProcedures.map((procedure) => (
-            <Card key={procedure.id} padding="$4" backgroundColor="$backgroundStrong">
-              <Text fontSize="$5" fontWeight="bold" color="$color">{procedure.title}</Text>
-              <Text color="$color">{procedure.description}</Text>
+            <Card key={procedure.id} padding="$4" elevate>
+              <H2 color="$color">{procedure.title}</H2>
+              <Paragraph>{procedure.description}</Paragraph>
             </Card>
           ))
         ) : (
-          <Text color="$color">No app procedures available</Text>
+          <Paragraph>No app procedures available</Paragraph>
         )}
       </YStack>
     </ScrollView>
