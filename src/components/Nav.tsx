@@ -35,6 +35,11 @@ const Nav: React.FC = () => {
                   <Text fontFamily="$body">Home</Text>
                 </Button>
               </Link>
+              <Link href="/about" asChild>
+                <Button variant="ghost" animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
+                  <Text fontFamily="$body">About</Text>
+                </Button>
+              </Link>
               <Link href="/status" asChild>
                 <Button variant="ghost" animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
                   <Text fontFamily="$body">Status</Text>

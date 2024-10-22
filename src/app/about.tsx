@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'tamagui';
-import Welcome from '../components/Welcome';
+import About from '../components/About';
 
-export default function Index() {
+export default function AboutPage() {
   return (
     <View flex={1}>
-      <Welcome />
+      <About />
     </View>
   );
 }
