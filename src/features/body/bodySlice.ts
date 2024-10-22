@@ -1,32 +1,31 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
+
+const initialState = {
+  portfolioFeatures: [],
+  appProcedures: [],
+  brandName: '',
+  description: '',
+  brandNameLoading: { isLoading: true }
+};
 
 const bodySlice = createSlice({
   name: 'body',
-  initialState: {
-    description: '',
-    portfolioFeatures: [],
-  },
-  reducers: {
-    setDescription: (state, action: PayloadAction<string>) => {
-      state.description = action.payload;
-    },
-    setPortfolioFeatures: (state, action: PayloadAction<any[]>) => {
-      state.portfolioFeatures = action.payload;
-    },
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder.addMatcher(
-      apiSlice.endpoints.getAppData.matchFulfilled,
+      apiSlice.endpoints.getInitialState.matchFulfilled,
       (state, { payload }) => {
-        if (payload) {
-          state.description = payload.description;
-          state.portfolioFeatures = payload.portfolioFeatures;
-        }
+        console.log('Updating body state with:', payload);
+        state.portfolioFeatures = payload.portfolioFeatures || [];
+        state.appProcedures = payload.appProcedures || [];
+        state.brandName = payload.brandName || '';
+        state.description = payload.description || '';
+        state.brandNameLoading = payload.brandNameLoading || { isLoading: false };
       }
     );
   },
 });
 
-export const { setDescription, setPortfolioFeatures } = bodySlice.actions;
 export default bodySlice.reducer;

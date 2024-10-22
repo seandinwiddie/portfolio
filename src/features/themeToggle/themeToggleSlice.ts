@@ -1,16 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { ThemeToggleState } from '../../data/schemas';
+import { ThemeToggleState } from '../../data/interfaces';
 
 // Function to dynamically fetch theme names
 const getThemeNames = async () => {
-  if (typeof window !== 'undefined') {
-    const themeContext = require.context('../../styles/themes', false, /theme-.*\.css$/);
-    return themeContext.keys().map(key => {
-      const match = key.match(/theme-(.+)\.css$/);
-      return match ? match[1] : '';
-    }).filter(Boolean);
-  }
-  return [];
+  // This is a placeholder. In a real app, you'd fetch this from your API or file system
+  return ['light', 'dark', 'mirage'];
 };
 
 export const fetchAvailableThemes = createAsyncThunk(
@@ -24,8 +18,8 @@ export const fetchAvailableThemes = createAsyncThunk(
 const themeToggleSlice = createSlice({
   name: 'themeToggle',
   initialState: {
-    mode: '',
-    themes: [],
+    mode: 'light',  // Set a default theme
+    themes: ['light', 'dark'],  // Add your available themes here
     status: 'idle',
     error: null
   } as ThemeToggleState,

@@ -1,4 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { ThemeCustomState } from '../../data/interfaces';
+import { apiSlice } from '../api/apiSlice';
+import initialState from '../../data/initialState.json';
 
 export const downloadTheme = createAsyncThunk(
   'themeCustom/downloadTheme',
@@ -83,9 +86,7 @@ export const loadTheme = createAsyncThunk(
 
 const themeCustomSlice = createSlice({
   name: 'themeCustom',
-  initialState: {
-    customThemeName: null as string | null,
-  },
+  initialState: {} as ThemeCustomState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -95,7 +96,15 @@ const themeCustomSlice = createSlice({
       .addCase(loadTheme.fulfilled, (state, action) => {
         state.customThemeName = action.payload;
         console.log(`Custom theme loaded: ${action.payload}`);
-      });
+      })
+      .addMatcher(
+        apiSlice.endpoints.getInitialState.matchFulfilled,
+        (state, { payload }) => {
+          if (payload && payload.themeCustom && payload.themeCustom.customThemeName) {
+            state.customThemeName = payload.themeCustom.customThemeName;
+          }
+        }
+      );
   },
 });
 

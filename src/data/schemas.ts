@@ -36,9 +36,10 @@ export const initialStateSchema = {
   }
 };
 
-export interface ThemeToggleState {
-  mode: string;
-  themes: string[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
+export interface AppData {
+  brandName: string;
+  description: string;
+  iniTheme: string;
+  portfolioFeatures: Array<{ id: string; title: string; description: string }>;
+  appProcedures: Array<{ id: string; title: string; description: string }>;
 }

@@ -1,12 +1,13 @@
 import React from 'react';
-import { XStack, Text, Button, Separator } from 'tamagui';
-import { useAppSelector } from '../app/hooks';
+import { XStack, Button, Separator, Spinner } from 'tamagui';
 import ThemeToggle from './ThemeToggle';
 import ThemeCustom from './ThemeCustom';
+import BrandName from './BrandName';
 import { Link } from 'expo-router';
+import { useAppSelector } from '../app/hooks';
 
 const Nav: React.FC = () => {
-  const brandName = useAppSelector((state) => state.nav.brandName);
+  const isLoading = useAppSelector((state) => state.brandName.isLoading);
 
   return (
     <XStack
@@ -19,16 +20,20 @@ const Nav: React.FC = () => {
       justifyContent="space-between"
     >
       <XStack space="$4" alignItems="center">
-        <Text fontSize={24} fontWeight="bold" color="$color">
-          {brandName || 'My Portfolio'}
-        </Text>
-        <Separator vertical />
-        <Link href="/">
-          <Button variant="outlined">Home</Button>
-        </Link>
-        <Link href="/status">
-          <Button variant="outlined">Status</Button>
-        </Link>
+        {isLoading ? (
+          <Spinner size="small" color="$color" />
+        ) : (
+          <>
+            <BrandName />
+            <Separator vertical />
+            <Link href="/home" asChild>
+              <Button variant="outlined">Home</Button>
+            </Link>
+            <Link href="/status">
+              <Button variant="outlined">Status</Button>
+            </Link>
+          </>
+        )}
       </XStack>
       <XStack space="$2" alignItems="center">
         <ThemeCustom />
