@@ -294,3 +294,17 @@
   height: 100%;
   background: var(--accent-color, currentColor);
 }
+
+/* A slow pulse on a live status indicator — a system breathing, not blinking. */
+@keyframes status-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+
+.status-live {
+  animation: status-pulse 2400ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-live { animation: none; opacity: 0.9; }
+}

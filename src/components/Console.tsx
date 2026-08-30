@@ -1,5 +1,5 @@
 import React from 'react';
-import { YStack, XStack, Text, Input, ScrollView } from 'tamagui';
+import { YStack, XStack, Text, Input, ScrollView, useMedia } from 'tamagui';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   cycleTheme,
@@ -106,6 +106,7 @@ const Console: React.FC = () => {
     'type `help` for commands.',
   ]);
 
+  const media = useMedia();
   const dispatch = useAppDispatch();
   const themes = useAppSelector(selectThemes);
   const mode = useAppSelector(selectThemeMode);
@@ -142,6 +143,8 @@ const Console: React.FC = () => {
   };
 
   if (!open) {
+    // The hint is a keyboard affordance; on a phone it is only clutter.
+    if (!media.gtSm) return null;
     return (
       <XStack position="absolute" bottom={56} left={12} pointerEvents="box-none">
         <Text

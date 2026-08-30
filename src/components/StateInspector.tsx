@@ -1,5 +1,5 @@
 import React, { useSyncExternalStore } from 'react';
-import { YStack, XStack, Text, Button, ScrollView, Separator } from 'tamagui';
+import { YStack, XStack, Text, Button, ScrollView, Separator, useMedia } from 'tamagui';
 import { useAppSelector } from '../store/hooks';
 import { actionLog, getServerSnapshot } from '../store/actionLog';
 import { selectThemeMode, selectThemes } from '../features/themeToggle/themeToggleSlice';
@@ -19,6 +19,7 @@ const timeOf = (at: number) => new Date(at).toLocaleTimeString(undefined, { hour
  */
 const StateInspector: React.FC = () => {
   const [open, setOpen] = React.useState(false);
+  const media = useMedia();
 
   const actions = useSyncExternalStore(actionLog.subscribe, actionLog.getSnapshot, getServerSnapshot);
 
@@ -37,6 +38,11 @@ const StateInspector: React.FC = () => {
     ['body.appProcedures', `${procedures.length} items`],
     ['body.source', source],
   ];
+
+  // Floating over a phone viewport costs more than it gives.
+  if (!media.gtSm && !open) {
+    return null;
+  }
 
   return (
     <YStack

@@ -30,9 +30,11 @@ const ThemeCustom: React.FC = () => {
   };
 
   return (
-    <XStack space="$2">
-      <Button onPress={handleDownloadTheme}>Download Theme</Button>
-      <Button onPress={handleLoadTheme}>
+    // Wraps so the two controls stack in the collapsed mobile menu instead of
+    // forcing a row wider than the viewport.
+    <XStack gap="$2" flexWrap="wrap" rowGap="$2">
+      <Button flexGrow={1} flexBasis="auto" onPress={handleDownloadTheme}>Download Theme</Button>
+      <Button flexGrow={1} flexBasis="auto" onPress={handleLoadTheme}>
         {customThemeName ? 'Update Custom Theme' : 'Load Custom Theme'}
       </Button>
     </XStack>
