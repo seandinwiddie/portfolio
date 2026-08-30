@@ -1,6 +1,14 @@
-@import url('https://seandinwiddie.com/wp-content/themes/visual-composer-starter-theme-child/dank-mono.css');
+/*
+ * The previous @import pointed at
+ * https://seandinwiddie.com/wp-content/themes/visual-composer-starter-theme-child/dank-mono.css
+ * which returns 404, so the webfont never loaded and everything silently fell
+ * back to the generic monospace face.
+ *
+ * The font is bundled at assets/fonts/DankMono-Regular.otf and is registered by
+ * expo-font in src/app/_layout.tsx, which installs the @font-face on web and
+ * loads the native font on iOS/Android. Only the fallback stack belongs here.
+ */
 
 body, button, input, select, textarea {
-  font-family: 'Dank Mono', monospace;
+  font-family: 'Dank Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
-

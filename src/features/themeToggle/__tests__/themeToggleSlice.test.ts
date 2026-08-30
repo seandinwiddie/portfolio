@@ -1,10 +1,14 @@
 import themeToggleReducer, {
   setThemeMode,
+  cycleTheme,
   fetchAvailableThemes,
 } from '../themeToggleSlice';
+import type { ThemeToggleState } from '../../../data/interfaces';
 
 describe('themeToggleSlice', () => {
-  const initialState = {
+  // Explicitly typed: the bare object literal widened `status` to `string`, which
+  // is not assignable to the slice's union type.
+  const initialState: ThemeToggleState = {
     mode: 'light',
     themes: [],
     status: 'idle',
@@ -18,6 +22,11 @@ describe('themeToggleSlice', () => {
   it('should handle setThemeMode', () => {
     const actual = themeToggleReducer(initialState, setThemeMode('dark'));
     expect(actual.mode).toEqual('dark');
+  });
+
+  it('should not produce an undefined mode when cycling with no themes', () => {
+    const actual = themeToggleReducer(initialState, cycleTheme());
+    expect(actual.mode).toEqual('light');
   });
 
   it('should handle fetchAvailableThemes.fulfilled', () => {

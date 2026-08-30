@@ -4,10 +4,11 @@ import ThemeToggle from './ThemeToggle';
 import ThemeCustom from './ThemeCustom';
 import BrandName from './BrandName';
 import { Link } from 'expo-router';
-import { useAppSelector } from '../app/hooks';
+import { useAppSelector } from '../store/hooks';
+import { selectBrandNameLoading } from '../features/brandName/brandNameSlice';
 
 const Nav: React.FC = () => {
-  const isLoading = useAppSelector((state) => state.brandName.isLoading);
+  const isLoading = useAppSelector(selectBrandNameLoading);
 
   return (
     <XStack
@@ -31,17 +32,17 @@ const Nav: React.FC = () => {
               <BrandName />
               <Separator vertical />
               <Link href="/home" asChild>
-                <Button variant="ghost" animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
+                <Button chromeless animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
                   <Text fontFamily="$body">Home</Text>
                 </Button>
               </Link>
               <Link href="/about" asChild>
-                <Button variant="ghost" animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
+                <Button chromeless animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
                   <Text fontFamily="$body">About</Text>
                 </Button>
               </Link>
               <Link href="/status" asChild>
-                <Button variant="ghost" animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
+                <Button chromeless animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
                   <Text fontFamily="$body">Status</Text>
                 </Button>
               </Link>

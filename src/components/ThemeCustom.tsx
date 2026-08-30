@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, XStack } from 'tamagui';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { downloadTheme, loadTheme } from '../features/themeCustom/themeCustomSlice';
-import { setThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { setThemeMode, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { selectCustomThemeName } from '../features/themeCustom/themeCustomSlice';
 
 const ThemeCustom: React.FC = () => {
-  const currentTheme = useAppSelector((state) => state.themeToggle.mode);
-  const customThemeName = useAppSelector((state) => state.themeCustom.customThemeName);
+  const currentTheme = useAppSelector(selectThemeMode);
+  const customThemeName = useAppSelector(selectCustomThemeName);
   const dispatch = useAppDispatch();
 
   const handleDownloadTheme = async () => {

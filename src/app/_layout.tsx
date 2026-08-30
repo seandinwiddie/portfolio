@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from './store';
-import { TamaguiProvider, Theme, YStack } from 'tamagui';
+import { store } from '../store';
+import { TamaguiProvider, Theme, YStack, type ThemeName } from 'tamagui';
 import config from '../../tamagui.config';  // Import the config
 import { useFonts } from 'expo-font';
 import { SplashScreen, Slot, usePathname } from 'expo-router';
 import { StatusBar, useColorScheme } from 'react-native';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useAppSelector, useAppDispatch } from './hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import { fetchAvailableThemes } from '../features/themeToggle/themeToggleSlice';
+import { fetchAvailableThemes, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
 import { apiSlice } from '../features/api/apiSlice';
-import { Text } from 'tamagui';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 // process.env.TAMAGUI_DISABLE_NO_THEME_WARNING = '1';
+
+// Global stylesheets (font-face, body + card rules the themes build on)
+import '../styles/fonts.css';
+import '../styles/body.css';
+import '../styles/app.css';
+import '../styles/nav.css';
 
 // Import all theme CSS files
 import '../styles/themes/theme-light.css';
@@ -32,29 +37,32 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
-  const [isLoading, setIsLoading] = useState(true);
   const colorScheme = useColorScheme();
   const dispatch = useAppDispatch();
-  const themeMode = useAppSelector((state) => state.themeToggle?.mode);
-  const bodyState = useAppSelector((state) => state.body);
+  const themeMode = useAppSelector(selectThemeMode);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(fetchAvailableThemes());
-        await dispatch(apiSlice.endpoints.getInitialState.initiate());
-        console.log('Body state after API call:', bodyState);
-      } catch (error) {
-        console.error('Error fetching initial state:', error);
-      } finally {
-        console.log('Initial data fetched');
-        setIsLoading(false);
-      }
-    };
+  const [fontsLoaded, fontError] = useFonts({
+    'Dank Mono': require('../../assets/fonts/DankMono-Regular.otf'),
+    SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
+  });
 
-    fetchData();
+  // Kick off the initial data load. Components render their own pending states,
+  // so this never blocks the shell -- a slow or unreachable API must not leave
+  // the user staring at a bare "Loading..." string.
+  useEffect(() => {
+    dispatch(fetchAvailableThemes());
+    const subscription = dispatch(apiSlice.endpoints.getInitialState.initiate());
+    return () => subscription.unsubscribe();
   }, [dispatch]);
+
+  // The splash screen is hidden manually because preventAutoHideAsync() ran above.
+  // Hiding on fontError too, otherwise a bad font file wedges the app on the splash.
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [fontsLoaded, fontError]);
 
   useEffect(() => {
     if (typeof document !== 'undefined' && themeMode) {
@@ -62,13 +70,13 @@ function RootLayoutNav() {
     }
   }, [themeMode]);
 
-  if (isLoading) {
-    return <Text>Loading... Please wait.</Text>;
+  if (!fontsLoaded && !fontError) {
+    return null;
   }
 
-  const currentTheme = themeMode || (colorScheme === 'dark' ? 'dark' : 'light');
-  console.log('Current theme:', currentTheme);
-  console.log('Body state in render:', bodyState);
+  // Theme names are discovered at runtime from src/styles/themes, so this is a
+  // string until it reaches Tamagui's ThemeName union.
+  const currentTheme = (themeMode || (colorScheme === 'dark' ? 'dark' : 'light')) as ThemeName;
 
   return (
     <ThemeProvider value={currentTheme === 'dark' ? DarkTheme : DefaultTheme}>

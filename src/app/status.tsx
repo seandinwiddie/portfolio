@@ -3,7 +3,7 @@ import { View, Text } from 'tamagui';
 import Status from '../components/Status';
 import { ErrorBoundary } from 'react-error-boundary';
 
-function ErrorFallback({error}) {
+function ErrorFallback({ error }: { error: Error }) {
   return (
     <View>
       <Text>Something went wrong:</Text>

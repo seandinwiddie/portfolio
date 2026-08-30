@@ -1,32 +1,33 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import { fireEvent } from '@testing-library/react-native';
 import ThemeToggle from '../ThemeToggle';
-import { setThemeMode } from '../../features/themeToggle/themeToggleSlice';
-
-const mockStore = configureStore([]);
+import { makeTestStore, renderWithProviders } from '../../features/utils/renderWithProviders';
 
 describe('ThemeToggle', () => {
-  it('displays the current theme and toggles to the next theme when clicked', () => {
-    const initialState = {
-      themeToggle: {
-        mode: 'light',
-        themes: ['light', 'dark', 'mirage'],
-      },
-    };
-    const store = mockStore(initialState);
+  it('displays the current theme and advances to the next one when pressed', () => {
+    const store = makeTestStore({
+      themeToggle: { mode: 'light', themes: ['light', 'dark', 'mirage'], status: 'succeeded', error: null },
+    });
 
-    const { getByText } = render(
-      <Provider store={store}>
-        <ThemeToggle />
-      </Provider>
-    );
+    const { getByTestId, getByText } = renderWithProviders(<ThemeToggle />, { store });
 
-    const button = getByText('Theme: light');
-    fireEvent.click(button);
+    expect(getByText('light')).toBeTruthy();
+    fireEvent.press(getByTestId('theme-toggle'));
 
-    const actions = store.getActions();
-    expect(actions).toEqual([setThemeMode('dark')]);
+    // The component dispatches cycleTheme, not setThemeMode -- the old test
+    // asserted an action this component never dispatches.
+    expect(store.getState().themeToggle.mode).toBe('dark');
+  });
+
+  it('does not break when no themes have loaded yet', () => {
+    const store = makeTestStore({
+      themeToggle: { mode: 'light', themes: [], status: 'idle', error: null },
+    });
+
+    const { getByTestId } = renderWithProviders(<ThemeToggle />, { store });
+    fireEvent.press(getByTestId('theme-toggle'));
+
+    // Previously `% 0` produced NaN and the mode became undefined.
+    expect(store.getState().themeToggle.mode).toBe('light');
   });
 });

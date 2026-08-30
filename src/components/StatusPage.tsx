@@ -1,12 +1,14 @@
 import React from 'react';
 import { YStack, Text, Card } from 'tamagui';
-import { useGetAppDataQuery } from '../features/api/apiSlice';
-import { useAppSelector } from '../app/hooks';
+import { useGetInitialStateQuery } from '../features/api/apiSlice';
+import { useAppSelector } from '../store/hooks';
+import { selectThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { selectNavBrandName } from '../features/nav/navSlice';
 
 const StatusPage: React.FC = () => {
-  const { isLoading, error } = useGetAppDataQuery();
-  const themeMode = useAppSelector((state) => state.themeToggle.mode);
-  const brandName = useAppSelector((state) => state.nav.brandName);
+  const { isLoading, error } = useGetInitialStateQuery();
+  const themeMode = useAppSelector(selectThemeMode);
+  const brandName = useAppSelector(selectNavBrandName);
 
   return (
     <YStack f={1} padding="$4" space>

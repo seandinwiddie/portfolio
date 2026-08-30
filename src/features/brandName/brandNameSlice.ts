@@ -2,9 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
 import { BrandNameState } from '../../data/interfaces';
 
+const initialState: BrandNameState = {
+  value: '',
+  isLoading: false,
+};
+
 const brandNameSlice = createSlice({
   name: 'brandName',
-  initialState: {} as BrandNameState,
+  initialState,
   reducers: {
     setBrandName: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
@@ -33,7 +38,12 @@ const brandNameSlice = createSlice({
         }
       );
   },
+  selectors: {
+    selectBrandName: (state) => state.value,
+    selectBrandNameLoading: (state) => state.isLoading,
+  },
 });
 
 export const { setBrandName } = brandNameSlice.actions;
+export const { selectBrandName, selectBrandNameLoading } = brandNameSlice.selectors;
 export default brandNameSlice.reducer;

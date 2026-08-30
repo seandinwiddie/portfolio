@@ -1,25 +1,18 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
-import { cycleTheme } from '../features/themeToggle/themeToggleSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { cycleTheme, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
 import { Button } from 'tamagui';
 
 const ThemeToggle: React.FC = () => {
-  const dispatch = useDispatch();
-  const currentTheme = useSelector((state: RootState) => state.themeToggle.mode);
+  const dispatch = useAppDispatch();
+  const currentTheme = useAppSelector(selectThemeMode);
 
   const handleToggle = () => {
     dispatch(cycleTheme());
   };
 
-  React.useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.body.className = `theme-${currentTheme}`;
-    }
-  }, [currentTheme]);
-
   return (
-    <Button onPress={handleToggle} variant="outlined">
+    <Button testID="theme-toggle" onPress={handleToggle} variant="outlined">
       Theme: {currentTheme}
     </Button>
   );

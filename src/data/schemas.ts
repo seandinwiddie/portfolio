@@ -36,10 +36,26 @@ export const initialStateSchema = {
   }
 };
 
+export interface ContentItem {
+  id: string;
+  title: string;
+  description: string;
+}
+
 export interface AppData {
   brandName: string;
   description: string;
   iniTheme: string;
-  portfolioFeatures: Array<{ id: string; title: string; description: string }>;
-  appProcedures: Array<{ id: string; title: string; description: string }>;
+  portfolioFeatures: ContentItem[];
+  appProcedures: ContentItem[];
+  themeCustom: { customThemeName: string | null };
+  brandNameLoading: { isLoading: boolean };
+}
+
+/** Raw `/data` payload. The API sends more than the app consumes. */
+export interface InitialStateResponse extends AppData {
+  themes?: string[];
+  bddTests?: Array<Record<string, string>>;
+  themeToggle?: { mode: string; themes: string[]; status: string; error: string | null };
+  nav?: { brandName: string };
 }

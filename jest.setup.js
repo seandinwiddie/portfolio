@@ -10,33 +10,31 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-jest.mock('expo-router', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    replace: jest.fn(),
-    back: jest.fn(),
-  }),
-}));
+// The previous mock only supplied useRouter, so any component using Link or
+// usePathname (Nav, BrandName, the root layout) blew up on render.
+jest.mock('expo-router', () => {
+  const React = require('react');
+  return {
+    useRouter: () => ({
+      push: jest.fn(),
+      replace: jest.fn(),
+      back: jest.fn(),
+    }),
+    usePathname: () => '/',
+    Link: ({ children }) => React.createElement(React.Fragment, null, children),
+    Slot: () => null,
+    SplashScreen: {
+      preventAutoHideAsync: jest.fn(),
+      hideAsync: jest.fn().mockResolvedValue(undefined),
+    },
+  };
+});
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
 
-jest.mock('tamagui', () => ({
-  ...jest.requireActual('tamagui'),
-  TamaguiProvider: ({ children }) => children,
-  Theme: ({ children }) => children,
-  ScrollView: ({ children }) => children,
-  YStack: ({ children }) => children,
-  Text: ({ children }) => children,
-  Card: ({ children }) => children,
-  Separator: () => null,
-}));
-
-jest.mock('./tamagui.config.ts', () => ({
-  config: {
-    settings: {
-      disableSSR: true,
-    },
-  },
-}));
+// NOTE: tamagui itself is deliberately NOT mocked. The old mock replaced Text/Card/
+// YStack with functions returning raw children, which meant tests asserted against
+// a component tree the app never actually renders. Tests wrap in a real
+// TamaguiProvider instead (see src/features/utils/renderWithProviders.tsx).

@@ -10,15 +10,16 @@ export default function Root({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet='utf-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
+        {/* Without these the exported pages had no title at all -- browser tabs
+            and search results showed the bare URL. */}
+        <title>Sean Dinwiddie -- Portfolio</title>
+        <meta name='description' content='Expo Go and RTK Developer -- portfolio, projects and experience.' />
 
-        {/* 
-          This viewport disables scaling which makes the mobile website act more like a native app.
-          However this does reduce built-in accessibility. If you want to enable scaling, use this instead:
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        */}
+        {/* Pinch-zoom stays enabled: this is a content website, not a native-feeling
+            app, and locking maximum-scale blocks users who need to zoom. */}
         <meta
           name='viewport'
-          content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1.00001,viewport-fit=cover'
+          content='width=device-width, initial-scale=1.0, viewport-fit=cover'
         />
         {/* 
           Disable body scrolling on web. This makes ScrollView components work closer to how they do on native. 

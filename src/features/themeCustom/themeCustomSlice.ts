@@ -1,11 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ThemeCustomState } from '../../data/interfaces';
 import { apiSlice } from '../api/apiSlice';
-import initialState from '../../data/initialState.json';
+
+// Both thunks drive the DOM (Blob, <a download>, <input type="file">). Those APIs
+// do not exist on iOS/Android, where these previously threw a ReferenceError.
+const isWeb = typeof document !== 'undefined' && typeof window !== 'undefined';
 
 export const downloadTheme = createAsyncThunk(
   'themeCustom/downloadTheme',
   async (themeName: string) => {
+    if (!isWeb) {
+      throw new Error('Theme download is only available on web');
+    }
+
     // Create a basic CSS template
     const cssTemplate = `
 /* Theme: Custom */
@@ -47,7 +54,11 @@ export const downloadTheme = createAsyncThunk(
 
 export const loadTheme = createAsyncThunk(
   'themeCustom/loadTheme',
-  async (_, { dispatch }) => {
+  async () => {
+    if (!isWeb) {
+      throw new Error('Theme loading is only available on web');
+    }
+
     return new Promise<string>((resolve, reject) => {
       const input = document.createElement('input');
       input.type = 'file';
@@ -79,33 +90,38 @@ export const loadTheme = createAsyncThunk(
           reject(new Error('No file selected'));
         }
       };
+      input.oncancel = () => reject(new Error('Theme selection cancelled'));
       input.click();
     });
   }
 );
 
+const initialState: ThemeCustomState = { customThemeName: null };
+
 const themeCustomSlice = createSlice({
   name: 'themeCustom',
-  initialState: {} as ThemeCustomState,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(downloadTheme.fulfilled, (state, action) => {
-        console.log(`Theme template downloaded: ${action.payload}`);
-      })
+      // Reducers stay pure -- the console.log calls that used to live in these
+      // cases were side effects running on every dispatch.
       .addCase(loadTheme.fulfilled, (state, action) => {
         state.customThemeName = action.payload;
-        console.log(`Custom theme loaded: ${action.payload}`);
       })
       .addMatcher(
         apiSlice.endpoints.getInitialState.matchFulfilled,
         (state, { payload }) => {
-          if (payload && payload.themeCustom && payload.themeCustom.customThemeName) {
-            state.customThemeName = payload.themeCustom.customThemeName;
-          }
+          state.customThemeName =
+            payload?.themeCustom?.customThemeName ?? state.customThemeName;
         }
       );
   },
+  selectors: {
+    selectCustomThemeName: (state) => state.customThemeName,
+  },
 });
+
+export const { selectCustomThemeName } = themeCustomSlice.selectors;
 
 export default themeCustomSlice.reducer;
