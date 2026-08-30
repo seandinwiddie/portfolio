@@ -44,9 +44,12 @@ export const apiSlice = createApi({
     }),
     getBrandName: builder.query<string, void>({
       query: () => '/brandName',
+      // The API wraps dynamic endpoints as { <key>: value }, not a bare string.
+      transformResponse: (response: { brandName: string }) => response.brandName,
     }),
     getDescription: builder.query<string, void>({
       query: () => '/description',
+      transformResponse: (response: { description: string }) => response.description,
     }),
   }),
 });
