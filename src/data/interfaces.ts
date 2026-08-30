@@ -5,6 +5,8 @@ export interface ThemeToggleState {
   themes: string[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  /** True once a visitor's own saved choice has been restored; it outranks `iniTheme`. */
+  hasStoredPreference: boolean;
 }
 
 export interface NavState {

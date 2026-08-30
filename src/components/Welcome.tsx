@@ -1,6 +1,7 @@
 import React from 'react';
 import { YStack, XStack, Text, Button, H1, Paragraph, AnimatePresence } from 'tamagui';
 import { useRouter } from 'expo-router';
+import InstallQR from './InstallQR';
 
 const Welcome: React.FC = () => {
   const router = useRouter();
@@ -19,10 +20,14 @@ const Welcome: React.FC = () => {
         <Button size="$5" onPress={() => router.push('/about')} animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
           Explore Portfolio
         </Button>
+        <Button size="$5" onPress={() => router.push('/projects')} animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
+          Live Projects
+        </Button>
         <Button size="$5" onPress={() => router.push('/status')} animation="quick" pressStyle={{ scale: 0.95 }} fontFamily="$body">
           View Status
         </Button>
       </XStack>
+      <InstallQR />
     </YStack>
   );
 };

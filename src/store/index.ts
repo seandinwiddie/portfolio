@@ -7,6 +7,7 @@ import navReducer from '../features/nav/navSlice';
 import bodyReducer from '../features/body/bodySlice';
 import { apiSlice } from '../features/api/apiSlice';
 import { listenerMiddleware } from './listeners';
+import { actionLogMiddleware } from './actionLog';
 
 const rootReducer = combineReducers({
   themeToggle: themeToggleReducer,
@@ -27,7 +28,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) =>
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
         .prepend(listenerMiddleware.middleware)
-        .concat(apiSlice.middleware),
+        .concat(apiSlice.middleware, actionLogMiddleware),
   });
 
 export const store = makeStore();

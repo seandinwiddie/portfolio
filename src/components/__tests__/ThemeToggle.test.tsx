@@ -6,7 +6,7 @@ import { makeTestStore, renderWithProviders } from '../../features/utils/renderW
 describe('ThemeToggle', () => {
   it('displays the current theme and advances to the next one when pressed', () => {
     const store = makeTestStore({
-      themeToggle: { mode: 'light', themes: ['light', 'dark', 'mirage'], status: 'succeeded', error: null },
+      themeToggle: { mode: 'light', themes: ['light', 'dark', 'mirage'], status: 'succeeded', error: null, hasStoredPreference: false },
     });
 
     const { getByTestId, getByText } = renderWithProviders(<ThemeToggle />, { store });
@@ -21,7 +21,7 @@ describe('ThemeToggle', () => {
 
   it('does not break when no themes have loaded yet', () => {
     const store = makeTestStore({
-      themeToggle: { mode: 'light', themes: [], status: 'idle', error: null },
+      themeToggle: { mode: 'light', themes: [], status: 'succeeded', error: null, hasStoredPreference: false },
     });
 
     const { getByTestId } = renderWithProviders(<ThemeToggle />, { store });

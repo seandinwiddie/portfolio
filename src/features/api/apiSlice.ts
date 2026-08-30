@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { AppData, InitialStateResponse } from '../../data/schemas';
+import type { AppData, GithubSummary, InitialStateResponse } from '../../data/schemas';
 import localInitialState from '../../data/initialState.json';
 
 // Default to the deployed API in every environment. Previously __DEV__ forced
@@ -46,6 +46,10 @@ export const apiSlice = createApi({
         return { data: normalize(result.data as Partial<InitialStateResponse>) };
       },
     }),
+    /** Live GitHub aggregation. The API holds the token and absorbs the rate limit. */
+    getGithubSummary: builder.query<GithubSummary, void>({
+      query: () => '/github',
+    }),
     getBrandName: builder.query<string, void>({
       query: () => '/brandName',
       // The API wraps dynamic endpoints as { <key>: value }, not a bare string.
@@ -60,6 +64,7 @@ export const apiSlice = createApi({
 
 export const {
   useGetInitialStateQuery,
+  useGetGithubSummaryQuery,
   useGetBrandNameQuery,
   useGetDescriptionQuery,
 } = apiSlice;

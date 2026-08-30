@@ -10,6 +10,7 @@ import { selectBrandNameLoading } from '../features/brandName/brandNameSlice';
 const NAV_LINKS = [
   { href: '/home', label: 'Home' },
   { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
   { href: '/status', label: 'Status' },
 ] as const;
 

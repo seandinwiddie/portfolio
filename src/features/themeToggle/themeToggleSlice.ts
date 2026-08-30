@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ThemeToggleState } from '../../data/interfaces';
 import { loadStoredTheme } from './themeStorage';
+import { apiSlice } from '../api/apiSlice';
+
+/** Ships as the default look. The API's `iniTheme` can override it. */
+export const DEFAULT_THEME = 'mirage';
 
 // Fallback for non-browser environments (notably the static web export, which
 // prerenders in Node). This previously listed only 3 of the 5 theme files, so the
@@ -29,10 +33,11 @@ export const fetchAvailableThemes = createAsyncThunk(
 export const restoreTheme = createAsyncThunk('themeToggle/restoreTheme', loadStoredTheme);
 
 const initialState: ThemeToggleState = {
-  mode: 'light',
+  mode: DEFAULT_THEME,
   themes: [],
   status: 'idle',
   error: null,
+  hasStoredPreference: false,
 };
 
 const themeToggleSlice = createSlice({
@@ -62,17 +67,27 @@ const themeToggleSlice = createSlice({
         state.themes = action.payload;
         state.mode = action.payload.includes(state.mode)
           ? state.mode
-          : action.payload[0] ?? 'light';
+          : action.payload.find((name) => name === DEFAULT_THEME) ?? action.payload[0] ?? DEFAULT_THEME;
       })
       .addCase(restoreTheme.fulfilled, (state, action) => {
         // If the stored theme is not in the discovered list,
         // fetchAvailableThemes.fulfilled corrects it.
+        state.hasStoredPreference = action.payload !== null;
         state.mode = action.payload ?? state.mode;
       })
       .addCase(fetchAvailableThemes.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch themes';
-      });
+      })
+      // All addCase calls must precede addMatcher; RTK rejects the reverse.
+      .addMatcher(
+        apiSlice.endpoints.getInitialState.matchFulfilled,
+        (state, { payload }) => {
+          // `iniTheme` has always been in the payload but nothing read it.
+          // An explicit choice the visitor already made outranks it.
+          state.mode = state.hasStoredPreference ? state.mode : payload.iniTheme ?? state.mode;
+        }
+      );
   },
   selectors: {
     selectThemeMode: (state) => state.mode,

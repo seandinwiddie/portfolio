@@ -10,10 +10,9 @@ export default function Root({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet='utf-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-        {/* Without these the exported pages had no title at all -- browser tabs
-            and search results showed the bare URL. */}
-        <title>Sean Dinwiddie -- Portfolio</title>
-        <meta name='description' content='Expo Go and RTK Developer -- portfolio, projects and experience.' />
+        {/* Title and description are supplied per route by src/components/PageHead
+            via expo-router/head. Declaring them here too produced two <title>
+            elements in every document. */}
 
         {/* Pinch-zoom stays enabled: this is a content website, not a native-feeling
             app, and locking maximum-scale blocks users who need to zoom. */}
@@ -36,12 +35,10 @@ export default function Root({ children }: { children: React.ReactNode }) {
   )
 }
 
+// Mirage is the default theme, so the pre-hydration paint uses its ground
+// colour. Anything else flashes white before the theme stylesheet applies.
 const responsiveBackground = `
 body {
-  background-color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #000;
-  }
+  background-color: #1f2430;
+  color: #cbccc6;
 }`

@@ -61,3 +61,42 @@ export interface InitialStateResponse extends Omit<AppData, 'source'> {
   themeToggle?: { mode: string; themes: string[]; status: string; error: string | null };
   nav?: { brandName: string };
 }
+
+/** Live GitHub data aggregated by api.sdin.dev. */
+export interface GithubProfile {
+  login: string;
+  name: string | null;
+  bio: string | null;
+  location: string | null;
+  blog: string | null;
+  avatarUrl: string;
+  htmlUrl: string;
+  publicRepos: number;
+  followers: number;
+}
+
+export interface GithubRepo {
+  id: string;
+  name: string;
+  description: string | null;
+  language: string | null;
+  stars: number;
+  forks: number;
+  topics: string[];
+  htmlUrl: string;
+  homepage: string | null;
+  pushedAt: string;
+}
+
+export interface LanguageCount {
+  language: string;
+  count: number;
+}
+
+export interface GithubSummary {
+  profile: GithubProfile;
+  repos: GithubRepo[];
+  languages: LanguageCount[];
+  cached: boolean;
+  authenticated: boolean;
+}

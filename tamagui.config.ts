@@ -74,7 +74,7 @@ const dankMonoFont = {
 
 const config = createTamagui({
   animations,
-  defaultTheme: 'light',
+  defaultTheme: 'mirage',
   shouldAddPrefersColorThemes: true,
   themeClassNameOnRoot: true,
   shorthands,
