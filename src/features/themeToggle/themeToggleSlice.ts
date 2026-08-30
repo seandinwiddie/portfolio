@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ThemeToggleState } from '../../data/interfaces';
+import { loadStoredTheme } from './themeStorage';
 
 // Fallback for non-browser environments (notably the static web export, which
 // prerenders in Node). This previously listed only 3 of the 5 theme files, so the
@@ -23,6 +24,9 @@ export const fetchAvailableThemes = createAsyncThunk(
   'themeToggle/fetchAvailableThemes',
   getThemeNames
 );
+
+/** Rehydrates the previously chosen theme, so it survives a page load. */
+export const restoreTheme = createAsyncThunk('themeToggle/restoreTheme', loadStoredTheme);
 
 const initialState: ThemeToggleState = {
   mode: 'light',
@@ -59,6 +63,11 @@ const themeToggleSlice = createSlice({
         state.mode = action.payload.includes(state.mode)
           ? state.mode
           : action.payload[0] ?? 'light';
+      })
+      .addCase(restoreTheme.fulfilled, (state, action) => {
+        // If the stored theme is not in the discovered list,
+        // fetchAvailableThemes.fulfilled corrects it.
+        state.mode = action.payload ?? state.mode;
       })
       .addCase(fetchAvailableThemes.rejected, (state, action) => {
         state.status = 'failed';

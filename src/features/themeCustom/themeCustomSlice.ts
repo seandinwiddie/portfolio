@@ -6,6 +6,26 @@ import { apiSlice } from '../api/apiSlice';
 // do not exist on iOS/Android, where these previously threw a ReferenceError.
 const isWeb = typeof document !== 'undefined' && typeof window !== 'undefined';
 
+/** Name used for a user-supplied theme. */
+export const CUSTOM_THEME_NAME = 'custom';
+
+const CUSTOM_STYLE_SELECTOR = 'style[data-custom-theme]';
+
+/** Variables the theme stylesheets define on the active `.theme-<name>` class. */
+const THEME_VARIABLES = [
+  '--background-color',
+  '--foreground-color',
+  '--text-color',
+  '--accent-color',
+  '--card-background',
+] as const;
+
+/** Removes any injected custom-theme stylesheet. Exported so theme changes can clean up. */
+export const removeCustomThemeStyle = () => {
+  if (!isWeb) return;
+  document.querySelectorAll(CUSTOM_STYLE_SELECTOR).forEach((el) => el.remove());
+};
+
 export const downloadTheme = createAsyncThunk(
   'themeCustom/downloadTheme',
   async (themeName: string) => {
@@ -13,38 +33,41 @@ export const downloadTheme = createAsyncThunk(
       throw new Error('Theme download is only available on web');
     }
 
-    // Create a basic CSS template
-    const cssTemplate = `
-/* Theme: Custom */
-/* Based on: ${themeName} */
+    // Read the values the active theme actually resolves to. The template used
+    // to hardcode light-theme hex codes, so downloading while "dark" was active
+    // produced a file claiming --background: #ffffff -- actively misleading.
+    const computed = window.getComputedStyle(document.body);
+    const declarations = THEME_VARIABLES
+      .map((name) => [name, computed.getPropertyValue(name).trim()] as const)
+      .filter(([, value]) => value.length > 0)
+      .map(([name, value]) => `  ${name}: ${value};`)
+      .join('\n');
 
-:root {
-  --background: #ffffff;
-  --color: #000000;
-  --primary: #3498db;
-  --secondary: #2ecc71;
-  --accent: #e74c3c;
-  
-  /* Add more custom variables as needed */
+    const cssTemplate = `/* Theme: Custom */
+/* Based on: ${themeName} */
+/* Exported from the live values of the "${themeName}" theme. */
+
+.theme-${CUSTOM_THEME_NAME} {
+${declarations || '  /* the active theme defined no variables */'}
+}
+
+body.theme-${CUSTOM_THEME_NAME} {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 /* Add your custom styles here */
 `;
 
-    // Create a Blob with the CSS content
     const blob = new Blob([cssTemplate], { type: 'text/css' });
-
-    // Create a download link
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = 'theme-custom.css';
 
-    // Trigger the download
     document.body.appendChild(link);
     link.click();
 
-    // Clean up
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 
@@ -69,20 +92,18 @@ export const loadTheme = createAsyncThunk(
           const reader = new FileReader();
           reader.onload = (e) => {
             const css = e.target?.result as string;
-            const themeName = 'custom-' + Date.now(); // Generate a unique name
-            
-            // Create a new style element
+
             const style = document.createElement('style');
             style.textContent = css;
-            style.setAttribute('data-theme', themeName);
-            
-            // Remove any existing custom theme
-            document.querySelectorAll('style[data-theme^="custom-"]').forEach(el => el.remove());
-            
-            // Add the new style to the document
+            // A stable marker, not a timestamped one: the generated name used to
+            // leak into the UI as "Theme: custom-1788068942990" and into the
+            // body class as theme-custom-<timestamp>.
+            style.setAttribute('data-custom-theme', '');
+
+            removeCustomThemeStyle();
             document.head.appendChild(style);
-            
-            resolve(themeName);
+
+            resolve(CUSTOM_THEME_NAME);
           };
           reader.onerror = () => reject(new Error('Failed to read file'));
           reader.readAsText(file);
@@ -101,7 +122,11 @@ const initialState: ThemeCustomState = { customThemeName: null };
 const themeCustomSlice = createSlice({
   name: 'themeCustom',
   initialState,
-  reducers: {},
+  reducers: {
+    customThemeCleared: (state) => {
+      state.customThemeName = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Reducers stay pure -- the console.log calls that used to live in these
@@ -122,6 +147,6 @@ const themeCustomSlice = createSlice({
   },
 });
 
+export const { customThemeCleared } = themeCustomSlice.actions;
 export const { selectCustomThemeName } = themeCustomSlice.selectors;
-
 export default themeCustomSlice.reducer;

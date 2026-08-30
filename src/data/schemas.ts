@@ -50,10 +50,12 @@ export interface AppData {
   appProcedures: ContentItem[];
   themeCustom: { customThemeName: string | null };
   brandNameLoading: { isLoading: boolean };
+  /** Whether this payload came from the API or the bundled fallback. */
+  source: 'network' | 'fallback';
 }
 
 /** Raw `/data` payload. The API sends more than the app consumes. */
-export interface InitialStateResponse extends AppData {
+export interface InitialStateResponse extends Omit<AppData, 'source'> {
   themes?: string[];
   bddTests?: Array<Record<string, string>>;
   themeToggle?: { mode: string; themes: string[]; status: string; error: string | null };

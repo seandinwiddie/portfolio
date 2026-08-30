@@ -8,6 +8,7 @@ interface BodyState {
   brandName: string;
   description: string;
   brandNameLoading: { isLoading: boolean };
+  source: 'network' | 'fallback' | 'pending';
 }
 
 const initialState: BodyState = {
@@ -16,6 +17,7 @@ const initialState: BodyState = {
   brandName: '',
   description: '',
   brandNameLoading: { isLoading: true },
+  source: 'pending',
 };
 
 const bodySlice = createSlice({
@@ -33,6 +35,7 @@ const bodySlice = createSlice({
         state.brandName = payload.brandName ?? '';
         state.description = payload.description ?? '';
         state.brandNameLoading = payload.brandNameLoading ?? { isLoading: false };
+        state.source = payload.source ?? 'network';
       }
     );
   },
@@ -40,9 +43,14 @@ const bodySlice = createSlice({
     selectPortfolioFeatures: (state) => state.portfolioFeatures,
     selectAppProcedures: (state) => state.appProcedures,
     selectDescription: (state) => state.description,
+    selectDataSource: (state) => state.source,
   },
 });
 
-export const { selectPortfolioFeatures, selectAppProcedures, selectDescription } =
-  bodySlice.selectors;
+export const {
+  selectPortfolioFeatures,
+  selectAppProcedures,
+  selectDescription,
+  selectDataSource,
+} = bodySlice.selectors;
 export default bodySlice.reducer;

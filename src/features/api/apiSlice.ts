@@ -22,6 +22,10 @@ const normalize = (response: Partial<InitialStateResponse>): AppData => ({
   // and the previous transformResponse dropped them so those cases never fired.
   themeCustom: response.themeCustom ?? fallback.themeCustom,
   brandNameLoading: { isLoading: false },
+  // Lets the UI distinguish live data from the offline fallback. "API Status"
+  // previously read "succeeded" even with the API unreachable, because it was
+  // reporting the theme fetch state rather than anything about the API.
+  source: 'network',
 });
 
 export const apiSlice = createApi({
@@ -36,7 +40,7 @@ export const apiSlice = createApi({
 
         if (result.error) {
           console.warn('getInitialState: API unreachable, using bundled data', result.error);
-          return { data: normalize({}) };
+          return { data: { ...normalize({}), source: 'fallback' as const } };
         }
 
         return { data: normalize(result.data as Partial<InitialStateResponse>) };

@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import { fetchAvailableThemes, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { fetchAvailableThemes, restoreTheme, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
 import { apiSlice } from '../features/api/apiSlice';
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -52,6 +52,9 @@ function RootLayoutNav() {
   // the user staring at a bare "Loading..." string.
   useEffect(() => {
     dispatch(fetchAvailableThemes());
+    // Rehydrate the previously chosen theme; without this it reset to "light"
+    // on every document load.
+    dispatch(restoreTheme());
     const subscription = dispatch(apiSlice.endpoints.getInitialState.initiate());
     return () => subscription.unsubscribe();
   }, [dispatch]);

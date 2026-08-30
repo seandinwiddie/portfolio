@@ -34,6 +34,13 @@ describe('Data Flow', () => {
     expect(state.body.appProcedures).toHaveLength(1);
   });
 
+  it('marks the payload source so the UI can report API health', async () => {
+    global.fetch = mockJsonFetch(payload);
+    const store = makeTestStore();
+    await store.dispatch(apiSlice.endpoints.getInitialState.initiate());
+    expect(store.getState().body.source).toBe('network');
+  });
+
   it('falls back to the bundled initialState.json when the API is unreachable', async () => {
     global.fetch = mockFailedFetch();
     jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -45,5 +52,8 @@ describe('Data Flow', () => {
     // The bundled copy still populates the UI rather than leaving a blank page.
     expect(state.body.portfolioFeatures.length).toBeGreaterThan(0);
     expect(state.brandName.value).toBe('Portfolio.sdin.dev');
+    // The Status page must be able to say the API is down rather than
+    // reporting "succeeded" off the back of the fallback.
+    expect(state.body.source).toBe('fallback');
   });
 });

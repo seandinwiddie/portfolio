@@ -2,6 +2,7 @@ import themeToggleReducer, {
   setThemeMode,
   cycleTheme,
   fetchAvailableThemes,
+  restoreTheme,
 } from '../themeToggleSlice';
 import type { ThemeToggleState } from '../../../data/interfaces';
 
@@ -35,5 +36,23 @@ describe('themeToggleSlice', () => {
     const state = themeToggleReducer(initialState, action);
     expect(state.themes).toEqual(themes);
     expect(state.status).toEqual('succeeded');
+  });
+});
+
+describe('theme persistence', () => {
+  it('restores a stored theme so it survives a page load', () => {
+    const state = themeToggleReducer(
+      { mode: 'light', themes: ['light', 'dark'], status: 'succeeded', error: null },
+      { type: restoreTheme.fulfilled.type, payload: 'dark' }
+    );
+    expect(state.mode).toBe('dark');
+  });
+
+  it('keeps the current theme when nothing was stored', () => {
+    const state = themeToggleReducer(
+      { mode: 'mirage', themes: ['light', 'mirage'], status: 'succeeded', error: null },
+      { type: restoreTheme.fulfilled.type, payload: null }
+    );
+    expect(state.mode).toBe('mirage');
   });
 });
