@@ -53,3 +53,198 @@
 @media (prefers-reduced-motion: reduce) {
   .signal-trace::after { animation: none; opacity: 0.08; }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Instrument chrome.
+   Corner brackets and a phosphor grain, in the vernacular the
+   repos already speak (ASCII frames, [VOID::WATCHER], runes).
+   One accessory: the brackets. Everything else stays quiet.
+   ───────────────────────────────────────────────────────────── */
+
+.panel-frame {
+  position: relative;
+}
+
+/* Four corner brackets drawn from two pseudo-elements. */
+.panel-frame::before,
+.panel-frame::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  border-color: var(--accent-color, currentColor);
+  opacity: 0.75;
+}
+
+.panel-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.panel-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Page-wide phosphor grain. Sits above the background, below content,
+   and never intercepts a click. */
+.crt-grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.055) 0px,
+      rgba(0, 0, 0, 0.055) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: multiply;
+}
+
+/* A light ground would be dirtied by a multiply grain. */
+.theme-light .crt-grain::after {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt-grain::after { opacity: 0.25; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Ignition sequence.
+   Space opera, not cyberpunk twitch: things have mass, arrive in
+   order, and settle rather than pop. One orchestrated page-load
+   moment; no per-element confetti.
+   ───────────────────────────────────────────────────────────── */
+
+/* A viewport coming online: focus resolves, the object settles. */
+@keyframes ignite {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(6px); }
+  60%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* A rule drawing itself open from the centre. */
+@keyframes draw-rule {
+  0%   { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 1; }
+}
+
+/* Very slow orbital breathing. Amplitude stays under 3px so it reads as
+   weight, not float. */
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.ignite {
+  /* Long, weighted easing — deceleration like something with mass. */
+  animation: ignite 1100ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+
+/* The sequence: each system comes online after the last. */
+.ignite-1 { animation-delay: 0ms; }
+.ignite-2 { animation-delay: 180ms; }
+.ignite-3 { animation-delay: 360ms; }
+.ignite-4 { animation-delay: 540ms; }
+
+.drift {
+  animation: drift 11s ease-in-out infinite;
+}
+
+.rule {
+  transform-origin: center;
+  animation: draw-rule 900ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+
+/* Panels resolve as they scroll into view rather than all at once. */
+.panel-frame {
+  animation: ignite 900ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ignite,
+  .rule,
+  .panel-frame {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .drift { animation: none; }
+}
+
+/* A single Voight-Kampff-style scan pass across the unit plate on load. */
+@keyframes plate-scan {
+  0%   { top: 0; opacity: 0; }
+  12%  { opacity: 0.7; }
+  88%  { opacity: 0.7; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.plate-scan { position: relative; overflow: hidden; }
+
+.plate-scan::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  background: var(--accent-color, currentColor);
+  animation: plate-scan 2600ms cubic-bezier(0.4, 0, 0.2, 1) 700ms 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-scan::after { animation: none; opacity: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Panel geometry.
+   Chamfered corners — the ship-panel / HUD convention shared by
+   Foundation's geometry and cyberpunk interface design. Applied
+   to the existing panels so the whole surface reads as one
+   system rather than as separate ornaments.
+   ───────────────────────────────────────────────────────────── */
+.panel-frame {
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+}
+
+/* Telemetry rail: a thin instrument strip of live readouts. */
+.telemetry {
+  border-bottom: 1px solid var(--accent-color, currentColor);
+  border-top: 1px solid var(--accent-color, currentColor);
+  opacity: 0.85;
+}
+
+/* Tick marks along the rail, the way a ship gauge is graduated. */
+.telemetry::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--accent-color, currentColor) 0px,
+    var(--accent-color, currentColor) 1px,
+    transparent 1px,
+    transparent 28px
+  );
+  opacity: 0.16;
+}

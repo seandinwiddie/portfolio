@@ -85,6 +85,7 @@ export interface GithubRepo {
   stars: number;
   forks: number;
   topics: string[];
+  createdAt: string;
   htmlUrl: string;
   homepage: string | null;
   pushedAt: string;
@@ -133,6 +134,8 @@ export interface GithubSummary {
   repos: GithubRepo[];
   languages: LanguageCount[];
   owners: OwnerCount[];
+  /** Earliest repository creation date across all owners. */
+  since: string | null;
   activity: Activity;
   /** null when the calendar could not be obtained upstream. */
   contributions: Contributions | null;

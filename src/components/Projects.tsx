@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  YStack, XStack, Text, Card, H2, H3, Paragraph, Spinner, Anchor, Separator,
+  YStack, XStack, Text, Card, H2, H3, Paragraph, Spinner, Anchor,
 } from 'tamagui';
 import Screen from './Screen';
+import Panel from './Panel';
 import PageHead from './PageHead';
 import ContributionGraph from './ContributionGraph';
 import { useAppSelector } from '../store/hooks';
@@ -104,15 +105,11 @@ const RepoCard: React.FC<{ repo: GithubRepo }> = ({ repo }) => (
 );
 
 const OwnerSection: React.FC<{ owner: OwnerCount; repos: GithubRepo[] }> = ({ owner, repos }) => (
-  <YStack gap="$3">
-    <XStack alignItems="center" gap="$2" flexWrap="wrap">
-      <H3 fontFamily="$heading">{owner.owner}</H3>
-      <Text fontFamily="$body" fontSize="$2" opacity={0.7}>{owner.count} repos</Text>
-    </XStack>
+  <Panel label={owner.owner} meter={`${owner.count} repos`}>
     <YStack gap="$3">
       {repos.map((repo) => <RepoCard key={repo.id} repo={repo} />)}
     </YStack>
-  </YStack>
+  </Panel>
 );
 
 /**
@@ -157,21 +154,19 @@ const Projects: React.FC = () => {
           </XStack>
 
           {data.contributions ? (
-            <>
-              <Separator />
+            <Panel label="Contribution calendar" meter={`${data.contributions.total.toLocaleString()} / yr`}>
               <ContributionGraph contributions={data.contributions} surface={surface} />
-            </>
+            </Panel>
           ) : null}
 
-          <Separator />
-          <H3 fontFamily="$heading">Recent activity</H3>
-          <ActivityPanel activity={data.activity} />
+          <Panel label="Recent activity" meter={`${data.activity.total} events`}>
+            <ActivityPanel activity={data.activity} />
+          </Panel>
 
-          <Separator />
-          <H3 fontFamily="$heading">Languages</H3>
-          <LanguageBar languages={data.languages} />
+          <Panel label="Languages" meter={`${data.languages.length} in use`}>
+            <LanguageBar languages={data.languages} />
+          </Panel>
 
-          <Separator />
           {data.owners.map((owner) => (
             <OwnerSection
               key={owner.owner}

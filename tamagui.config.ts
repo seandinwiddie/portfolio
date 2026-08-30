@@ -22,6 +22,14 @@ const animations = createAnimations({
     mass: 1.2,
     stiffness: 250,
   },
+  // Space opera: heavy, slow to start, slow to settle. Used where something
+  // should feel like it has mass rather than snapping into place.
+  stately: {
+    type: 'spring',
+    damping: 26,
+    mass: 2.4,
+    stiffness: 70,
+  },
 })
 
 const dankMonoFont = {

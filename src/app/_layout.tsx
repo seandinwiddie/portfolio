@@ -21,6 +21,8 @@ import {
 import { apiSlice } from '../features/api/apiSlice';
 import ErrorBoundary from '../components/ErrorBoundary';
 import StateInspector from '../components/StateInspector';
+import Telemetry from '../components/Telemetry';
+import Console from '../components/Console';
 
 // process.env.TAMAGUI_DISABLE_NO_THEME_WARNING = '1';
 
@@ -94,15 +96,17 @@ function RootLayoutNav() {
       <TamaguiProvider config={config} defaultTheme={currentTheme}>
         <Theme name={currentTheme}>
           <ToastProvider swipeDirection="horizontal" duration={6000} native={[]}>
-            <YStack flex={1}>
+            <YStack flex={1} className="crt-grain">
               <StatusBar barStyle={surface === 'light' ? 'dark-content' : 'light-content'} />
               {pathname !== '/' && <Nav />}
+              <Telemetry />
               <YStack flex={1}>
                 <Slot />
               </YStack>
               <Footer />
             </YStack>
             <StateInspector />
+            <Console />
             <ToastViewport top="$8" left={0} right={0} />
           </ToastProvider>
         </Theme>

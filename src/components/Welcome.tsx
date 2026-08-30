@@ -1,14 +1,15 @@
 import React from 'react';
-import { YStack, XStack, Button, H1, Paragraph, AnimatePresence } from 'tamagui';
+import { YStack, XStack, Button, H1, Paragraph } from 'tamagui';
 import { useRouter } from 'expo-router';
 import Screen from './Screen';
 import InstallQR from './InstallQR';
 import SignalTrace from './SignalTrace';
+import UnitPlate from './UnitPlate';
 import { useGetGithubSummaryQuery } from '../features/api/apiSlice';
 
 const CTAS = [
-  { href: '/about', label: 'Explore Portfolio' },
   { href: '/projects', label: 'Live Projects' },
+  { href: '/about', label: 'Explore Portfolio' },
   { href: '/status', label: 'View Status' },
 ] as const;
 
@@ -19,31 +20,35 @@ const Welcome: React.FC = () => {
 
   return (
     <Screen center>
-      {/* The signature: a year of real work as an instrument readout. It is
-          absent until the data arrives rather than reserving a hole. */}
+      {/* One orchestrated ignition: the trace comes online, then the title,
+          then the controls, then the QR. Each stage carries its own delay
+          rather than every element animating independently. */}
       {data?.contributions ? (
-        <SignalTrace days={data.contributions.days} total={data.contributions.total} />
+        <YStack className="ignite ignite-1 drift" alignSelf="center" maxWidth="100%">
+          <SignalTrace days={data.contributions.days} total={data.contributions.total} />
+        </YStack>
       ) : null}
 
-      <AnimatePresence>
-        <YStack gap="$4" maxWidth={600} alignSelf="center" animation="quick" enterStyle={{ opacity: 0, scale: 0.9 }}>
-          <H1 ta="center" fontFamily="$heading" fontWeight="bold">Welcome to Sean's Portfolio</H1>
-          <Paragraph ta="center" fontFamily="$body">
-            Explore the world of Expo and RTK development through my projects and experiences.
-          </Paragraph>
-        </YStack>
-      </AnimatePresence>
+      <YStack className="ignite ignite-2" gap="$4" maxWidth={620} alignSelf="center">
+        <H1 ta="center" fontFamily="$heading" fontWeight="bold" letterSpacing={-0.5}>
+          Sean Dinwiddie
+        </H1>
+        <YStack className="rule" height={1} backgroundColor="$borderColor" alignSelf="center" width="60%" />
+        <Paragraph ta="center" fontFamily="$body" opacity={0.85}>
+          AI systems architect and full-stack engineer. Local-first neuro-symbolic
+          engines, universal Expo apps, and functional cores in TypeScript, C++ and Haskell.
+        </Paragraph>
+      </YStack>
 
-      {/* flexWrap: three buttons in a row overflowed a 375px viewport, pushing
-          the page sideways with no way to reach the last one. */}
-      <XStack gap="$3" flexWrap="wrap" justifyContent="center" alignSelf="center">
+      <XStack className="ignite ignite-3" gap="$3" flexWrap="wrap" justifyContent="center" alignSelf="center">
         {CTAS.map(({ href, label }) => (
           <Button
             key={href}
             size="$5"
             onPress={() => router.push(href)}
-            animation="quick"
-            pressStyle={{ scale: 0.95 }}
+            animation="stately"
+            pressStyle={{ scale: 0.96 }}
+            hoverStyle={{ borderColor: '$accent' }}
             fontFamily="$body"
           >
             {label}
@@ -51,7 +56,13 @@ const Welcome: React.FC = () => {
         ))}
       </XStack>
 
-      <YStack alignSelf="center">
+      {data ? (
+        <YStack className="ignite ignite-4" alignSelf="center" width="100%" alignItems="center">
+          <UnitPlate data={data} />
+        </YStack>
+      ) : null}
+
+      <YStack className="ignite ignite-4" alignSelf="center">
         <InstallQR />
       </YStack>
     </Screen>
