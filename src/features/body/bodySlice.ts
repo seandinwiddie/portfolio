@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
-import type { ContentItem } from '../../data/schemas';
+import type { About, ContentItem } from '../../data/schemas';
 
 interface BodyState {
   portfolioFeatures: ContentItem[];
@@ -9,6 +9,7 @@ interface BodyState {
   description: string;
   brandNameLoading: { isLoading: boolean };
   source: 'network' | 'fallback' | 'pending';
+  about: About | null;
 }
 
 const initialState: BodyState = {
@@ -18,6 +19,7 @@ const initialState: BodyState = {
   description: '',
   brandNameLoading: { isLoading: true },
   source: 'pending',
+  about: null,
 };
 
 const bodySlice = createSlice({
@@ -36,6 +38,7 @@ const bodySlice = createSlice({
         state.description = payload.description ?? '';
         state.brandNameLoading = payload.brandNameLoading ?? { isLoading: false };
         state.source = payload.source ?? 'network';
+        state.about = payload.about ?? state.about;
       }
     );
   },
@@ -44,6 +47,7 @@ const bodySlice = createSlice({
     selectAppProcedures: (state) => state.appProcedures,
     selectDescription: (state) => state.description,
     selectDataSource: (state) => state.source,
+    selectAbout: (state) => state.about,
   },
 });
 
@@ -52,5 +56,6 @@ export const {
   selectAppProcedures,
   selectDescription,
   selectDataSource,
+  selectAbout,
 } = bodySlice.selectors;
 export default bodySlice.reducer;

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { AppData, GithubSummary, InitialStateResponse } from '../../data/schemas';
+import type { About, AppData, GithubSummary, InitialStateResponse } from '../../data/schemas';
 import localInitialState from '../../data/initialState.json';
 
 // Default to the deployed API in every environment. Previously __DEV__ forced
@@ -21,6 +21,7 @@ const normalize = (response: Partial<InitialStateResponse>): AppData => ({
   // Preserved deliberately: themeCustomSlice and bodySlice both match on these,
   // and the previous transformResponse dropped them so those cases never fired.
   themeCustom: response.themeCustom ?? fallback.themeCustom,
+  about: response.about ?? fallback.about ?? null,
   brandNameLoading: { isLoading: false },
   // Lets the UI distinguish live data from the offline fallback. "API Status"
   // previously read "succeeded" even with the API unreachable, because it was

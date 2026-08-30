@@ -12,6 +12,7 @@ describe('Home', () => {
         description: '',
         brandNameLoading: { isLoading: false },
         source: 'network' as const,
+        about: null,
       },
     });
 
@@ -32,6 +33,7 @@ describe('Home', () => {
         description: '',
         brandNameLoading: { isLoading: false },
         source: 'network' as const,
+        about: null,
       },
     });
 

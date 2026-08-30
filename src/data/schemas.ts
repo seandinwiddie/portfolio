@@ -50,6 +50,7 @@ export interface AppData {
   appProcedures: ContentItem[];
   themeCustom: { customThemeName: string | null };
   brandNameLoading: { isLoading: boolean };
+  about: About | null;
   /** Whether this payload came from the API or the bundled fallback. */
   source: 'network' | 'fallback';
 }
@@ -141,4 +142,26 @@ export interface GithubSummary {
   contributions: Contributions | null;
   cached: boolean;
   authenticated: boolean;
+}
+
+/** Authored narrative for the About page, served from initialState.json. */
+export interface AboutDomain {
+  id: string;
+  title: string;
+  summary: string;
+  detail: string;
+  repos: string[];
+}
+
+export interface AboutPrinciple {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface About {
+  headline: string;
+  statement: string;
+  domains: AboutDomain[];
+  principles: AboutPrinciple[];
 }
