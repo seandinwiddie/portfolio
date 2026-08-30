@@ -26,12 +26,24 @@ export const removeCustomThemeStyle = () => {
   document.querySelectorAll(CUSTOM_STYLE_SELECTOR).forEach((el) => el.remove());
 };
 
+/**
+ * One export at a time. The bundle contains exactly one createObjectURL call
+ * site -- this one -- so a report of ~15,000 live blob URLs per click means the
+ * handler was entered repeatedly rather than looping internally. The guard makes
+ * re-entry a no-op regardless of what triggers it.
+ */
+let exportInFlight = false;
+
 export const downloadTheme = createAsyncThunk(
   'themeCustom/downloadTheme',
   async (themeName: string) => {
     if (!isWeb) {
       throw new Error('Theme download is only available on web');
     }
+    if (exportInFlight) {
+      throw new Error('Theme export already in progress');
+    }
+    exportInFlight = true;
 
     // Read the values the active theme actually resolves to. The template used
     // to hardcode light-theme hex codes, so downloading while "dark" was active
@@ -59,17 +71,23 @@ body.theme-${CUSTOM_THEME_NAME} {
 /* Add your custom styles here */
 `;
 
-    const blob = new Blob([cssTemplate], { type: 'text/css' });
-    const url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(new Blob([cssTemplate], { type: 'text/css' }));
     const link = document.createElement('a');
     link.href = url;
     link.download = 'theme-custom.css';
+    link.style.display = 'none';
 
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    try {
+      document.body.appendChild(link);
+      link.click();
+    } finally {
+      link.remove();
+      // Deferred: revoking synchronously after click can cancel the download
+      // in some browsers before it has read the blob. finally guarantees the
+      // handle is released even if click() throws.
+      setTimeout(() => window.URL.revokeObjectURL(url), 0);
+      exportInFlight = false;
+    }
 
     return 'theme-custom.css';
   }

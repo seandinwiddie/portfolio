@@ -36,7 +36,10 @@ const Nav: React.FC = () => {
       enterStyle={{ opacity: 0, y: -10 }}
       exitStyle={{ opacity: 0, y: -10 }}
     >
-      <XStack space="$4" alignItems="center" flexWrap="wrap" rowGap="$2">
+      {/* flexShrink + minWidth 0 let the row actually shrink so its own
+          flexWrap engages; without them it kept its intrinsic width and ran
+          off the right edge at 375px. */}
+      <XStack gap="$3" alignItems="center" flexWrap="wrap" rowGap="$2" flexShrink={1} minWidth={0}>
         <AnimatePresence>
           {isLoading ? (
             <YStack width={150} height={40} backgroundColor="$gray5" borderRadius="$2" />
@@ -59,7 +62,7 @@ const Nav: React.FC = () => {
           )}
         </AnimatePresence>
       </XStack>
-      <XStack space="$2" alignItems="center" flexWrap="wrap" rowGap="$2">
+      <XStack gap="$2" alignItems="center" flexWrap="wrap" rowGap="$2" flexShrink={1} minWidth={0}>
         <ThemeCustom />
         <ThemeToggle />
       </XStack>

@@ -1,8 +1,8 @@
 :root {
-  --neon-background: #2b213a;
+  --neon-background: #262335;
   --neon-foreground: #ffffff;
   --neon-text: #ffffff;
-  --neon-accent: #f92aad;
+  --neon-accent: #FF7EDB;
   --neon-tag: #36f9f6;
   --neon-function: #fede5d;
   --neon-keyword: #f97e72;
@@ -12,7 +12,7 @@
   --neon-constant: #ff8b39;
   --neon-selection-bg: #34294f;
   --neon-selection-fg: #ffffff;
-  --neon-line-highlight: #1f1a2e;
+  --neon-line-highlight: #241B2F;
   --neon-gutter: #848bbd;
   --neon-card-bg: #241b2f;
 }

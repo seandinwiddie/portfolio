@@ -1,0 +1,55 @@
+/*
+ * Phosphor sweep for the hero signal trace.
+ *
+ * A single slow pass of light across the readout — one accessory, not a
+ * light show. Arbitrary animate-[…] utilities do not compile here, so the
+ * keyframes are declared and attached by class.
+ */
+@keyframes signal-sweep {
+  0%   { background-position: -60% 0; }
+  100% { background-position: 160% 0; }
+}
+
+.signal-trace {
+  position: relative;
+  white-space: pre;
+  letter-spacing: 0.06em;
+}
+
+/* The sweep rides over the glyphs as a moving highlight. */
+.signal-trace::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-color, #FFCC66) 45%,
+    transparent 60%
+  );
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.16;
+  animation: signal-sweep 7s linear infinite;
+}
+
+/* Scanlines: the CRT texture the rest of the identity implies. */
+.signal-trace::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-trace::after { animation: none; opacity: 0.08; }
+}

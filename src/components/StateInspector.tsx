@@ -41,11 +41,10 @@ const StateInspector: React.FC = () => {
   return (
     <YStack
       position="absolute"
-      bottom={0}
-      right={0}
-      left={0}
+      // Clear of the footer, which this used to sit on top of.
+      bottom={56}
+      right={12}
       alignItems="flex-end"
-      padding="$3"
       pointerEvents="box-none"
     >
       {open ? (

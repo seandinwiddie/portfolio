@@ -39,6 +39,6 @@ export default function Root({ children }: { children: React.ReactNode }) {
 // colour. Anything else flashes white before the theme stylesheet applies.
 const responsiveBackground = `
 body {
-  background-color: #1f2430;
-  color: #cbccc6;
+  background-color: #1F2430;
+  color: #CCCAC2;
 }`

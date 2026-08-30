@@ -15,6 +15,7 @@ import {
   DEFAULT_THEME,
   fetchAvailableThemes,
   restoreTheme,
+  selectSurface,
   selectThemeMode,
 } from '../features/themeToggle/themeToggleSlice';
 import { apiSlice } from '../features/api/apiSlice';
@@ -28,6 +29,7 @@ import '../styles/fonts.css';
 import '../styles/body.css';
 import '../styles/app.css';
 import '../styles/nav.css';
+import '../styles/signal.css';
 
 // Import all theme CSS files
 import '../styles/themes/theme-light.css';
@@ -35,10 +37,6 @@ import '../styles/themes/theme-dark.css';
 import '../styles/themes/theme-dracula.css';
 import '../styles/themes/theme-neon.css';
 import '../styles/themes/theme-mirage.css';
-
-/** Only `light` is a light ground; dracula, mirage and neon are all dark. */
-const LIGHT_THEMES = new Set(['light']);
-const isLightTheme = (name: string) => LIGHT_THEMES.has(name);
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -49,6 +47,7 @@ SplashScreen.preventAutoHideAsync();
 function RootLayoutNav() {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector(selectThemeMode);
+  const surface = useAppSelector(selectSurface);
   const pathname = usePathname();
 
   const [fontsLoaded, fontError] = useFonts({
@@ -91,12 +90,12 @@ function RootLayoutNav() {
   const currentTheme = (themeMode || DEFAULT_THEME) as ThemeName;
 
   return (
-    <ThemeProvider value={isLightTheme(currentTheme) ? DefaultTheme : DarkTheme}>
+    <ThemeProvider value={surface === 'light' ? DefaultTheme : DarkTheme}>
       <TamaguiProvider config={config} defaultTheme={currentTheme}>
         <Theme name={currentTheme}>
           <ToastProvider swipeDirection="horizontal" duration={6000} native={[]}>
             <YStack flex={1}>
-              <StatusBar barStyle={isLightTheme(currentTheme) ? 'dark-content' : 'light-content'} />
+              <StatusBar barStyle={surface === 'light' ? 'dark-content' : 'light-content'} />
               {pathname !== '/' && <Nav />}
               <YStack flex={1}>
                 <Slot />

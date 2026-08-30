@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, XStack } from 'tamagui';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { downloadTheme, loadTheme } from '../features/themeCustom/themeCustomSlice';
-import { setThemeMode, selectThemeMode } from '../features/themeToggle/themeToggleSlice';
+import { selectThemeMode } from '../features/themeToggle/themeToggleSlice';
 import { selectCustomThemeName } from '../features/themeCustom/themeCustomSlice';
 
 const ThemeCustom: React.FC = () => {
@@ -16,13 +16,16 @@ const ThemeCustom: React.FC = () => {
 
   const handleLoadTheme = async () => {
     try {
-      const newTheme = await dispatch(loadTheme()).unwrap();
-      if (newTheme) {
-        dispatch(setThemeMode(newTheme));
-      }
+      // themeToggleSlice adopts the custom theme on loadTheme.fulfilled, so no
+      // follow-up setThemeMode: that second dispatch was what let the teardown
+      // listener run against the stale mode.
+      await dispatch(loadTheme()).unwrap();
     } catch (error) {
-      console.error('Failed to load theme:', error);
-      // You might want to show an error message to the user here
+      // Cancelling the picker rejects; that is not worth logging as a failure.
+      const message = error instanceof Error ? error.message : String(error);
+      if (message !== 'Theme selection cancelled') {
+        console.error('Failed to load theme:', message);
+      }
     }
   };
 

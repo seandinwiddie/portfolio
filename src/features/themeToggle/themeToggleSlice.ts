@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ThemeToggleState } from '../../data/interfaces';
 import { loadStoredTheme } from './themeStorage';
 import { apiSlice } from '../api/apiSlice';
+import { CUSTOM_THEME_NAME, loadTheme } from '../themeCustom/themeCustomSlice';
 
 /** Ships as the default look. The API's `iniTheme` can override it. */
 export const DEFAULT_THEME = 'mirage';
@@ -10,6 +11,9 @@ export const DEFAULT_THEME = 'mirage';
 // prerenders in Node). This previously listed only 3 of the 5 theme files, so the
 // prerendered markup disagreed with the hydrated client.
 const FALLBACK_THEMES = ['dark', 'dracula', 'light', 'mirage', 'neon'];
+
+/** Only `light` is a light ground; dracula, mirage and neon are all dark. */
+const LIGHT_THEMES = new Set(['light']);
 
 const nameFromKey = (key: string): string => key.match(/theme-(.+)\.css$/)?.[1] ?? '';
 
@@ -75,6 +79,15 @@ const themeToggleSlice = createSlice({
         state.hasStoredPreference = action.payload !== null;
         state.mode = action.payload ?? state.mode;
       })
+      // Adopting the custom theme belongs in the same transition that loads it.
+      // Previously ThemeCustom dispatched setThemeMode *after* loadTheme
+      // resolved, so at loadTheme.fulfilled the mode was still the old built-in
+      // one -- and the persistence listener, seeing a built-in theme, promptly
+      // removed the <style> tag that had just been injected. The theme name
+      // changed and the CSS never applied.
+      .addCase(loadTheme.fulfilled, (state) => {
+        state.mode = CUSTOM_THEME_NAME;
+      })
       .addCase(fetchAvailableThemes.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch themes';
@@ -93,10 +106,13 @@ const themeToggleSlice = createSlice({
     selectThemeMode: (state) => state.mode,
     selectThemes: (state) => state.themes,
     selectThemeStatus: (state) => state.status,
+    // Charts pick their ramp from the ground's polarity, not from a guess.
+    selectSurface: (state): 'light' | 'dark' =>
+      LIGHT_THEMES.has(state.mode) ? 'light' : 'dark',
   },
 });
 
 export const { setThemeMode, cycleTheme } = themeToggleSlice.actions;
-export const { selectThemeMode, selectThemes, selectThemeStatus } =
+export const { selectThemeMode, selectThemes, selectThemeStatus, selectSurface } =
   themeToggleSlice.selectors;
 export default themeToggleSlice.reducer;

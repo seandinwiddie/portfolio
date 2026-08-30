@@ -1,20 +1,20 @@
 :root {
   --mirage-background: #1f2430;
-  --mirage-foreground: #cbccc6;
-  --mirage-text: #cbccc6;
-  --mirage-accent: #ffc44c;
+  --mirage-foreground: #CCCAC2;
+  --mirage-text: #CCCAC2;
+  --mirage-accent: #FFCC66;
   --mirage-tag: #5ccfe6;
-  --mirage-function: #ffd580;
-  --mirage-keyword: #ffa759;
-  --mirage-error: #ff3333;
-  --mirage-string: #bae67e;
-  --mirage-comment: #5c6773;
-  --mirage-constant: #d4bfff;
+  --mirage-function: #FFCD66;
+  --mirage-keyword: #FFA659;
+  --mirage-error: #FF6666;
+  --mirage-string: #D5FF80;
+  --mirage-comment: #6E7C8F;
+  --mirage-constant: #D5FF80;
   --mirage-selection-bg: #34455a;
   --mirage-selection-fg: #cbccc6;
-  --mirage-line-highlight: #191e2a;
+  --mirage-line-highlight: #1A1F29;
   --mirage-gutter: #707a8c;
-  --mirage-card-bg: #232834;
+  --mirage-card-bg: #242936;
 }
 
 .theme-mirage {

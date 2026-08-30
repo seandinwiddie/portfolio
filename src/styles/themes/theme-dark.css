@@ -1,20 +1,20 @@
 :root {
-  --theme-dark-background: #0A0E14;
-  --theme-dark-foreground: #B3B1AD;
-  --theme-dark-text: #B3B1AD;
+  --theme-dark-background: #0B0E14;
+  --theme-dark-foreground: #BFBDB6;
+  --theme-dark-text: #BFBDB6;
   --theme-dark-accent: #E6B450;
   --theme-dark-tag: #39BAE6;
   --theme-dark-function: #FFB454;
   --theme-dark-keyword: #FF8F40;
-  --theme-dark-error: #FF3333;
-  --theme-dark-string: #C2D94C;
-  --theme-dark-comment: #626A73;
-  --theme-dark-constant: #FFEE99;
+  --theme-dark-error: #D95757;
+  --theme-dark-string: #AAD94C;
+  --theme-dark-comment: #5A6673;
+  --theme-dark-constant: #AAD94C;
   --theme-dark-selection-bg: #253340;
   --theme-dark-selection-fg: #B3B1AD;
-  --theme-dark-line-highlight: #151A1E;
-  --theme-dark-gutter: #5C6773;
-  --theme-dark-card-bg: #0F1419;
+  --theme-dark-line-highlight: #161A24;
+  --theme-dark-gutter: #5A6378;
+  --theme-dark-card-bg: #0D1017;
   --theme-icon-dark: 🌙;
 }
 
