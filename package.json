@@ -2,6 +2,9 @@
   "name": "folio",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "upgrade:tamagui": "yarn upgrade tamagui@latest @tamagui/animations-react-native@latest @tamagui/config@latest @tamagui/font-inter@latest @tamagui/linear-gradient@latest @tamagui/lucide-icons@latest @tamagui/react-native-media-driver@latest @tamagui/shorthands@latest @tamagui/themes@latest @tamagui/toast@latest @tamagui/babel-plugin@latest @tamagui/cli@latest @tamagui/metro-plugin@latest",
     "upgrade:tamagui:canary": "yarn upgrade tamagui@canary @tamagui/animations-react-native@canary @tamagui/config@canary @tamagui/font-inter@canary @tamagui/linear-gradient@canary @tamagui/lucide-icons@canary @tamagui/react-native-media-driver@canary @tamagui/shorthands@canary @tamagui/themes@canary @tamagui/toast@canary @tamagui/babel-plugin@canary @tamagui/cli@canary @tamagui/metro-plugin@canary",

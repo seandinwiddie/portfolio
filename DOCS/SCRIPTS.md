@@ -14,10 +14,11 @@ changes.
 
 ## Prerequisites and install
 
-The repository declares Yarn 1.22.22 as its package manager and keeps
-`yarn.lock` authoritative. The functional-programming suite also invokes
-Python 3. Graphify commands require the `graphify` CLI to be installed and on
-`PATH`.
+The repository targets Node.js 22.x, declares Yarn 1.22.22 as its package
+manager, and keeps `yarn.lock` authoritative. The Vercel project runtime must
+remain on Node.js 22.x so local verification and production builds share the
+same major runtime. The functional-programming suite also invokes Python 3.
+Graphify commands require the `graphify` CLI to be installed and on `PATH`.
 
 ```bash
 yarn install --frozen-lockfile
