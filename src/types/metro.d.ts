@@ -1,13 +1,13 @@
 /**
  * Metro implements `require.context` (Expo enables it by default), but the Node
- * typings do not know about it, so themeToggleSlice's dynamic theme discovery
+ * typings do not know about it, so the theme-selection catalog discovery
  * failed to typecheck.
  */
 interface MetroRequireContext {
-  (id: string): unknown;
-  keys(): string[];
-  resolve(id: string): string;
-  id: string;
+  (id: string): unknown
+  keys(): string[]
+  resolve(id: string): string
+  id: string
 }
 
 declare global {
@@ -17,8 +17,8 @@ declare global {
       useSubdirectories?: boolean,
       regExp?: RegExp,
       mode?: 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once'
-    ): MetroRequireContext;
+    ): MetroRequireContext
   }
 }
 
-export {};
+export {}

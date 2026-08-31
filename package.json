@@ -3,14 +3,21 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "upgrade:tamagui": "yarn up '*tamagui*'@latest '@tamagui/*'@latest",
-    "upgrade:tamagui:canary": "yarn up '*tamagui*'@canary '@tamagui/*'@canary",
+    "upgrade:tamagui": "yarn upgrade tamagui@latest @tamagui/animations-react-native@latest @tamagui/config@latest @tamagui/font-inter@latest @tamagui/linear-gradient@latest @tamagui/lucide-icons@latest @tamagui/react-native-media-driver@latest @tamagui/shorthands@latest @tamagui/themes@latest @tamagui/toast@latest @tamagui/babel-plugin@latest @tamagui/cli@latest @tamagui/metro-plugin@latest",
+    "upgrade:tamagui:canary": "yarn upgrade tamagui@canary @tamagui/animations-react-native@canary @tamagui/config@canary @tamagui/font-inter@canary @tamagui/linear-gradient@canary @tamagui/lucide-icons@canary @tamagui/react-native-media-driver@canary @tamagui/shorthands@canary @tamagui/themes@canary @tamagui/toast@canary @tamagui/babel-plugin@canary @tamagui/cli@canary @tamagui/metro-plugin@canary",
     "check:tamagui": "tamagui check",
     "start": "expo start -c",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
+    "check:fp": "node scripts/fp/runFpChecks.mjs",
+    "check:rtk": "node scripts/redux/runTests.mjs && node scripts/redux/checkConformance.mjs && node scripts/check-api-data-authority.mjs",
+    "check:api-data-authority": "node --test scripts/redux/apiDataAuthority.node-test.mjs && node scripts/check-api-data-authority.mjs",
+    "check:ecs": "node scripts/check-ecs-conformance.mjs",
+    "check:fan-out": "node scripts/check-fan-out.mjs",
+    "check:feature-files": "node --test scripts/check-feature-file-contract.node-test.mjs && node scripts/check-feature-file-contract.mjs",
+    "verify": "bash scripts/verify-all.sh",
     "vercel-build": "expo export -p web && cp dist/+not-found.html dist/404.html",
     "test:watch": "jest --watchAll",
     "lint": "biome check .",
@@ -26,14 +33,7 @@
       "@testing-library/jest-native/extend-expect",
       "<rootDir>/jest.setup.js"
     ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.0.0",
@@ -62,6 +62,7 @@
     "expo-status-bar": "^1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
+    "functional-programming-composition": "^0.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "^4.1.2",

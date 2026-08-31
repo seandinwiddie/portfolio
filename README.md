@@ -1,56 +1,51 @@
-# Portfolio App
+# Sean Dinwiddie's Orbital Registry
 
-This is a React Native portfolio application built with Expo, Redux Toolkit, and Tamagui.
+[portfolio.sdin.dev](https://portfolio.sdin.dev) is an interactive portfolio
+for Sean Dinwiddie's work, public projects, and experiments. It presents the
+site as an original science-fiction archive: atmospheric when you want it,
+quiet when you do not, and always grounded in useful content.
 
-## Features
+## Explore
 
-- Dynamic theme switching (light, dark, and system)
-- Responsive design for various screen sizes
-- Redux state management
-- API integration with RTK Query
+* **Registry** — enter through the live signal display, primary destinations,
+  phone QR, and theme-aware orbital scene.
+* **Home** — open Sean's main web presences and portfolio destinations.
+* **About** — read the portfolio's features, intent, and operating procedures.
+* **Projects** — browse public repositories, owners, languages, contributions,
+  recent activity, and commits.
+* **Status** — see whether live content is current, partial, stale, or
+  temporarily unreachable, along with the active visual settings.
 
-## Project Structure
+Unknown links keep you inside the Registry and provide a clear route home.
 
-- `src/`: Source code
-  - `app/`: Main application files
-  - `components/`: Reusable React components
-  - `features/`: Redux slices and API
-  - `data/`: Initial state and mock data
+## Shape the experience
 
-## Technologies Used
+Use the theme control to move among **Ayu Dark**, **Ayu Light**, **Ayu Mirage**,
+**Dracula**, and **SynthWave '84**. The contribution calendar, controls,
+surfaces, labels, and orbital visuals change with the selected theme. Your
+built-in theme choice is remembered between visits.
 
-- React Native
-- Expo
-- Redux Toolkit
-- Tamagui
-- TypeScript
+**Download Theme** gives you the current colors as editable CSS. **Load Custom
+Theme** previews your own compatible CSS; leaving the custom theme returns to
+the built-in catalog.
 
-## Getting Started
+Choose **Cinematic** for the full space-opera scene and transitions, or **Quiet**
+for the same content with less visual activity. Your device's reduced-motion
+preference takes priority automatically.
 
-```bash
-yarn install
-yarn web        # dev server
-yarn test       # jest
-yarn typecheck  # tsc --noEmit
-yarn lint       # biome
-yarn vercel-build   # static web export to dist/
-```
+Open **Archive Control** for a keyboard-friendly command deck. Start with
+`help`, then explore identity, repositories, languages, activity, or change the
+theme from the prompt. Escape or the visible close control returns you to the
+page.
 
-The app reads its content from `https://api.sdin.dev/data`. Set
-`EXPO_PUBLIC_API_URL` to point at a different API. If the API is unreachable the
-app falls back to the bundled `src/data/initialState.json`, so it still renders.
+## Access and data
 
-## Configuration
+The Registry is designed for keyboard navigation, visible focus, browser zoom,
+small screens, reduced motion, forced colors, and readable contrast across every
+built-in theme. Motion and decoration are never required to reach the content.
 
-The project uses various configuration files:
-
-- `app.json`: Expo configuration
-- `tsconfig.json`: TypeScript configuration
-- `metro.config.js`: Metro bundler configuration
-- `tamagui.config.ts`: Tamagui theme, token and animation configuration
-- `biome.json`: linter and formatter rules
-
-## Routing
-
-Routes live in `src/app/`. **Only route files belong there** -- every file in that
-directory becomes a public URL. Shared store wiring lives in `src/store/`.
+Portfolio copy and project records come from the live sdin.dev service. Public
+GitHub totals and activity naturally change over time. If part of the service is
+slow or unavailable, the interface reports that state instead of presenting an
+empty page as current data. Theme and Cinematic/Quiet choices are saved as local
+visitor preferences.

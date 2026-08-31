@@ -9,6 +9,10 @@
  * loads the native font on iOS/Android. Only the fallback stack belongs here.
  */
 
-body, button, input, select, textarea {
-  font-family: 'Dank Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Dank Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }

@@ -1,51 +1,68 @@
-:root {
-  --theme-dark-background: #0B0E14;
-  --theme-dark-foreground: #BFBDB6;
-  --theme-dark-text: #BFBDB6;
-  --theme-dark-accent: #E6B450;
-  --theme-dark-tag: #39BAE6;
-  --theme-dark-function: #FFB454;
-  --theme-dark-keyword: #FF8F40;
-  --theme-dark-error: #D95757;
-  --theme-dark-string: #AAD94C;
-  --theme-dark-comment: #5A6673;
-  --theme-dark-constant: #AAD94C;
-  --theme-dark-selection-bg: #253340;
-  --theme-dark-selection-fg: #B3B1AD;
-  --theme-dark-line-highlight: #161A24;
-  --theme-dark-gutter: #5A6378;
-  --theme-dark-card-bg: #0D1017;
-  --theme-icon-dark: 🌙;
-}
-
+/* Checked projection of the Ayu Dark profile in ayuThemeProfiles.ts. */
+/* biome-ignore format: Preserve canonical upstream hex casing. */
 .theme-dark {
-  --background-color: var(--theme-dark-background);
-  --foreground-color: var(--theme-dark-foreground);
-  --text-color: var(--theme-dark-text);
-  --accent-color: var(--theme-dark-accent);
-  --card-background: var(--theme-dark-card-bg);
-  --theme-icon: var(--theme-icon-dark);
-}
+  --theme-label: "Ayu Dark";
+  --background-color: #0D1017;
+  --surface-color: #10141C;
+  --surface-raised-color: #141821;
+  --overlay-color: #0F131A;
+  --foreground-color: #BFBDB6;
+  --text-color: #BFBDB6;
+  --muted-color: #7B818C;
+  --muted-text-color: #7B818C;
+  --muted-ui-color: #5A6378;
+  --border-color: #1B1F29;
+  --border-alpha-30: #1B1F294D;
+  --border-alpha-72: #1B1F29B8;
+  --control-border-color: #5C6579;
+  --accent-color: #E6B450;
+  --accent-alpha-04: #E6B4500A;
+  --accent-alpha-05: #E6B4500D;
+  --accent-alpha-09: #E6B45017;
+  --accent-alpha-13: #E6B45021;
+  --accent-alpha-22: #E6B45038;
+  --accent-alpha-38: #E6B45061;
+  --accent-foreground-color: #765B24;
+  --link-color: #59C2FF;
+  --link-hover-color: #39BAE6;
+  --selection-background: #3388FF40;
+  --selection-color: #3388FF40;
+  --line-highlight-color: #161A24;
+  --gutter-color: #5A6378A6;
+  --focus-color: #E6B450;
+  --control-background-color: #E6B450;
+  --control-hover-background-color: #FFB454;
+  --control-foreground-color: #0D1017;
+  --error-color: #D95757;
+  --error-text-color: #F07178;
+  --warning-color: #FFB454;
+  --warning-text-color: #FFB454;
+  --success-color: #70BF56;
+  --success-text-color: #AAD94C;
+  --info-color: #59C2FF;
+  --info-text-color: #59C2FF;
+  --signal-color: #E6B450;
+  --danger-color: #D95757;
+  --tag-color: #39BAE6;
+  --function-color: #FFB454;
+  --entity-color: #59C2FF;
+  --string-color: #AAD94C;
+  --regexp-color: #95E6CB;
+  --markup-color: #F07178;
+  --keyword-color: #FF8F40;
+  --special-color: #E6C08A;
+  --comment-color: #5A6673;
+  --constant-color: #D2A6FF;
+  --operator-color: #F29668;
+  --contribution-step-0: #182221;
+  --contribution-step-1: #2E492E;
+  --contribution-step-2: #44703B;
+  --contribution-step-3: #5A9849;
+  --contribution-step-4: #70BF56;
+  --visualization-axis-color: #7B818C;
+  --card-background: #10141C;
+  --theme-icon: 🌙;
+  --fx-opacity: 0.32;
 
-body.theme-dark {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.theme-dark .card {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  border: 1px solid var(--accent-color);
-}
-
-.theme-dark .gradient-background {
-  background: linear-gradient(
-    45deg,
-    var(--background-color),
-    var(--theme-dark-selection-bg)
-  );
-}
-
-.theme-dark .theme-icon::before {
-  content: var(--theme-icon);
+  color-scheme: dark;
 }

@@ -6,8 +6,12 @@
  * keyframes are declared and attached by class.
  */
 @keyframes signal-sweep {
-  0%   { background-position: -60% 0; }
-  100% { background-position: 160% 0; }
+  0% {
+    background-position: -60% 0;
+  }
+  100% {
+    background-position: 160% 0;
+  }
 }
 
 .signal-trace {
@@ -18,14 +22,14 @@
 
 /* The sweep rides over the glyphs as a moving highlight. */
 .signal-trace::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--accent-color, #FFCC66) 45%,
+    var(--accent-color, #ffcc66) 45%,
     transparent 60%
   );
   background-size: 60% 100%;
@@ -36,7 +40,7 @@
 
 /* Scanlines: the CRT texture the rest of the identity implies. */
 .signal-trace::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -51,13 +55,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .signal-trace::after { animation: none; opacity: 0.08; }
+  .signal-trace::after {
+    animation: none;
+    opacity: 0.08;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Instrument chrome.
-   Corner brackets and a phosphor grain, in the vernacular the
-   repos already speak (ASCII frames, [VOID::WATCHER], runes).
+   Instrument chrome for the original Orbital Registry system.
    One accessory: the brackets. Everything else stays quiet.
    ───────────────────────────────────────────────────────────── */
 
@@ -68,7 +73,7 @@
 /* Four corner brackets drawn from two pseudo-elements. */
 .panel-frame::before,
 .panel-frame::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 12px;
   height: 12px;
@@ -94,29 +99,30 @@
 /* Page-wide phosphor grain. Sits above the background, below content,
    and never intercepts a click. */
 .crt-grain::after {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.055) 0px,
-      rgba(0, 0, 0, 0.055) 1px,
-      transparent 1px,
-      transparent 3px
-    );
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.055) 0px,
+    rgba(0, 0, 0, 0.055) 1px,
+    transparent 1px,
+    transparent 3px
+  );
   mix-blend-mode: multiply;
 }
 
-/* A light ground would be dirtied by a multiply grain. */
+/* A light ground uses the blueprint grid in app.css instead of CRT grain. */
 .theme-light .crt-grain::after {
-  opacity: 0.35;
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .crt-grain::after { opacity: 0.25; }
+  .crt-grain::after {
+    opacity: 0.25;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -128,22 +134,44 @@
 
 /* A viewport coming online: focus resolves, the object settles. */
 @keyframes ignite {
-  0%   { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(6px); }
-  60%  { opacity: 1; filter: blur(0); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
 }
 
 /* A rule drawing itself open from the centre. */
 @keyframes draw-rule {
-  0%   { transform: scaleX(0); opacity: 0; }
-  100% { transform: scaleX(1); opacity: 1; }
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }
 
 /* Very slow orbital breathing. Amplitude stays under 3px so it reads as
    weight, not float. */
 @keyframes drift {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .ignite {
@@ -152,10 +180,18 @@
 }
 
 /* The sequence: each system comes online after the last. */
-.ignite-1 { animation-delay: 0ms; }
-.ignite-2 { animation-delay: 180ms; }
-.ignite-3 { animation-delay: 360ms; }
-.ignite-4 { animation-delay: 540ms; }
+.ignite-1 {
+  animation-delay: 0ms;
+}
+.ignite-2 {
+  animation-delay: 180ms;
+}
+.ignite-3 {
+  animation-delay: 360ms;
+}
+.ignite-4 {
+  animation-delay: 540ms;
+}
 
 .drift {
   animation: drift 11s ease-in-out infinite;
@@ -164,11 +200,6 @@
 .rule {
   transform-origin: center;
   animation: draw-rule 900ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
-}
-
-/* Panels resolve as they scroll into view rather than all at once. */
-.panel-frame {
-  animation: ignite 900ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -180,21 +211,36 @@
     transform: none;
     filter: none;
   }
-  .drift { animation: none; }
+  .drift {
+    animation: none;
+  }
 }
 
-/* A single Voight-Kampff-style scan pass across the unit plate on load. */
+/* A single archival scan pass across the unit plate on load. */
 @keyframes plate-scan {
-  0%   { top: 0; opacity: 0; }
-  12%  { opacity: 0.7; }
-  88%  { opacity: 0.7; }
-  100% { top: 100%; opacity: 0; }
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.7;
+  }
+  88% {
+    opacity: 0.7;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
 
-.plate-scan { position: relative; overflow: hidden; }
+.plate-scan {
+  position: relative;
+  overflow: hidden;
+}
 
 .plate-scan::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -205,15 +251,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .plate-scan::after { animation: none; opacity: 0; }
+  .plate-scan::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────
    Panel geometry.
-   Chamfered corners — the ship-panel / HUD convention shared by
-   Foundation's geometry and cyberpunk interface design. Applied
-   to the existing panels so the whole surface reads as one
-   system rather than as separate ornaments.
+   Chamfered corners are reserved for major instrument surfaces so the
+   interface reads as a single registry rather than unrelated ornaments.
    ───────────────────────────────────────────────────────────── */
 .panel-frame {
   clip-path: polygon(
@@ -230,12 +277,11 @@
 .telemetry {
   border-bottom: 1px solid var(--accent-color, currentColor);
   border-top: 1px solid var(--accent-color, currentColor);
-  opacity: 0.85;
 }
 
 /* Tick marks along the rail, the way a ship gauge is graduated. */
 .telemetry::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -273,13 +319,6 @@
   letter-spacing: -0.04em;
 }
 
-/* Panels arrive in sequence as the eye travels down. */
-.stagger-1 { animation-delay: 60ms; }
-.stagger-2 { animation-delay: 180ms; }
-.stagger-3 { animation-delay: 300ms; }
-.stagger-4 { animation-delay: 420ms; }
-.stagger-5 { animation-delay: 540ms; }
-
 /* Language spectrum: one continuous readout, segments separated by the surface. */
 .spectrum {
   display: flex;
@@ -297,8 +336,13 @@
 
 /* A slow pulse on a live status indicator — a system breathing, not blinking. */
 @keyframes status-pulse {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .status-live {
@@ -306,5 +350,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .status-live { animation: none; opacity: 0.9; }
+  .status-live {
+    animation: none;
+    opacity: 0.9;
+  }
 }

@@ -1,51 +1,68 @@
-:root {
-  --theme-light-background: #FCFCFC;
-  --theme-light-foreground: #5C6166;
-  --theme-light-text: #5C6166;
-  --theme-light-accent: #F29718;
-  --theme-light-tag: #55B4D4;
-  --theme-light-function: #EBA400;
-  --theme-light-keyword: #FA8532;
-  --theme-light-error: #E65050;
-  --theme-light-string: #86B300;
-  --theme-light-comment: #ADAEB1;
-  --theme-light-constant: #86B300;
-  --theme-light-selection-bg: #F0EEE4;
-  --theme-light-selection-fg: #5C6773;
-  --theme-light-line-highlight: #F2F2F2;
-  --theme-light-gutter: #828E9F;
-  --theme-light-card-bg: #FFFFFF;
-  --theme-icon-light: 🌞;
-}
-
+/* Checked projection of the Ayu Light profile in ayuThemeProfiles.ts. */
+/* biome-ignore format: Preserve canonical upstream hex casing. */
 .theme-light {
-  --background-color: var(--theme-light-background);
-  --foreground-color: var(--theme-light-foreground);
-  --text-color: var(--theme-light-text);
-  --accent-color: var(--theme-light-accent);
-  --card-background: var(--theme-light-card-bg);
-  --theme-icon: var(--theme-icon-light);
-}
+  --theme-label: "Ayu Light";
+  --background-color: #F8F9FA;
+  --surface-color: #FCFCFC;
+  --surface-raised-color: #FAFAFA;
+  --overlay-color: #FFFFFF;
+  --foreground-color: #5C6166;
+  --text-color: #5C6166;
+  --muted-color: #6C737D;
+  --muted-text-color: #6C737D;
+  --muted-ui-color: #828E9F;
+  --border-color: #6B7D8F1F;
+  --border-alpha-30: #6B7D8F09;
+  --border-alpha-72: #6B7D8F16;
+  --control-border-color: #828E9F;
+  --accent-color: #F29718;
+  --accent-alpha-04: #F297180A;
+  --accent-alpha-05: #F297180D;
+  --accent-alpha-09: #F2971817;
+  --accent-alpha-13: #F2971821;
+  --accent-alpha-22: #F2971838;
+  --accent-alpha-38: #F2971861;
+  --accent-foreground-color: #7E4B01;
+  --link-color: #7E4B01;
+  --link-hover-color: #5C6166;
+  --selection-background: #035BD626;
+  --selection-color: #035BD626;
+  --line-highlight-color: #828E9F1A;
+  --gutter-color: #828E9F66;
+  --focus-color: #7E4B01;
+  --control-background-color: #7E4B01;
+  --control-hover-background-color: #5C6166;
+  --control-foreground-color: #FCFCFC;
+  --error-color: #E65050;
+  --error-text-color: #5C6166;
+  --warning-color: #EBA400;
+  --warning-text-color: #7E4B01;
+  --success-color: #6CBF43;
+  --success-text-color: #5C6166;
+  --info-color: #22A4E6;
+  --info-text-color: #5C6166;
+  --signal-color: #F29718;
+  --danger-color: #E65050;
+  --tag-color: #55B4D4;
+  --function-color: #EBA400;
+  --entity-color: #22A4E6;
+  --string-color: #86B300;
+  --regexp-color: #4CBF99;
+  --markup-color: #F07171;
+  --keyword-color: #FA8532;
+  --special-color: #E59645;
+  --comment-color: #ADAEB1;
+  --constant-color: #A37ACC;
+  --operator-color: #F2A191;
+  --contribution-step-0: #F0F4EE;
+  --contribution-step-1: #CEDFC6;
+  --contribution-step-2: #ABC99F;
+  --contribution-step-3: #89B477;
+  --contribution-step-4: #669E4F;
+  --visualization-axis-color: #6C737D;
+  --card-background: #FCFCFC;
+  --theme-icon: 🌞;
+  --fx-opacity: 0.18;
 
-body.theme-light {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.theme-light .card {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  border: 1px solid var(--accent-color);
-}
-
-.theme-light .gradient-background {
-  background: linear-gradient(
-    45deg,
-    var(--background-color),
-    var(--theme-light-selection-bg)
-  );
-}
-
-.theme-light .theme-icon::before {
-  content: var(--theme-icon);
+  color-scheme: light;
 }

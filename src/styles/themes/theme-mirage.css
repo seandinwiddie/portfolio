@@ -1,69 +1,68 @@
-:root {
-  --mirage-background: #1f2430;
-  --mirage-foreground: #CCCAC2;
-  --mirage-text: #CCCAC2;
-  --mirage-accent: #FFCC66;
-  --mirage-tag: #5ccfe6;
-  --mirage-function: #FFCD66;
-  --mirage-keyword: #FFA659;
-  --mirage-error: #FF6666;
-  --mirage-string: #D5FF80;
-  --mirage-comment: #6E7C8F;
-  --mirage-constant: #D5FF80;
-  --mirage-selection-bg: #34455a;
-  --mirage-selection-fg: #cbccc6;
-  --mirage-line-highlight: #1A1F29;
-  --mirage-gutter: #707a8c;
-  --mirage-card-bg: #242936;
-}
-
+/* Checked projection of the Ayu Mirage profile in ayuThemeProfiles.ts. */
+/* biome-ignore format: Preserve canonical upstream hex casing. */
 .theme-mirage {
-  --background-color: var(--mirage-background);
-  --foreground-color: var(--mirage-foreground);
-  --text-color: var(--mirage-text);
-  --accent-color: var(--mirage-accent);
-  --card-background: var(--mirage-card-bg);
+  --theme-label: "Ayu Mirage";
+  --background-color: #1F2430;
+  --surface-color: #242936;
+  --surface-raised-color: #282E3B;
+  --overlay-color: #1C212C;
+  --foreground-color: #CCCAC2;
+  --text-color: #CCCAC2;
+  --muted-color: #8F959E;
+  --muted-text-color: #8F959E;
+  --muted-ui-color: #707A8C;
+  --border-color: #171B24;
+  --border-alpha-30: #171B244D;
+  --border-alpha-72: #171B24B8;
+  --control-border-color: #707A8C;
+  --accent-color: #FFCC66;
+  --accent-alpha-04: #FFCC660A;
+  --accent-alpha-05: #FFCC660D;
+  --accent-alpha-09: #FFCC6617;
+  --accent-alpha-13: #FFCC6621;
+  --accent-alpha-22: #FFCC6638;
+  --accent-alpha-38: #FFCC6661;
+  --accent-foreground-color: #735923;
+  --link-color: #73D0FF;
+  --link-hover-color: #5CCFE6;
+  --selection-background: #409FFF40;
+  --selection-color: #409FFF40;
+  --line-highlight-color: #1A1F29;
+  --gutter-color: #707A8C80;
+  --focus-color: #FFCC66;
+  --control-background-color: #FFCC66;
+  --control-hover-background-color: #FFCD66;
+  --control-foreground-color: #1F2430;
+  --error-color: #FF6666;
+  --error-text-color: #FF6666;
+  --warning-color: #FFCD66;
+  --warning-text-color: #FFCD66;
+  --success-color: #87D96C;
+  --success-text-color: #D5FF80;
+  --info-color: #73D0FF;
+  --info-text-color: #73D0FF;
+  --signal-color: #FFCC66;
+  --danger-color: #FF6666;
+  --tag-color: #5CCFE6;
+  --function-color: #FFCD66;
+  --entity-color: #73D0FF;
+  --string-color: #D5FF80;
+  --regexp-color: #95E6CB;
+  --markup-color: #F28779;
+  --keyword-color: #FFA659;
+  --special-color: #D9BE98;
+  --comment-color: #6E7C8F;
+  --constant-color: #DFBFFF;
+  --operator-color: #F29E74;
+  --contribution-step-0: #2C373A;
+  --contribution-step-1: #436047;
+  --contribution-step-2: #598853;
+  --contribution-step-3: #70B160;
+  --contribution-step-4: #87D96C;
+  --visualization-axis-color: #8F959E;
+  --card-background: #242936;
   --theme-icon: 🌌;
-}
+  --fx-opacity: 0.34;
 
-body.theme-mirage {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.theme-mirage .card {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  border: 1px solid var(--mirage-accent);
-}
-
-.theme-mirage h1, 
-.theme-mirage h2, 
-.theme-mirage h3, 
-.theme-mirage h4, 
-.theme-mirage h5, 
-.theme-mirage h6 {
-  color: var(--mirage-accent);
-}
-
-.theme-mirage a {
-  color: var(--mirage-tag);
-}
-
-.theme-mirage button {
-  background-color: var(--mirage-accent);
-  color: var(--mirage-background);
-  border: none;
-}
-
-.theme-mirage button:hover {
-  background-color: var(--mirage-tag);
-}
-
-.theme-mirage .theme-icon::before {
-  content: var(--theme-icon);
-}
-
-.theme-mirage .nav-text {
-  color: var(--mirage-function);
+  color-scheme: dark;
 }

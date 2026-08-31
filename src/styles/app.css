@@ -1,45 +1,354 @@
-/* Global styles */
+/* Orbital Registry application shell. Theme files own color; this file owns behavior. */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
 body {
+  margin: 0;
+  overflow: hidden;
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color, var(--foreground-color));
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
-.gradient-background {
+body.theme-light {
+  color-scheme: light;
+}
+
+::selection {
+  background: var(--selection-color, var(--accent-color));
+  color: var(--foreground-color);
+}
+
+:where(a, button, input, [role="button"]):focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 3px;
+}
+
+.readout-label {
+  color: var(--muted-color, var(--foreground-color));
+  opacity: 1;
+}
+
+.orbital-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: linear-gradient(
-    45deg,
-    var(--background-color),
-    var(--accent-color)
+      112deg,
+      transparent 0 67%,
+      var(--accent-alpha-04) 67% 68%,
+      transparent 68%
+    ), var(--background-color);
+}
+
+.orbital-shell > :not(.orbital-scene) {
+  position: relative;
+  z-index: 2;
+}
+
+.orbital-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: var(--fx-opacity, 0.72);
+  contain: strict;
+}
+
+.orbital-stars {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+      circle at 14% 23%,
+      var(--signal-color, var(--accent-color)) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(circle at 78% 16%, var(--foreground-color) 0 0.7px, transparent 1.2px),
+    radial-gradient(circle at 43% 82%, var(--accent-color) 0 0.8px, transparent 1.4px),
+    radial-gradient(circle at 91% 69%, var(--foreground-color) 0 0.6px, transparent 1.1px);
+  background-size: 173px 149px, 251px 223px, 307px 271px, 419px 383px;
+  opacity: 0.22;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.orbital-entity {
+  --scene-drift: 0px;
+  position: absolute;
+  left: var(--scene-x);
+  top: var(--scene-y);
+  width: var(--scene-width);
+  height: var(--scene-height);
+  transform: rotate(var(--scene-rotation));
+  opacity: calc(0.1 + var(--scene-depth) * 0.045);
+  color: var(--accent-color);
+  animation-duration: var(--scene-duration);
+  animation-delay: var(--scene-delay);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.orbital-orbit {
+  min-width: 240px;
+  min-height: 240px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  animation-name: registry-orbit;
+}
+
+.orbital-orbit::before,
+.orbital-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.orbital-orbit::before {
+  inset: 11%;
+  border-style: dashed;
+}
+.orbital-orbit::after {
+  inset: 48% -18%;
+  border-radius: 0;
+  border-width: 1px 0 0;
+}
+
+.orbital-spine {
+  min-width: 36px;
+  border-left: 1px solid currentColor;
+  border-right: 1px solid var(--accent-alpha-38);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--accent-alpha-22) 0 1px,
+    transparent 1px 42px
   );
+  animation-name: registry-breathe;
 }
 
-.card {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  border: 1px solid var(--accent-color);
+.orbital-transit {
+  min-width: 180px;
+  max-height: 16px;
+  clip-path: polygon(0 45%, 82% 0, 100% 50%, 82% 100%, 0 55%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    currentColor 84%,
+    var(--signal-color, currentColor)
+  );
+  filter: drop-shadow(0 0 9px currentColor);
+  animation-name: registry-transit;
 }
 
-.theme-icon {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  font-size: 24px;
-  line-height: 1;
+.orbital-beacon {
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  min-height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px var(--accent-alpha-09);
+  animation-name: registry-beacon;
 }
 
-.theme-icon.theme-light::before {
-  content: var(--theme-icon-light);
+.orbital-horizon {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor 18% 82%, transparent);
+  animation-name: registry-breathe;
 }
 
-.theme-icon.theme-dark::before {
-  content: var(--theme-icon-dark);
+.orbital-monolith {
+  min-width: 28px;
+  min-height: 150px;
+  border: 1px solid currentColor;
+  background: linear-gradient(160deg, var(--accent-alpha-13), transparent 70%);
+  clip-path: polygon(24% 0, 100% 7%, 82% 100%, 0 94%);
+  animation-name: registry-monolith;
 }
 
-.theme-icon.theme-mirage::before {
-  content: var(--theme-icon-mirage);
+.route-stage {
+  animation: route-resolve 620ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
 }
 
-.theme-icon.theme-neon::before {
-  content: var(--theme-icon-neon);
+.registry-link {
+  position: relative;
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+}
+
+.registry-link::after {
+  content: "↗";
+  margin-left: 1rem;
+  color: var(--accent-color);
+}
+
+.flight-recorder {
+  border-top: 1px solid var(--border-alpha-72);
+}
+
+.flight-recorder-row {
+  border-bottom: 1px solid var(--border-alpha-72);
+}
+
+.flight-recorder-row:hover {
+  background: var(--accent-alpha-05);
+}
+
+.archive-control-dialog {
+  position: fixed;
+  inset: auto 12px 56px 12px;
+  z-index: 100;
+  width: auto;
+  max-width: 640px;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  color: inherit;
+  background: transparent;
+  border: 0;
+}
+
+@keyframes route-resolve {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes registry-orbit {
+  0%,
+  100% {
+    transform: rotate(var(--scene-rotation)) scale(1);
+  }
+  50% {
+    transform: rotate(calc(var(--scene-rotation) + 5deg)) scale(1.015);
+  }
+}
+
+@keyframes registry-breathe {
+  0%,
+  100% {
+    transform: rotate(var(--scene-rotation)) translateY(0);
+    opacity: 0.12;
+  }
+  50% {
+    transform: rotate(var(--scene-rotation)) translateY(calc(var(--scene-drift) * -0.25));
+    opacity: 0.25;
+  }
+}
+
+@keyframes registry-transit {
+  0%,
+  72% {
+    transform: rotate(var(--scene-rotation)) translateX(calc(var(--scene-drift) * -2));
+    opacity: 0;
+  }
+  82% {
+    opacity: 0.32;
+  }
+  100% {
+    transform: rotate(var(--scene-rotation)) translateX(var(--scene-drift));
+    opacity: 0;
+  }
+}
+
+@keyframes registry-beacon {
+  0%,
+  76%,
+  100% {
+    opacity: 0.12;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  82% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 14px var(--accent-alpha-04);
+  }
+}
+
+@keyframes registry-monolith {
+  0%,
+  100% {
+    transform: rotate(var(--scene-rotation)) translateY(0);
+  }
+  50% {
+    transform: rotate(var(--scene-rotation)) translateY(calc(var(--scene-drift) * -1));
+  }
+}
+
+/* Day-shift is an architectural drawing, not a dimmed CRT. */
+.theme-light .orbital-shell {
+  background: linear-gradient(var(--border-alpha-30) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-alpha-30) 1px, transparent 1px),
+    var(--background-color);
+  background-size: 42px 42px;
+}
+
+.theme-light .orbital-stars,
+.theme-light .crt-grain::after {
+  display: none;
+}
+
+@media (max-width: 660px) {
+  .orbital-orbit {
+    left: 56%;
+    opacity: 0.09;
+  }
+  .orbital-spine {
+    left: 2%;
+  }
+  .orbital-monolith {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .route-stage {
+    animation: none;
+  }
+  .orbital-transit,
+  .orbital-beacon {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .orbital-scene,
+  .crt-grain::after {
+    display: none;
+  }
+  .panel-frame,
+  .registry-link {
+    forced-color-adjust: auto;
+  }
 }

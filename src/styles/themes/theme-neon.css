@@ -1,75 +1,68 @@
-:root {
-  --neon-background: #262335;
-  --neon-foreground: #ffffff;
-  --neon-text: #ffffff;
-  --neon-accent: #FF7EDB;
-  --neon-tag: #36f9f6;
-  --neon-function: #fede5d;
-  --neon-keyword: #f97e72;
-  --neon-error: #fe4450;
-  --neon-string: #ff8b39;
-  --neon-comment: #848bbd;
-  --neon-constant: #ff8b39;
-  --neon-selection-bg: #34294f;
-  --neon-selection-fg: #ffffff;
-  --neon-line-highlight: #241B2F;
-  --neon-gutter: #848bbd;
-  --neon-card-bg: #241b2f;
-}
-
+/* Checked projection of the SynthWave '84 profile in synthWaveThemeProfile.ts. */
+/* biome-ignore format: Preserve canonical upstream hex casing. */
 .theme-neon {
-  --background-color: var(--neon-background);
-  --foreground-color: var(--neon-foreground);
-  --text-color: var(--neon-text);
-  --accent-color: var(--neon-accent);
-  --card-background: var(--neon-card-bg);
+  --theme-label: "SynthWave '84";
+  --background-color: #262335;
+  --surface-color: #241B2F;
+  --surface-raised-color: #2A2139;
+  --overlay-color: #171520;
+  --foreground-color: #FFFFFF;
+  --text-color: #FFFFFF;
+  --muted-color: #848BBD;
+  --muted-text-color: #848BBD;
+  --muted-ui-color: #848BBD;
+  --border-color: #495495;
+  --border-alpha-30: #4954954D;
+  --border-alpha-72: #495495B8;
+  --control-border-color: #626CA4;
+  --accent-color: #FF7EDB;
+  --accent-alpha-04: #FF7EDB0A;
+  --accent-alpha-05: #FF7EDB0D;
+  --accent-alpha-09: #FF7EDB17;
+  --accent-alpha-13: #FF7EDB21;
+  --accent-alpha-22: #FF7EDB38;
+  --accent-alpha-38: #FF7EDB61;
+  --accent-foreground-color: #262335;
+  --link-color: #F97E72;
+  --link-hover-color: #FF7EDB;
+  --selection-background: #FFFFFF20;
+  --selection-color: #FFFFFF20;
+  --line-highlight-color: #7059AB66;
+  --gutter-color: #FFFFFF73;
+  --focus-color: #FF7EDB;
+  --control-background-color: #614D85;
+  --control-hover-background-color: #2A2139;
+  --control-foreground-color: #FFFFFF;
+  --error-color: #FE4450;
+  --error-text-color: #FFFFFF;
+  --warning-color: #FEDE5D;
+  --warning-text-color: #FEDE5D;
+  --success-color: #72F1B8;
+  --success-text-color: #72F1B8;
+  --info-color: #36F9F6;
+  --info-text-color: #36F9F6;
+  --signal-color: #FF7EDB;
+  --danger-color: #FE4450;
+  --tag-color: #72F1B8;
+  --function-color: #36F9F6;
+  --entity-color: #FE4450;
+  --string-color: #FF8B39;
+  --regexp-color: #F97E72;
+  --markup-color: #FE4450;
+  --keyword-color: #FEDE5D;
+  --special-color: #FF7EDB;
+  --comment-color: #848BBD;
+  --constant-color: #F97E72;
+  --operator-color: #FEDE5D;
+  --contribution-step-0: #36233D;
+  --contribution-step-1: #683A64;
+  --contribution-step-2: #9A508C;
+  --contribution-step-3: #CD67B3;
+  --contribution-step-4: #FF7EDB;
+  --visualization-axis-color: #848BBD;
+  --card-background: #241B2F;
   --theme-icon: 🌈;
-}
+  --fx-opacity: 0.4;
 
-body.theme-neon {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.theme-neon .card {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  border: 1px solid var(--neon-accent);
-  box-shadow: 0 0 10px var(--neon-accent);
-}
-
-.theme-neon h1, 
-.theme-neon h2, 
-.theme-neon h3, 
-.theme-neon h4, 
-.theme-neon h5, 
-.theme-neon h6 {
-  color: var(--neon-accent);
-  text-shadow: 0 0 5px var(--neon-accent);
-}
-
-.theme-neon a {
-  color: var(--neon-tag);
-  text-shadow: 0 0 3px var(--neon-tag);
-}
-
-.theme-neon button {
-  background-color: var(--neon-accent);
-  color: var(--neon-background);
-  border: none;
-  box-shadow: 0 0 10px var(--neon-accent);
-}
-
-.theme-neon button:hover {
-  background-color: var(--neon-tag);
-  box-shadow: 0 0 15px var(--neon-tag);
-}
-
-.theme-neon .theme-icon::before {
-  content: var(--theme-icon);
-}
-
-.theme-neon .nav-text {
-  color: var(--neon-function);
-  text-shadow: 0 0 5px var(--neon-function);
+  color-scheme: dark;
 }

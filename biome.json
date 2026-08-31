@@ -3,6 +3,17 @@
   "organizeImports": {
     "enabled": false
   },
+  "files": {
+    "ignore": [
+      ".expo/**",
+      ".tamagui/**",
+      ".yarn/**",
+      "dist/**",
+      "graphify-out/**",
+      "tamagui-web.css",
+      "tsconfig.tsbuildinfo"
+    ]
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -68,10 +79,27 @@
   },
   "javascript": {
     "formatter": {
-      "trailingComma": "es5",
+      "trailingCommas": "es5",
       "jsxQuoteStyle": "double",
       "semicolons": "asNeeded",
       "quoteStyle": "single"
     }
-  }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    }
+  },
+  "overrides": [
+    {
+      "include": ["scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsoleLog": "off"
+          }
+        }
+      }
+    }
+  ]
 }

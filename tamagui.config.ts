@@ -1,8 +1,9 @@
 import { createTamagui } from 'tamagui'
 import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/themes'
+import { tokens } from '@tamagui/themes'
 import { createMedia } from '@tamagui/react-native-media-driver'
 import { createAnimations } from '@tamagui/animations-react-native'
+import { tamaguiThemes } from './src/styles/themes/themeProjections'
 
 const animations = createAnimations({
   bouncy: {
@@ -90,48 +91,7 @@ const config = createTamagui({
     heading: dankMonoFont,
     body: dankMonoFont,
   },
-  // Single source of truth for the palettes, matching src/styles/themes/*.css
-  // exactly. These were previously invented (dark was pure #000000/#FFFFFF),
-  // so Tamagui components rendered a different palette than the page body.
-  // Values verified against upstream: Ayu (ayu-theme/vscode-ayu), Dracula
-  // (dracula/dracula-theme) and SynthWave '84 (robb0wen/synthwave-vscode).
-  themes: {
-    light: {
-      background: '#FCFCFC',
-      color: '#5C6166',
-      borderColor: '#E9EBEC',
-      gray5: '#828E9F',
-      accent: '#F29718',
-    },
-    dark: {
-      background: '#0B0E14',
-      color: '#BFBDB6',
-      borderColor: '#1B1F29',
-      gray5: '#5A6378',
-      accent: '#E6B450',
-    },
-    dracula: {
-      background: '#282A36',
-      color: '#F8F8F2',
-      borderColor: '#44475A',
-      gray5: '#6272A4',
-      accent: '#BD93F9',
-    },
-    neon: {
-      background: '#262335',
-      color: '#FFFFFF',
-      borderColor: '#34294F',
-      gray5: '#848BBD',
-      accent: '#FF7EDB',
-    },
-    mirage: {
-      background: '#1F2430',
-      color: '#CCCAC2',
-      borderColor: '#171B24',
-      gray5: '#707A8C',
-      accent: '#FFCC66',
-    },
-  },
+  themes: tamaguiThemes,
   tokens,
   media: createMedia({
     xs: { maxWidth: 660 },

@@ -1,19 +1,19 @@
 try {
-  require('react-native-gesture-handler/jestSetup');
+  require('react-native-gesture-handler/jestSetup')
 } catch (error) {
-  console.warn('react-native-gesture-handler/jestSetup not found. Skipping.');
+  console.warn('react-native-gesture-handler/jestSetup not found. Skipping.')
 }
 
 jest.mock('react-native-reanimated', () => {
-  const Reanimated = require('react-native-reanimated/mock');
-  Reanimated.default.call = () => {};
-  return Reanimated;
-});
+  const Reanimated = require('react-native-reanimated/mock')
+  Reanimated.default.call = () => {}
+  return Reanimated
+})
 
 // The previous mock only supplied useRouter, so any component using Link or
 // usePathname (Nav, BrandName, the root layout) blew up on render.
 jest.mock('expo-router', () => {
-  const React = require('react');
+  const React = require('react')
   return {
     useRouter: () => ({
       push: jest.fn(),
@@ -27,12 +27,12 @@ jest.mock('expo-router', () => {
       preventAutoHideAsync: jest.fn(),
       hideAsync: jest.fn().mockResolvedValue(undefined),
     },
-  };
-});
+  }
+})
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
-);
+)
 
 // NOTE: tamagui itself is deliberately NOT mocked. The old mock replaced Text/Card/
 // YStack with functions returning raw children, which meant tests asserted against
