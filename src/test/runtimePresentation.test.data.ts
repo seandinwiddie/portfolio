@@ -106,6 +106,46 @@ export const TEST_RUNTIME_PRESENTATION: RuntimePresentation = {
     enableLabel: 'Test enable sound',
     disableLabel: 'Test disable sound',
   },
+  agentManifest: {
+    schemaVersion: '1.0.0',
+    kind: 'public-api-manifest',
+    service: 'api.sdin.dev',
+    description: 'Test public registry resources.',
+    canonicalBaseUrl: 'https://api.sdin.dev',
+    links: [
+      {
+        rel: 'self',
+        href: 'https://api.sdin.dev/agent-manifest',
+        type: 'application/json',
+      },
+      {
+        rel: 'portfolio',
+        href: 'https://portfolio.sdin.dev',
+        type: 'text/html',
+      },
+      {
+        rel: 'authoritative-data',
+        href: 'https://api.sdin.dev/data',
+        type: 'application/json',
+      },
+      {
+        rel: 'documentation',
+        href: 'https://github.com/seandinwiddie/api.sdin.dev/blob/main/README.md',
+        type: 'text/markdown',
+      },
+      {
+        rel: 'source',
+        href: 'https://github.com/seandinwiddie/api.sdin.dev',
+        type: 'text/html',
+      },
+    ],
+    usage: {
+      readOnly: true,
+      authentication: 'none',
+      responseMediaType: 'application/json',
+      rateLimitHeaders: ['RateLimit-Limit'],
+    },
+  },
   dossier: {
     eyebrow: 'Test dossier eyebrow',
     evidenceLabel: 'Test evidence',

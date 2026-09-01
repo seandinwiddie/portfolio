@@ -6,9 +6,12 @@ import {
 } from './signalMetaSelectors'
 
 export const useSignalMetaComposition = (route: StationKey): SignalMetaViewProps => {
-  const { metadata } = useGetInitialStateQuery(undefined, {
-    selectFromResult: ({ data }) => ({ metadata: data?.presentation?.metadata }),
+  const source = useGetInitialStateQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      metadata: data?.presentation?.metadata,
+      agentManifest: data?.presentation?.runtime.agentManifest,
+    }),
   })
 
-  return selectSignalMetaViewModel(metadata, route)
+  return selectSignalMetaViewModel(source, route)
 }

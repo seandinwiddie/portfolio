@@ -1,4 +1,5 @@
 import type { StationKey } from '../apiTypes'
+import type { AgentSurfaceManifest } from '../agentSurface/agentSurfaceTypes'
 
 export type RuntimeRouteKey = 'nexus' | 'dossier' | 'missions' | 'telemetry'
 
@@ -80,6 +81,8 @@ export interface RuntimeSoundPresentation {
   readonly enableLabel: string
   readonly disableLabel: string
 }
+
+export type RuntimeAgentManifestPresentation = AgentSurfaceManifest
 
 export interface RuntimeDossierPresentation {
   readonly eyebrow: string
@@ -168,6 +171,7 @@ export interface RuntimePresentation {
   readonly archiveControl: RuntimeArchivePresentation
   readonly theme: RuntimeThemePresentation
   readonly sound: RuntimeSoundPresentation
+  readonly agentManifest: RuntimeAgentManifestPresentation
   readonly dossier: RuntimeDossierPresentation
   readonly signalLattice: RuntimeSignalLatticePresentation
   readonly telemetry: RuntimeTelemetryPresentation

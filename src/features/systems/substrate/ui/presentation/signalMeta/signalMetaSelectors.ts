@@ -2,13 +2,21 @@ import type {
   SignalMetaPresentation,
   StationKey,
 } from '../../../../../components/substrate/kernel/api/apiTypes'
+import type { RuntimeAgentManifestPresentation } from '../../../../../components/substrate/kernel/api/presentation/presentationTypes'
+import type { AgentSurfaceProjection } from '../../../../../components/substrate/kernel/api/agentSurface/agentSurfaceTypes'
+import { projectAgentSurface } from '../../../kernel/api/agentSurface/agentSurfaceSelectors'
 
-export type SignalMetaViewProps = {
+export type SignalMetaViewProps = AgentSurfaceProjection & {
   readonly fullTitle: string
   readonly description: string
 }
 
 export type SignalMetaViewModel = SignalMetaViewProps
+
+export type SignalMetaSource = Readonly<{
+  metadata: SignalMetaPresentation | undefined
+  agentManifest: RuntimeAgentManifestPresentation | undefined
+}>
 
 const NEUTRAL_SIGNAL_METADATA: SignalMetaPresentation = {
   registryName: 'Orbital Registry',
@@ -28,17 +36,25 @@ const NEUTRAL_SIGNAL_METADATA: SignalMetaPresentation = {
 }
 
 export const selectSignalMetaViewModel = (
-  metadata: SignalMetaPresentation | undefined,
+  source: SignalMetaSource,
   route: StationKey
 ): SignalMetaViewModel => {
-  const selectedMetadata = metadata ?? NEUTRAL_SIGNAL_METADATA
+  const selectedMetadata = source.metadata ?? NEUTRAL_SIGNAL_METADATA
   const routeMetadata = selectedMetadata.routes[route]
   const routeTitle = routeMetadata?.title ?? ''
+  const fullTitle = routeTitle
+    ? `${routeTitle}${selectedMetadata.titleSuffix}`
+    : selectedMetadata.registryName
 
   return {
-    fullTitle: routeTitle
-      ? `${routeTitle}${selectedMetadata.titleSuffix}`
-      : selectedMetadata.registryName,
+    fullTitle,
     description: routeMetadata?.description ?? selectedMetadata.defaultDescription,
+    ...projectAgentSurface({
+      route,
+      fullTitle,
+      description: routeMetadata?.description ?? selectedMetadata.defaultDescription,
+      registryName: selectedMetadata.registryName,
+      manifest: source.agentManifest,
+    }),
   }
 }

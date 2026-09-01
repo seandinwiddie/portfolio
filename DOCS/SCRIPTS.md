@@ -33,6 +33,7 @@ release verification.
 | Variable | Default | Purpose |
 | :---- | :---- | :---- |
 | `EXPO_PUBLIC_API_URL` | `https://api.sdin.dev` | Selects a compatible portfolio API base URL for the RTK Query boundary. |
+| `PORTFOLIO_AGENT_MANIFEST_URL` | `https://api.sdin.dev/agent-manifest` | Selects the versioned, read-only API manifest used only while generating deployable machine-discovery artifacts and static document metadata. The build follows the manifest's authoritative-data relation; it fails when either API contract is missing or invalid. |
 | `AGENT_SKILLS_ROOT` | auto-discovered | Optional first-priority skill directory for conformance tooling. |
 | `CODEX_SKILLS_ROOT` | auto-discovered | Optional additional skill directory for conformance tooling. |
 
@@ -100,6 +101,7 @@ non-blocking; a BLOCK/fail finding must keep the command nonzero.
 | `yarn check:rtk` | `node scripts/redux/runTests.mjs && node scripts/redux/checkConformance.mjs && node scripts/check-api-data-authority.mjs` | Runs every Redux `.node-test.mjs` fixture, live Redux/RTK Query role/store/listener/API checks, and the live API-only authority gate. |
 | `yarn check:ecs` | `node scripts/check-ecs-conformance.mjs` | Requires the components/entities/systems/view topology, allowed root files, concrete domains, and grouped views; rejects vague role-bucket folders. |
 | `yarn check:fan-out` | `node scripts/check-fan-out.mjs` | Enforces the declared registry/substrate/bridge concern tree, the explicit Expo station-view roots, and a maximum of seven direct subnodes everywhere below the route registry. |
+| `yarn check:agent-surface` | `node --test scripts/agent-surface.node-test.mjs` | Validates accumulated manifest and presentation-contract failures, the exact five-route export, canonical sitemap/robots/`llms.txt` projection, private-surface rejection, and API-authored static HTML metadata without making a network request. |
 | `yarn check:feature-files` | `node --test scripts/check-feature-file-contract.node-test.mjs && node scripts/check-feature-file-contract.mjs` | Validates and then applies immediate-folder prefixes, approved role suffixes, semantic subdomain nesting, domain-scoped name uniqueness, and barrel-decay notices. |
 | `yarn verify` | `bash scripts/verify-all.sh` | Runs FP, RTK/API authority, ECS, feature filename, fan-out, lint, TypeScript, and Jest gates while collecting every failed gate. It does not run the Tamagui diagnostic or static export, so those remain separate release steps. |
 
@@ -122,7 +124,7 @@ corepack yarn test --runInBand src/features/systems/registry/observatory/signalA
 
 | Command | Exact package expansion | Output and success expectation |
 | :---- | :---- | :---- |
-| `yarn vercel-build` | `expo export -p web && cp dist/+not-found.html dist/404.html` | Creates the static web export in `dist/` and installs Expo's not-found output as the hosting-provider 404 fallback. Both stages must exit zero and `dist/404.html` must exist. |
+| `yarn vercel-build` | `expo export -p web && cp dist/+not-found.html dist/404.html && node scripts/generate-agent-surface.mjs dist` | Creates the static web export, installs Expo's not-found output as the hosting-provider 404 fallback, then fetches the versioned API manifest and its authoritative `/data` document. It generates `robots.txt`, `sitemap.xml`, and `llms.txt` and projects API-authored title, description, canonical, schema, provenance, and JSON-LD metadata into the exact five indexable HTML documents. Every stage must exit zero; contract drift, unexpected routes, private/mutating resources, or non-HTTPS authority is a blocking build failure. |
 
 The package does not define a deploy command. Export, deployment, and deployed
 browser QA are separate release stages. Do not describe a successful export as
@@ -194,6 +196,9 @@ graphify explain "src/store.ts" --graph graphify-out/graph.json
 | `scripts/check-feature-file-contract.mjs` | Feature leaf naming/nesting contract and non-blocking barrel-decay reporting. |
 | `scripts/check-feature-file-contract.node-test.mjs` | Executable fixture contract for feature filenames; update before or with a rule change. |
 | `scripts/concern-tree.mjs` | Single source of truth for registry/substrate/bridge feature pillars, reusable view concerns, and domain-scoped subdomain collision resolution. |
+| `scripts/agent-surface.mjs` | Pure validation and projection core for agent discovery. It derives route identifiers from exported HTML and renders crawler/agent artifacts plus static document metadata from API authorities without owning portfolio business copy. |
+| `scripts/agent-surface.node-test.mjs` | Executable manifest, authoritative presentation, exact-route, static-head, sitemap, robots, and `llms.txt` contract. |
+| `scripts/generate-agent-surface.mjs` | Build-edge effect that fetches `/agent-manifest` and its authoritative-data relation, discovers the current static export, injects the API-backed head metadata, and writes deployable machine artifacts. It must never expose private security findings or accept arbitrary scan targets. |
 | `scripts/verify-all.sh` | Unified non-short-circuiting local gate runner and complete failure summary. |
 | `scripts/skill-paths.mjs` | Portable installed-skill discovery via optional configured roots, workspace ancestors, and user skill directories. It must not embed one developer's home path. |
 

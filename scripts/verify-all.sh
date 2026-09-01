@@ -38,6 +38,7 @@ run_check "RTK and API-authority conformance checks" npm run check:rtk
 run_check "ECS conformance checks" npm run check:ecs
 run_check "feature filename contract checks" npm run check:feature-files
 run_check "concern-tree fan-out checks" npm run check:fan-out
+run_check "agent discoverability artifact checks" npm run check:agent-surface
 run_check "lint checks" npm run lint
 run_check "TypeScript checks" npm run typecheck
 run_check "unit and integration tests" npm test -- --runInBand
