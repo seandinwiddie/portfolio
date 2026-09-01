@@ -72,7 +72,7 @@ describe('continuous visual effects', () => {
     expect(phone).toContain('animation-name: command-lens-mobile')
     expect(phone).toContain('.dossier-domain .panel-frame {\n    height: auto')
     expect(compact).toContain('max-width: calc(100% - 12px)')
-    expect(compact).toContain('display: flex !important;\n    z-index: 30;')
+    expect(compact).toContain('display: flex !important;\n    z-index: 30 !important;')
     expect(compact).toContain('.system-controls-drawer {\n    position: fixed !important;')
     expect(phone).toContain('.telemetry-row-value {')
     expect(phone).toContain('overflow-wrap: anywhere')

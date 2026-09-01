@@ -1285,7 +1285,7 @@ body,
 
   .system-navigation--compact {
     display: flex !important;
-    z-index: 30;
+    z-index: 30 !important;
   }
 
   .system-bridge {
