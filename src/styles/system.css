@@ -1285,6 +1285,7 @@ body,
 
   .system-navigation--compact {
     display: flex !important;
+    z-index: 30;
   }
 
   .system-bridge {
@@ -1326,7 +1327,7 @@ body,
   }
 
   .system-controls-drawer {
-    position: fixed;
+    position: fixed !important;
     z-index: 120;
     top: max(58px, calc(env(safe-area-inset-top) + 54px));
     right: 0;
