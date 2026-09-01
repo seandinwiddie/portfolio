@@ -14,6 +14,16 @@
   }
 }
 
+@keyframes signal-sweep-reduced {
+  0%,
+  100% {
+    opacity: 0.06;
+  }
+  50% {
+    opacity: 0.12;
+  }
+}
+
 .signal-trace {
   position: relative;
   white-space: pre;
@@ -56,8 +66,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .signal-trace::after {
-    animation: none;
-    opacity: 0.08;
+    animation: signal-sweep-reduced 4.8s ease-in-out infinite;
   }
 }
 
@@ -169,6 +178,25 @@
   }
 }
 
+@keyframes material-resolve-reduced {
+  from {
+    opacity: 0.76;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes material-drift-reduced {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .ignite {
   /* Long, weighted easing — deceleration like something with mass. */
   animation: ignite 1100ms cubic-bezier(0.16, 0.84, 0.24, 1) both;
@@ -201,13 +229,13 @@
   .ignite,
   .rule,
   .panel-frame {
-    animation: none;
+    animation: material-resolve-reduced 180ms ease-out both;
     opacity: 1;
     transform: none;
     filter: none;
   }
   .drift {
-    animation: none;
+    animation: material-drift-reduced 7s ease-in-out infinite;
   }
 }
 
@@ -244,10 +272,19 @@
   animation: plate-scan 2600ms cubic-bezier(0.4, 0, 0.2, 1) 700ms 1 both;
 }
 
+@keyframes plate-scan-reduced {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .plate-scan-beam {
-    animation: none;
-    opacity: 0;
+    animation: plate-scan-reduced 1.6s ease-in-out 1 both;
   }
 }
 
@@ -345,7 +382,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .status-live {
-    animation: none;
-    opacity: 0.9;
+    animation: status-pulse 3.6s ease-in-out infinite;
   }
 }

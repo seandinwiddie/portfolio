@@ -34,7 +34,15 @@ const Row: React.FC<TelemetryRowViewModel> = ({ label, value, glyph, color }) =>
         {label}
       </Text>
     </XStack>
-    <Text fontFamily="$heading" fontSize="$3" ta="right" flexShrink={1}>
+    <Text
+      className="telemetry-row-value"
+      fontFamily="$heading"
+      fontSize="$3"
+      ta="right"
+      flexShrink={1}
+      minWidth={0}
+      maxWidth="100%"
+    >
       {value}
     </Text>
   </XStack>

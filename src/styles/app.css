@@ -329,6 +329,25 @@ body.theme-light {
   }
 }
 
+@keyframes route-resolve-reduced {
+  from {
+    opacity: 0.72;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes registry-signal-reduced {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.22;
+  }
+}
+
 /* Day-shift is an architectural drawing, not a dimmed CRT. */
 .theme-light .orbital-bridge {
   background: linear-gradient(var(--border-alpha-30) 1px, transparent 1px),
@@ -372,25 +391,27 @@ body.theme-light {
   *::before,
   *::after {
     scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-delay: 0ms !important;
-    animation-iteration-count: 1 !important;
   }
 
   .route-stage {
-    animation: none;
+    animation: route-resolve-reduced 180ms ease-out both;
   }
-  .orbital-transit,
-  .orbital-beacon {
-    display: none;
+
+  .orbital-entity {
+    animation-name: registry-signal-reduced;
+    animation-duration: max(var(--scene-duration), 8s);
+    animation-iteration-count: infinite;
   }
 }
 
 @media (forced-colors: active) {
-  .orbital-scene,
+  .orbital-scene {
+    opacity: 0.24;
+    forced-color-adjust: auto;
+  }
+
   .crt-grain::after {
-    display: none;
+    opacity: 0.12;
   }
   .panel-frame,
   .registry-link {

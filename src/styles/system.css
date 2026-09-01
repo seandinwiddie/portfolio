@@ -137,6 +137,37 @@ body,
   }
 }
 
+@keyframes command-lens-reduced {
+  0%,
+  100% {
+    background-position: 0 0;
+    opacity: 0.24;
+  }
+  50% {
+    background-position: 4px -2px;
+    opacity: 0.32;
+  }
+}
+
+@keyframes optical-route-lock-reduced {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.22;
+  }
+}
+
+@keyframes observatory-trace-reduced {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @keyframes module-resolve {
   from {
     opacity: 0;
@@ -205,7 +236,7 @@ body,
   position: fixed !important;
   top: max(8px, env(safe-area-inset-top));
   left: max(8px, env(safe-area-inset-left));
-  z-index: 1000;
+  z-index: 1000 !important;
   min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
@@ -1270,10 +1301,13 @@ body,
     position: fixed;
     z-index: 120;
     top: max(58px, calc(env(safe-area-inset-top) + 54px));
-    right: max(10px, env(safe-area-inset-right));
-    left: max(10px, env(safe-area-inset-left));
+    right: 0;
+    left: 0;
     display: flex !important;
+    width: auto;
+    max-width: calc(100% - 12px);
     max-height: calc(100dvh - 150px);
+    margin-inline: max(6px, env(safe-area-inset-left));
     padding: 14px;
     overflow-y: auto;
     background: var(--surface-raised-color);
@@ -1370,6 +1404,14 @@ body,
       auto minmax(0, 1fr) var(--mobile-archive-rail-height) auto
       auto;
     height: 100%;
+  }
+
+  .system-telemetry-region {
+    grid-row: 1;
+  }
+
+  .system-route-region {
+    grid-row: 2;
   }
 
   .system-canvas {
@@ -1522,7 +1564,8 @@ body,
     display: block;
     max-width: 100%;
     overflow: hidden;
-    font-size: 10px;
+    font-size: 9px;
+    letter-spacing: 0.02em;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1678,6 +1721,13 @@ body,
     overflow-wrap: anywhere;
   }
 
+  .telemetry-row-value {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   .archive-control-dialog {
     inset: auto max(8px, env(safe-area-inset-right))
       calc(
@@ -1707,7 +1757,7 @@ body,
       var(--mobile-utility-rail-height) +
       var(--mobile-dock-height) +
       env(safe-area-inset-bottom) +
-      8px
+      12px
     ) !important;
     left: max(8px, env(safe-area-inset-left)) !important;
   }
@@ -1810,7 +1860,7 @@ body,
   .system-glass-surface,
   .flight-recorder-row,
   .system-skip-link {
-    transition: none;
+    transition-duration: 120ms;
   }
 
   .system-nav-link:hover,
@@ -1826,32 +1876,32 @@ body,
   }
 
   .system-route-region::before {
-    animation: none;
+    animation: command-lens-reduced 12s ease-in-out infinite;
   }
 
   .system-canvas::before {
-    display: none;
-    animation: none;
+    display: block;
+    animation: optical-route-lock-reduced 320ms ease-out both;
   }
 
   .observatory-chart path[fill="none"] {
-    animation: none;
+    animation: observatory-trace-reduced 4.8s ease-in-out infinite;
     stroke-dasharray: none;
   }
 
   :where(button, [role="button"], .registry-link),
   :where(button, [role="button"], .registry-link)::after {
-    transition: none;
+    transition-duration: 120ms;
   }
 
   :where(button, [role="button"], .registry-link)::after {
-    display: none;
+    display: block;
   }
 }
 
 @media (forced-colors: active) {
   .system-navigation::after {
-    display: none;
+    opacity: 0.16;
   }
 
   .system-navigation,

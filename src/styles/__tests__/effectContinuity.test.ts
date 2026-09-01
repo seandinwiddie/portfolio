@@ -49,13 +49,19 @@ describe('continuous visual effects', () => {
     const phone = system.slice(system.indexOf('@media (max-width: 660px)'))
 
     expect(system).toContain('.system-skip-link {\n  position: fixed !important')
+    expect(system).toContain('z-index: 1000 !important')
     expect(compact).toContain('.system-route-dock {\n    position: relative !important')
     expect(system).toContain('--mobile-archive-rail-height: 60px')
     expect(compact).toContain('var(--mobile-archive-rail-height)')
     expect(compact).toContain('grid-row: 4')
     expect(compact).toContain('grid-row: 5')
+    expect(compact).toContain('.system-route-region {\n    grid-row: 2')
     expect(phone).toContain('animation-name: command-lens-mobile')
     expect(phone).toContain('.dossier-domain .panel-frame {\n    height: auto')
+    expect(compact).toContain('max-width: calc(100% - 12px)')
+    expect(phone).toContain('.telemetry-row-value {')
+    expect(phone).toContain('overflow-wrap: anywhere')
+    expect(phone).toContain('font-size: 9px')
     expect(phone).toContain(
       '.system-route-dock .system-nav-secondary {\n    display: none !important'
     )
