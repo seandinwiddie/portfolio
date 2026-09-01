@@ -50,7 +50,12 @@ describe('continuous visual effects', () => {
 
     expect(system).toContain('.system-skip-link {\n  position: fixed !important')
     expect(compact).toContain('.system-route-dock {\n    position: relative !important')
-    expect(compact).toContain('grid-template-rows: auto minmax(0, 1fr) auto auto')
+    expect(system).toContain('--mobile-archive-rail-height: 60px')
+    expect(compact).toContain('var(--mobile-archive-rail-height)')
+    expect(compact).toContain('grid-row: 4')
+    expect(compact).toContain('grid-row: 5')
+    expect(phone).toContain('animation-name: command-lens-mobile')
+    expect(phone).toContain('.dossier-domain .panel-frame {\n    height: auto')
     expect(phone).toContain(
       '.system-route-dock .system-nav-secondary {\n    display: none !important'
     )

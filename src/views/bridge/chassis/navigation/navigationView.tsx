@@ -2,6 +2,7 @@ import type React from 'react'
 import { Anchor, XStack, YStack, Button, Text } from 'tamagui'
 import { Link } from 'expo-router'
 import type {
+  NavigationController,
   NavigationLinkControlPresentationViewProps,
   NavigationLinksViewProps,
   NavigationViewProps,
@@ -35,9 +36,11 @@ const NavLink: React.FC<NavigationLinkControlPresentationViewProps> = ({
       aria-label={selectNavigationAriaLabel(label, systemLabel)}
       textDecorationLine="none"
     >
-      <Text className="system-nav-index" fontFamily="$body" fontSize="$1">
-        {index}
-      </Text>
+      {presentation === 'rail' ? (
+        <Text className="system-nav-index" fontFamily="$body" fontSize="$1">
+          {index}
+        </Text>
+      ) : null}
       <YStack
         className="system-nav-copy"
         alignItems={presentation === 'rail' ? 'flex-start' : 'center'}
@@ -46,14 +49,16 @@ const NavLink: React.FC<NavigationLinkControlPresentationViewProps> = ({
         <Text className="system-nav-primary" fontFamily="$body" fontSize="$2">
           {label}
         </Text>
-        <Text
-          className="system-nav-secondary"
-          fontFamily="$body"
-          fontSize="$1"
-          opacity={0.68}
-        >
-          {systemLabel}
-        </Text>
+        {presentation === 'rail' ? (
+          <Text
+            className="system-nav-secondary"
+            fontFamily="$body"
+            fontSize="$1"
+            opacity={0.68}
+          >
+            {systemLabel}
+          </Text>
+        ) : null}
       </YStack>
     </Anchor>
   </Link>
@@ -75,9 +80,7 @@ const NavLinks: React.FC<NavigationLinksViewProps> = ({
   </>
 )
 
-type NavigationDockViewProps = Omit<NavigationViewProps, 'controls'>
-
-export const NavigationDock: React.FC<NavigationDockViewProps> = ({
+export const NavigationDock: React.FC<NavigationController> = ({
   pending,
   pendingLabel,
   primaryLabel,

@@ -11,6 +11,7 @@
   --system-gutter: clamp(14px, 2vw, 32px);
   --mobile-dock-height: 64px;
   --mobile-utility-rail-height: 44px;
+  --mobile-archive-rail-height: 60px;
   --system-glass-surface: color-mix(in srgb, var(--surface-color) 82%, transparent);
   --system-glass-raised: color-mix(in srgb, var(--surface-raised-color) 88%, transparent);
   --system-glass-filter: blur(18px) saturate(1.18);
@@ -121,6 +122,18 @@ body,
   }
   to {
     transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes command-lens-mobile {
+  0%,
+  100% {
+    background-position: 0 0;
+    opacity: 0.28;
+  }
+  50% {
+    background-position: 8px -4px;
+    opacity: 0.38;
   }
 }
 
@@ -1278,7 +1291,7 @@ body,
   .system-route-dock {
     position: relative !important;
     z-index: 80;
-    grid-row: 3;
+    grid-row: 4;
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     width: 100%;
@@ -1303,7 +1316,7 @@ body,
   }
 
   .system-utility-rail-region {
-    grid-row: 4;
+    grid-row: 5;
   }
 
   .system-route-dock .system-nav-link:hover {
@@ -1353,7 +1366,9 @@ body,
   .system-workspace {
     grid-column: 1;
     grid-row: 2;
-    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    grid-template-rows:
+      auto minmax(0, 1fr) var(--mobile-archive-rail-height) auto
+      auto;
     height: 100%;
   }
 
@@ -1475,6 +1490,7 @@ body,
     );
     box-shadow: none;
     opacity: 0.34;
+    animation-name: command-lens-mobile;
   }
 
   .system-route-region::after {
@@ -1646,6 +1662,12 @@ body,
     flex-direction: column;
     width: 100%;
     gap: 12px;
+  }
+
+  .dossier-domain,
+  .dossier-domain > *,
+  .dossier-domain .panel-frame {
+    height: auto;
   }
 
   .panel-frame {
