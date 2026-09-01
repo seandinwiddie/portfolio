@@ -974,7 +974,7 @@ body,
 }
 
 .observatory-estate-link {
-  display: inline-flex;
+  display: inline-flex !important;
   min-height: 44px;
   align-items: center;
   color: var(--link-color);
@@ -1974,6 +1974,16 @@ body,
   .observatory-impact-grid,
   .observatory-metric-grid {
     grid-template-columns: 1fr;
+  }
+
+  .observatory-estate-presence {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .observatory-estate-presence > *:last-child {
+    width: 100%;
+    align-items: flex-start !important;
   }
 
   .observatory-metric-value-row {
