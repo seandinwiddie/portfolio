@@ -12,6 +12,8 @@ describe('bridge telemetry selectors', () => {
     })(TEST_RUNTIME_PRESENTATION.telemetry)
 
     expect(Object.keys(model)).toEqual(['feed', 'theme'])
+    expect(model.feed).toEqual({ label: 'GH + GOOGLE', value: 'LIVE' })
+    expect(`${model.feed.label} ${model.feed.value}`).toBe('GH + GOOGLE LIVE')
     expect(JSON.stringify(model)).not.toMatch(/fx|cinematic/i)
   })
 

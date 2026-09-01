@@ -58,16 +58,23 @@ script set without cache at the end; a changed set makes affected coverage
    install group; record visible/covered counts. Confirm pointer, keyboard focus,
    press, navigation, transition, and ambient-motion feedback remain functional.
    Repeated input must not trap focus, stack overlays, or impair navigation.
-   Record audible SFX `BLOCKED` when the harness cannot capture audio; use the
-   automated SFX checks as separate non-browser evidence.
+   In the desktop appearance matrix, confirm the API-authored Sound control
+   announces its current state and the action it will perform. Disable sound,
+   exercise representative pointer/press/route activity, and require every
+   visual light sweep and signal pulse to remain present. Re-enable sound before
+   continuing. Reload once after a visible toggle and confirm the selected state
+   restores without inspecting storage. Record audible SFX `BLOCKED` when the
+   harness cannot capture audio; use the automated SFX checks as separate
+   non-browser evidence.
 6. Capture visible `query-sync`, `query-resolve`, `route-transit`, and
    `query-fault` instrument pulses when those real lifecycle states occur; mark
    a naturally unreached state `BLOCKED` rather than manufacturing it. Across
    all six themes, correlate duration, intensity, geometry, and travel CSS
    variables with the observed API activity components, and require
    theme-coherent color with zero overflow or layout shift. Verify silence
-   before an allowed press gesture and attempt audio evidence only after that
-   gesture; use `BLOCKED` when the harness cannot capture sound.
+   before an allowed press gesture, silence while the visible Sound control is
+   disabled, and attempt enabled audio evidence only after a press gesture; use
+   `BLOCKED` when the harness cannot capture sound.
 7. Confirm the dashboard is meaningfully horizontal at desktop width without
    document-level horizontal overflow, clipped text, overlapping controls, or
    unreachable telemetry.
@@ -99,8 +106,11 @@ script set without cache at the end; a changed set makes affected coverage
    at mobile width. Motion, glow, blur, and glass effects must remain responsive
    and must not erase content contrast or cause blocking layout shifts. Repeat
    the route pulse and any naturally occurring query pulses, requiring zero
-   overflow or shell displacement. Report audible SFX with the gesture and
-   evidence limitations from desktop items 5 and 6.
+   overflow or shell displacement. Open the appearance drawer, require the same
+   API-authored Sound state/action labels and a 44x44 target, then repeat the
+   disable/visual-continuity/re-enable path without the drawer or control
+   exceeding 320px. Report audible SFX with the gesture and evidence limitations
+   from desktop items 5 and 6.
 
 ## Evidence and report
 

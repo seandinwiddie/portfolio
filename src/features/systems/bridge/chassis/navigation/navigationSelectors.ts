@@ -33,6 +33,7 @@ export type NavigationControls = {
   readonly brand: ReactNode
   readonly themeToggle: ReactNode
   readonly themeCustom: ReactNode
+  readonly soundPreference: ReactNode
 }
 
 export type NavigationViewProps = {

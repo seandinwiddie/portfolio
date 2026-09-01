@@ -192,6 +192,7 @@ const Nav: React.FC<NavigationViewProps> = ({
           </Text>
           {controls.themeToggle}
           {controls.themeCustom}
+          {controls.soundPreference}
         </YStack>
       ) : null}
     </YStack>
@@ -250,6 +251,7 @@ const Nav: React.FC<NavigationViewProps> = ({
         </Text>
         {controls.themeToggle}
         {controls.themeCustom}
+        {controls.soundPreference}
       </YStack>
     </YStack>
   </>

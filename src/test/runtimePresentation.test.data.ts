@@ -100,6 +100,12 @@ export const TEST_RUNTIME_PRESENTATION: RuntimePresentation = {
       failed: 'Test failed',
     },
   },
+  sound: {
+    enabledText: 'Test sound on',
+    disabledText: 'Test sound off',
+    enableLabel: 'Test enable sound',
+    disableLabel: 'Test disable sound',
+  },
   dossier: {
     eyebrow: 'Test dossier eyebrow',
     evidenceLabel: 'Test evidence',
@@ -189,7 +195,7 @@ export const TEST_RUNTIME_PRESENTATION: RuntimePresentation = {
       lastAction: 'last action',
       reducedMotion: 'reduced motion',
       viewport: 'viewport',
-      feed: 'github feed',
+      feed: 'GH + GOOGLE LIVE',
       theme: 'theme',
     },
     values: {
@@ -199,7 +205,7 @@ export const TEST_RUNTIME_PRESENTATION: RuntimePresentation = {
       units: 'units',
       loaded: 'loaded',
       actions: 'actions',
-      store: '5 slices · rtk query',
+      store: '6 slices · rtk query',
       noneYet: 'none yet',
       respected: 'respected',
       notRequested: 'not requested',

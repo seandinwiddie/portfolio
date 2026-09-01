@@ -8,6 +8,7 @@ import { readBrowserBuiltInThemeAtBoot } from './features/systems/bridge/spectru
 import { actionLogMiddleware } from './features/systems/substrate/observability/diagnostics/diagnosticsListeners'
 import './features/systems/bridge/console/buttonFx/buttonFxListeners'
 import './features/systems/bridge/chassis/signalActivity/signalActivityListeners'
+import './features/systems/bridge/console/soundPreference/soundPreferenceListeners'
 import './features/systems/bridge/spectrum/themeSelection/themeSelectionListeners'
 
 const rootReducer = combineReducers({

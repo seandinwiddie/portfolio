@@ -59,11 +59,20 @@ export const selectFeedLabel =
       ''
     )
 
+const selectFeedBaseLabel = (
+  presentation: RuntimeTelemetryPresentation | undefined
+): string => {
+  const label = presentation?.labels.feed ?? ''
+  const liveSuffix = ` ${presentation?.values.live ?? ''}`
+
+  return label.endsWith(liveSuffix) ? label.slice(0, -liveSuffix.length) : label
+}
+
 export const selectTelemetryViewModel =
   (theme: string, feed: FeedState) =>
   (presentation: RuntimeTelemetryPresentation | undefined): TelemetryViewProps => ({
     feed: {
-      label: presentation?.labels.feed ?? '',
+      label: selectFeedBaseLabel(presentation),
       value: selectFeedLabel(presentation)(feed),
     },
     theme: {

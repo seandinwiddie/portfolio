@@ -331,10 +331,20 @@ unnecessary surface changes. No franchise sound, name, visual asset, or sample
 enters the product.
 
 The same controls receive a theme-aware light sweep, focus treatment, and
-short press compression. No in-app Quiet, mute, FX-off, or persisted effects
-mode exists. Button feedback follows the explicit event -> listener -> adapter
-shape established by Therapy 11 without importing its game data or creating a
-second registry data authority.
+short press compression. Visual feedback is permanent and independent of audio.
+The API-authored Sound control changes only synthesized interface audio and is
+available in both the compact appearance drawer and desktop appearance matrix.
+Its dedicated serializable `soundPreference` slice defaults to enabled, stays
+silent while local restoration is pending, and records whether the current
+choice came from the default, storage, or a visitor event. A one-off composition
+effect reads the bounded `localStorage` value; RTK listener middleware persists
+future toggle events after the reducer owns the transition. Both `buttonFx` and
+`signalActivity` listeners consult the same playback selector, while their
+visual events and CSS projections continue regardless of the sound setting.
+Button feedback follows the explicit event -> reducer -> selector -> listener ->
+adapter shape established by Therapy 11 without importing its game data or
+creating a second registry data authority. All visible labels remain part of
+the API `presentation.runtime.sound` contract.
 
 ## Accessibility and UX acceptance criteria
 

@@ -25,7 +25,7 @@ export const CONCERN_TREE = {
       'telemetry',
       'utilityRail',
     ],
-    console: ['archiveControl', 'buttonFx', 'overlayMatrix'],
+    console: ['archiveControl', 'buttonFx', 'overlayMatrix', 'soundPreference'],
     spectrum: ['themeCustom', 'themeSelection'],
   },
 }
@@ -67,7 +67,7 @@ export const VIEW_TREE = {
   },
   bridge: {
     chassis: ['ambientScene', 'brandName', 'navigation', 'telemetry', 'utilityRail'],
-    console: ['archiveControl', 'themeCustom', 'themeToggle'],
+    console: ['archiveControl', 'soundPreference', 'themeCustom', 'themeToggle'],
   },
 }
 

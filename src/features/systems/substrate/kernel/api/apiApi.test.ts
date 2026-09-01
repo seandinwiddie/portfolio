@@ -26,6 +26,15 @@ describe('apiSlice', () => {
     })
     expect(result.data).toHaveProperty('themeCustom')
     expect(result.data?.presentation).toEqual(response.presentation)
+    expect(result.data?.presentation?.runtime.sound).toEqual({
+      enabledText: 'Test sound on',
+      disabledText: 'Test sound off',
+      enableLabel: 'Test enable sound',
+      disableLabel: 'Test disable sound',
+    })
+    expect(result.data?.presentation?.runtime.telemetry.labels.feed).toBe(
+      'GH + GOOGLE LIVE'
+    )
     expect(result.data).not.toHaveProperty('brandNameLoading')
     expect(result.data?.ambientScene.ids).toHaveLength(6)
     expect(result.data?.ambientScene.activity.ids).toEqual([

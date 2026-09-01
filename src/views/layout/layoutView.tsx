@@ -18,6 +18,7 @@ import { useLayoutComposition } from '../../features/systems/bridge/chassis/layo
 import { useNavigationComposition } from '../../features/systems/bridge/chassis/navigation/navigationThunks'
 import { useTelemetryComposition } from '../../features/systems/bridge/chassis/telemetry/telemetryThunks'
 import { useSignalActivityNavigation } from '../../features/systems/bridge/chassis/signalActivity/signalActivityThunks'
+import { useSoundPreferenceComposition } from '../../features/systems/bridge/console/soundPreference/soundPreferenceThunks'
 import { useErrorBoundaryComposition } from '../../features/systems/substrate/ui/presentation/errorBoundary/errorBoundaryThunks'
 import ErrorBoundary from '../aperture/errorBoundary/errorBoundaryView'
 import AmbientScene from '../bridge/chassis/ambientScene/ambientSceneView'
@@ -28,6 +29,7 @@ import Nav, { NavigationDock } from '../bridge/chassis/navigation/navigationView
 import Telemetry from '../bridge/chassis/telemetry/telemetryView'
 import ThemeCustom from '../bridge/console/themeCustom/themeCustomView'
 import ThemeToggle from '../bridge/console/themeToggle/themeToggleView'
+import SoundPreference from '../bridge/console/soundPreference/soundPreferenceView'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -63,6 +65,7 @@ const LayoutContent: React.FC = () => {
   const ambientScene = useAmbientSceneComposition()
   const telemetry = useTelemetryComposition()
   const archiveControl = useArchiveControlComposition()
+  const soundPreference = useSoundPreferenceComposition()
   useButtonFxComposition()
   useSignalActivityNavigation(layout.pathname)
   useRouteStageFocus(layout.pathname)
@@ -83,6 +86,7 @@ const LayoutContent: React.FC = () => {
                 brand: <BrandName {...brandName} />,
                 themeToggle: <ThemeToggle {...theme.toggle} />,
                 themeCustom: <ThemeCustom {...customTheme} />,
+                soundPreference: <SoundPreference {...soundPreference} />,
               }}
             />
             <YStack className="system-workspace" flex={1}>

@@ -74,6 +74,13 @@ export interface RuntimeThemePresentation {
   }>
 }
 
+export interface RuntimeSoundPresentation {
+  readonly enabledText: string
+  readonly disabledText: string
+  readonly enableLabel: string
+  readonly disableLabel: string
+}
+
 export interface RuntimeDossierPresentation {
   readonly eyebrow: string
   readonly evidenceLabel: string
@@ -160,6 +167,7 @@ export interface RuntimePresentation {
   readonly navigation: RuntimeNavigationPresentation
   readonly archiveControl: RuntimeArchivePresentation
   readonly theme: RuntimeThemePresentation
+  readonly sound: RuntimeSoundPresentation
   readonly dossier: RuntimeDossierPresentation
   readonly signalLattice: RuntimeSignalLatticePresentation
   readonly telemetry: RuntimeTelemetryPresentation

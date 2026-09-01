@@ -7,6 +7,7 @@ import {
   routeTransmissionResolved,
 } from '../../../../entities/bridge/chassis/signalActivity/signalActivitySlice'
 import { selectSignalActivityState } from '../../../../entities/bridge/chassis/signalActivity/signalActivitySelectors'
+import { selectSoundPlaybackEnabled } from '../../../../entities/bridge/console/soundPreference/soundPreferenceSelectors'
 import { apiSlice } from '../../../substrate/kernel/api/apiApi'
 import { startAppListening } from '../../../substrate/kernel/boot/bootListeners'
 import { playSignalActivityCue } from './signalActivityAdapters'
@@ -71,7 +72,9 @@ startAppListening({
     const state = api.getState()
     const world =
       apiSlice.endpoints.getInitialState.select()(state).data?.ambientScene ?? null
-    const cue = selectSignalActivityCue(world)(selectSignalActivityState(state))
+    const cue = selectSoundPlaybackEnabled(state)
+      ? selectSignalActivityCue(world)(selectSignalActivityState(state))
+      : null
 
     return match(fromNullable(cue), playSignalActivityCue, () => Promise.resolve())
   },
