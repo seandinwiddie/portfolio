@@ -31,3 +31,5 @@ make sure that port/api are both extremely strong extensive utilizers of the fp 
 make sure you are adding source code links in C:\Users\Sean Dinwiddie\GitHub\lectures to https://github.com/seandinwiddie/portfolio/blob/main/src/*
 
 the port/api servse two purposes: be a cool showpiece and be my software/web portfolio dashboard like a robinhood or seo dashboard to see my digital real estate performance etc
+
+deep audit https://developer.apple.com/design/ and https://m3.material.io/ and make sublte ui and ux improvements to the portfolio based on such without removing the game pop excitement and fun of the portfolio - it should feel like a well designed AAA game like doom eternal etc
