@@ -29,7 +29,10 @@ script set without cache at the end; a changed set makes affected coverage
 
 1. Open the root ingress and traverse every visible station: Nexus, Dossier,
    Missions, and Telemetry. Confirm navigation uses systems-console vocabulary,
-   accurately marks the active station, and never strands the operator.
+   accurately marks the active station, and never strands the operator. Confirm
+   the registry identity control returns to ingress. The visible shell must not
+   expose the retired `/home` route, generic Home/Welcome/Page navigation, or an
+   `FX CINEMATIC` status badge; effects themselves remain active.
 2. Confirm visible external controls open these exact destinations in a safe new
    tab: Forboc.ai -> `https://forboc.ai`; Lectures ->
    `https://seandinwiddie.github.io/lectures/`; Functional Programming Library
@@ -65,12 +68,18 @@ script set without cache at the end; a changed set makes affected coverage
 1. Repeat ingress and all four stations using only visible compact controls.
 2. Confirm every rendered interactive border box is at least 44 by 44 CSS pixels,
    center-hit-testable, labels remain readable, focus is visible, and the active
-   station is understandable without hover. Any exception is a `FAIL` and must
-   identify the exact control.
+   station is understandable without hover. The compact route dock must remain
+   above the utility rail at the bottom of the viewport and must never overlap
+   the top identity/appearance row. Any exception is a `FAIL` and must identify
+   the exact control. Audit the focus-only skip control by keyboard after it is
+   revealed; do not treat its intentionally hidden resting position as a failed
+   pointer target.
 3. Confirm ordinary vertical scrolling reaches every surfaced signal and action;
    there must be zero document-level horizontal overflow, panel collision,
    obscured fixed controls, or content hidden behind the shell. A contained
    contribution-calendar scroller may overflow only inside its own named region.
+   Clipped `aria-hidden` ambient geometry is not document overflow; record it
+   only if it enlarges a document or route scroll container.
 4. Exercise all six named themes and the same static/representative control scope
    at mobile width. Motion, glow, blur, and glass effects must remain responsive
    and must not erase content contrast or cause blocking layout shifts. Report
@@ -80,7 +89,10 @@ script set without cache at the end; a changed set makes affected coverage
 
 Start a Browser Harness recording before navigation and retain the exact returned
 directory. Save desktop and mobile full-page screenshots plus focused before/after
-evidence for theme and route transitions. Report:
+evidence for theme and route transitions. Because each `.system-screen` owns its
+vertical scroll independently of the fixed document, capture top and bottom
+screenshots for every station at both viewports; a document-level full-page image
+does not substitute for those scroll-container endpoints. Report:
 
 - release identity and final `PASS`/`FAIL`/`BLOCKED` result;
 - one evidence row per numbered item above;

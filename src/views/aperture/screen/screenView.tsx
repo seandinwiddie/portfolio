@@ -28,8 +28,11 @@ const Screen: React.FC<ScreenViewProps> = ({ children, className, center = false
     flex={1}
     contentContainerStyle={{
       flexGrow: 1,
+      width: '100%',
+      minWidth: 0,
+      maxWidth: '100%',
       justifyContent: center ? 'center' : 'flex-start',
-      alignItems: 'center',
+      alignItems: 'stretch',
       // Web spacing belongs to the responsive system bridge. Native retains a
       // compact fallback without becoming a second web layout authority.
       paddingVertical: Platform.OS === 'web' ? 0 : 16,

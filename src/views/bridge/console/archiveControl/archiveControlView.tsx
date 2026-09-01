@@ -151,6 +151,7 @@ const ArchiveControl: React.FC<ArchiveControlViewProps> = ({
         testID="archive-control-trigger"
         chromeless
         size="$2"
+        minHeight={44}
         backgroundColor="$surface"
         borderWidth={1}
         borderColor="$controlBorder"

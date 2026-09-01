@@ -44,6 +44,21 @@ describe('continuous visual effects', () => {
     expect(compact).toContain('padding-right: 0 !important')
   })
 
+  it('keeps the iPhone SE dock at the bottom and every persistent control tappable', () => {
+    const compact = system.slice(system.indexOf('@media (max-width: 1020px)'))
+    const phone = system.slice(system.indexOf('@media (max-width: 660px)'))
+
+    expect(compact).toContain('.system-route-dock {\n    position: fixed !important')
+    expect(phone).toContain(
+      '.system-route-dock .system-nav-secondary {\n    display: none !important'
+    )
+    expect(phone).toContain(
+      '[data-testid="archive-control-trigger"] {\n    min-height: 44px !important'
+    )
+    expect(phone).toContain('max-width: 100vw !important')
+    expect(phone).toContain('overflow-x: hidden !important')
+  })
+
   it('ships both navigation shells and lets media CSS own their visibility', () => {
     expect(system).toContain('.system-navigation--compact {\n  display: none !important;')
     expect(system).toContain('.system-navigation--rail {\n    display: none !important;')
