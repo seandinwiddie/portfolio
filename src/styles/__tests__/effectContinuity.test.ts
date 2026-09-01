@@ -48,7 +48,9 @@ describe('continuous visual effects', () => {
     const compact = system.slice(system.indexOf('@media (max-width: 1020px)'))
     const phone = system.slice(system.indexOf('@media (max-width: 660px)'))
 
-    expect(compact).toContain('.system-route-dock {\n    position: fixed !important')
+    expect(system).toContain('.system-skip-link {\n  position: fixed !important')
+    expect(compact).toContain('.system-route-dock {\n    position: relative !important')
+    expect(compact).toContain('grid-template-rows: auto minmax(0, 1fr) auto auto')
     expect(phone).toContain(
       '.system-route-dock .system-nav-secondary {\n    display: none !important'
     )

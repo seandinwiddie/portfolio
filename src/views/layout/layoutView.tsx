@@ -23,7 +23,7 @@ import AmbientScene from '../bridge/chassis/ambientScene/ambientSceneView'
 import ArchiveControl from '../bridge/console/archiveControl/archiveControlView'
 import BrandName from '../bridge/chassis/brandName/brandNameView'
 import UtilityRail from '../bridge/chassis/utilityRail/utilityRailView'
-import Nav from '../bridge/chassis/navigation/navigationView'
+import Nav, { NavigationDock } from '../bridge/chassis/navigation/navigationView'
 import Telemetry from '../bridge/chassis/telemetry/telemetryView'
 import ThemeCustom from '../bridge/console/themeCustom/themeCustomView'
 import ThemeToggle from '../bridge/console/themeToggle/themeToggleView'
@@ -98,6 +98,7 @@ const LayoutContent: React.FC = () => {
               >
                 <Slot />
               </YStack>
+              <NavigationDock {...navigation} />
               <YStack className="system-utility-rail-region">
                 <UtilityRail {...utilityRail} />
               </YStack>

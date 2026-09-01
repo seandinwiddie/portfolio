@@ -75,6 +75,37 @@ const NavLinks: React.FC<NavigationLinksViewProps> = ({
   </>
 )
 
+type NavigationDockViewProps = Omit<NavigationViewProps, 'controls'>
+
+export const NavigationDock: React.FC<NavigationDockViewProps> = ({
+  pending,
+  pendingLabel,
+  primaryLabel,
+  nexus,
+  dossier,
+  missions,
+  telemetry,
+  onNavigate,
+}) => (
+  <XStack
+    tag="nav"
+    aria-label={pending ? pendingLabel : primaryLabel}
+    aria-busy={pending}
+    className="system-route-dock"
+    alignItems="stretch"
+    width="100%"
+  >
+    <NavLinks
+      nexus={nexus}
+      dossier={dossier}
+      missions={missions}
+      telemetry={telemetry}
+      presentation="dock"
+      onNavigate={onNavigate}
+    />
+  </XStack>
+)
+
 /**
  * Desktop uses a vertical command rail. Compact screens retain a small brand
  * bar and expose appearance controls in a drawer while routes remain reachable
@@ -159,17 +190,6 @@ const Nav: React.FC<NavigationViewProps> = ({
           {controls.themeCustom}
         </YStack>
       ) : null}
-
-      <XStack className="system-route-dock" alignItems="stretch" width="100%">
-        <NavLinks
-          nexus={nexus}
-          dossier={dossier}
-          missions={missions}
-          telemetry={telemetry}
-          presentation="dock"
-          onNavigate={onNavigate}
-        />
-      </XStack>
     </YStack>
 
     <YStack

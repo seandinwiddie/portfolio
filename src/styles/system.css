@@ -150,9 +150,13 @@ body,
   72% {
     opacity: 0.12;
   }
-  100% {
+  92% {
     opacity: 0;
     transform: translate3d(118%, 0, 0) skewX(-12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) skewX(0deg);
   }
 }
 
@@ -185,7 +189,7 @@ body,
 }
 
 .system-skip-link {
-  position: fixed;
+  position: fixed !important;
   top: max(8px, env(safe-area-inset-top));
   left: max(8px, env(safe-area-inset-left));
   z-index: 1000;
@@ -1272,13 +1276,12 @@ body,
   }
 
   .system-route-dock {
-    position: fixed !important;
+    position: relative !important;
     z-index: 80;
-    right: 0;
-    bottom: calc(var(--mobile-utility-rail-height) + env(safe-area-inset-bottom));
-    left: 0;
+    grid-row: 3;
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
     height: var(--mobile-dock-height);
     padding-inline: max(4px, env(safe-area-inset-left));
     background: var(--surface-raised-color);
@@ -1297,6 +1300,10 @@ body,
     min-height: 44px;
     height: var(--mobile-dock-height);
     padding: 4px 2px !important;
+  }
+
+  .system-utility-rail-region {
+    grid-row: 4;
   }
 
   .system-route-dock .system-nav-link:hover {
@@ -1346,6 +1353,8 @@ body,
   .system-workspace {
     grid-column: 1;
     grid-row: 2;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    height: 100%;
   }
 
   .system-canvas {
@@ -1454,9 +1463,17 @@ body,
   }
 
   .system-route-region::before {
-    top: 16%;
-    right: -72vw;
-    width: 150vw;
+    inset: 0;
+    width: auto;
+    aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+    background: repeating-radial-gradient(
+      circle at 116% 34%,
+      transparent 0 13%,
+      var(--accent-alpha-04) 13% 13.3%
+    );
+    box-shadow: none;
     opacity: 0.34;
   }
 
@@ -1744,7 +1761,14 @@ body,
   }
 
   .system-route-dock .system-nav-primary {
-    font-size: 10px;
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+
+  .system-route-dock .system-nav-link {
+    gap: 0 !important;
+    padding-right: 1px !important;
+    padding-left: 1px !important;
   }
 }
 
