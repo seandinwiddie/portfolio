@@ -4,10 +4,20 @@ import { join } from 'node:path'
 const stylesheet = (name: string): string =>
   readFileSync(join(process.cwd(), 'src', 'styles', name), 'utf8')
 
+const source = (...segments: readonly string[]): string =>
+  readFileSync(join(process.cwd(), 'src', ...segments), 'utf8')
+
 describe('continuous visual effects', () => {
   const app = stylesheet('app.css')
   const signal = stylesheet('signal.css')
   const system = stylesheet('system.css')
+  const navigationView = source(
+    'views',
+    'bridge',
+    'chassis',
+    'navigation',
+    'navigationView.tsx'
+  )
 
   it('keeps compact scene geometry visible', () => {
     expect(app).not.toMatch(/\.orbital-monolith\s*\{[^}]*display\s*:\s*none/su)
@@ -50,10 +60,13 @@ describe('continuous visual effects', () => {
 
     expect(system).toContain('.system-skip-link {\n  position: fixed !important')
     expect(system).toContain('z-index: 1000 !important')
-    expect(compact).toContain('.system-route-dock {\n    position: relative !important')
+    expect(navigationView).toContain('testID="route-dock"')
+    expect(compact).toContain(
+      ':is(.system-route-dock, [data-testid="route-dock"]) {\n    position: relative !important'
+    )
     expect(system).toContain('--mobile-archive-rail-height: 60px')
     expect(compact).toContain('var(--mobile-archive-rail-height)')
-    expect(compact).toContain('grid-row: 4')
+    expect(compact).toContain('grid-row: 4 !important')
     expect(compact).toContain('grid-row: 5')
     expect(compact).toContain('.system-route-region {\n    grid-row: 2')
     expect(phone).toContain('animation-name: command-lens-mobile')
@@ -61,9 +74,9 @@ describe('continuous visual effects', () => {
     expect(compact).toContain('max-width: calc(100% - 12px)')
     expect(phone).toContain('.telemetry-row-value {')
     expect(phone).toContain('overflow-wrap: anywhere')
-    expect(phone).toContain('font-size: 9px')
+    expect(phone).toContain('font-size: 9px !important')
     expect(phone).toContain(
-      '.system-route-dock .system-nav-secondary {\n    display: none !important'
+      ':is(.system-route-dock, [data-testid="route-dock"]) .system-nav-secondary {\n    display: none !important'
     )
     expect(phone).toContain(
       '[data-testid="archive-control-trigger"] {\n    min-height: 44px !important'

@@ -382,7 +382,7 @@ body,
 }
 
 .system-navigation-bar,
-.system-route-dock,
+:is(.system-route-dock, [data-testid="route-dock"]),
 .system-controls-drawer {
   display: none !important;
 }
@@ -1322,10 +1322,10 @@ body,
     min-height: 44px;
   }
 
-  .system-route-dock {
+  :is(.system-route-dock, [data-testid="route-dock"]) {
     position: relative !important;
     z-index: 80;
-    grid-row: 4;
+    grid-row: 4 !important;
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     width: 100%;
@@ -1339,7 +1339,7 @@ body,
     box-shadow: 0 -18px 50px var(--background-color);
   }
 
-  .system-route-dock .system-nav-link {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-link {
     display: flex !important;
     justify-content: center !important;
     width: 100%;
@@ -1353,46 +1353,51 @@ body,
     grid-row: 5;
   }
 
-  .system-route-dock .system-nav-link:hover {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-link:hover {
     transform: none;
   }
 
-  .system-route-dock .system-nav-link::before {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-link::before {
     inset: 0 12px auto;
     width: auto;
     height: 2px;
     transform: scaleX(0.3);
   }
 
-  .system-route-dock .system-nav-link[aria-current="page"]::before {
+  :is(.system-route-dock, [data-testid="route-dock"])
+    .system-nav-link[aria-current="page"]::before {
     transform: scaleX(1);
   }
 
-  .theme-neon .system-route-dock .system-nav-link[aria-current="page"]::before {
+  .theme-neon
+    :is(.system-route-dock, [data-testid="route-dock"])
+    .system-nav-link[aria-current="page"]::before {
     background: linear-gradient(90deg, var(--accent-color), var(--info-color));
     box-shadow: 0 0 8px var(--accent-color), 0 0 18px var(--info-color);
   }
 
-  .theme-ruby .system-route-dock .system-nav-link[aria-current="page"]::before {
+  .theme-ruby
+    :is(.system-route-dock, [data-testid="route-dock"])
+    .system-nav-link[aria-current="page"]::before {
     width: auto;
     background: linear-gradient(90deg, var(--foreground-color), var(--accent-color));
     box-shadow: 0 0 8px var(--foreground-color), 0 0 20px var(--accent-color);
   }
 
-  .system-route-dock .system-nav-index {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-index {
     display: none;
   }
 
-  .system-route-dock .system-nav-copy {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-copy {
     align-items: center;
     text-align: center;
   }
 
-  .system-route-dock .system-nav-primary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-primary {
     font-size: 11px;
   }
 
-  .system-route-dock .system-nav-secondary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-secondary {
     font-size: 8px;
     letter-spacing: 0.08em;
   }
@@ -1556,16 +1561,17 @@ body,
     word-break: break-word;
   }
 
-  .system-route-dock .system-nav-secondary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-secondary {
     display: none !important;
   }
 
-  .system-route-dock .system-nav-primary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-primary {
     display: block;
     max-width: 100%;
     overflow: hidden;
-    font-size: 9px;
-    letter-spacing: 0.02em;
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.02em !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1828,16 +1834,16 @@ body,
     white-space: nowrap;
   }
 
-  .system-route-dock .system-nav-secondary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-secondary {
     display: none;
   }
 
-  .system-route-dock .system-nav-primary {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-primary {
     font-size: 9px;
     letter-spacing: 0;
   }
 
-  .system-route-dock .system-nav-link {
+  :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-link {
     gap: 0 !important;
     padding-right: 1px !important;
     padding-left: 1px !important;
@@ -1849,7 +1855,7 @@ body,
     min-height: 36px;
   }
 
-  .system-route-dock {
+  :is(.system-route-dock, [data-testid="route-dock"]) {
     --mobile-dock-height: 56px;
   }
 }
@@ -1907,7 +1913,7 @@ body,
   .system-navigation,
   .system-telemetry-region .telemetry,
   .system-utility-rail-region footer,
-  .system-route-dock,
+  :is(.system-route-dock, [data-testid="route-dock"]),
   .system-controls-drawer,
   .panel-frame,
   .system-glass-surface,

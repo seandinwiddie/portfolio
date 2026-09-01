@@ -94,6 +94,7 @@ export const NavigationDock: React.FC<NavigationController> = ({
     tag="nav"
     aria-label={pending ? pendingLabel : primaryLabel}
     aria-busy={pending}
+    testID="route-dock"
     className="system-route-dock"
     alignItems="stretch"
     width="100%"
