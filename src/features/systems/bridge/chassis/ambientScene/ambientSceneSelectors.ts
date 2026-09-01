@@ -4,6 +4,11 @@ import type {
   SceneEntityId,
   SceneWorld,
 } from '../../../../components/bridge/chassis/ambientScene/ambientSceneTypes'
+import type { SignalActivityState } from '../../../../components/bridge/chassis/signalActivity/signalActivityTypes'
+import {
+  selectSignalActivityViewModel,
+  type SignalActivityViewProps,
+} from '../signalActivity/signalActivitySelectors'
 
 export type SceneStyle = React.CSSProperties &
   Record<`--scene-${string}`, string | number>
@@ -27,6 +32,7 @@ export type AmbientSceneViewProps = {
   readonly relayBeacon: SceneEntityViewModel | null
   readonly terminusHorizon: SceneEntityViewModel | null
   readonly surveyMonolith: SceneEntityViewModel | null
+  readonly signalActivity: SignalActivityViewProps | null
 }
 
 const assembleEntity = (world: SceneWorld, id: SceneEntityId): SceneEntity => ({
@@ -65,19 +71,19 @@ const selectOptionalEntityById = (
   return entity ? selectEntityViewModel(entity) : null
 }
 
-export const selectAmbientSceneViewModel = (
-  world: SceneWorld | null,
-  visible: boolean
-): AmbientSceneViewProps => {
-  const entities = world ? selectSceneEntities(world) : []
-  return {
-    visible: visible && Boolean(world),
-    className: 'orbital-scene orbital-scene-cinematic',
-    archiveOrbit: selectOptionalEntityById(entities, 'archive-orbit'),
-    registrySpine: selectOptionalEntityById(entities, 'registry-spine'),
-    pilgrimTransit: selectOptionalEntityById(entities, 'pilgrim-transit'),
-    relayBeacon: selectOptionalEntityById(entities, 'relay-beacon'),
-    terminusHorizon: selectOptionalEntityById(entities, 'terminus-horizon'),
-    surveyMonolith: selectOptionalEntityById(entities, 'survey-monolith'),
+export const selectAmbientSceneViewModel =
+  (world: SceneWorld | null, visible: boolean) =>
+  (activity: SignalActivityState): AmbientSceneViewProps => {
+    const entities = world ? selectSceneEntities(world) : []
+    return {
+      visible: visible && Boolean(world),
+      className: 'orbital-scene orbital-scene-cinematic',
+      archiveOrbit: selectOptionalEntityById(entities, 'archive-orbit'),
+      registrySpine: selectOptionalEntityById(entities, 'registry-spine'),
+      pilgrimTransit: selectOptionalEntityById(entities, 'pilgrim-transit'),
+      relayBeacon: selectOptionalEntityById(entities, 'relay-beacon'),
+      terminusHorizon: selectOptionalEntityById(entities, 'terminus-horizon'),
+      surveyMonolith: selectOptionalEntityById(entities, 'survey-monolith'),
+      signalActivity: selectSignalActivityViewModel(world)(activity),
+    }
   }
-}

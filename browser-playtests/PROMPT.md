@@ -4,9 +4,10 @@ Target: https://portfolio.sdin.dev/
 
 Test the deployed production application through ordinary visible controls.
 Do not inspect or mutate Redux state, storage, source code, hidden APIs, or the
-DOM to manufacture state. DOM measurement is allowed only to verify rendered
-layout, accessibility, and overflow. Capture console errors and failed network
-requests from first load onward.
+DOM to manufacture state. Read-only DOM/computed-style inspection is allowed
+only to verify rendered layout, accessibility, overflow, and activity CSS
+variables against the observed `/data` response. Capture console errors and
+failed network requests from first load onward.
 
 Use `PASS`, `FAIL`, `BLOCKED`, or `INVALID` exactly. A claim passes only when it
 was directly observed in this run. A changed production bundle or contaminated
@@ -59,7 +60,15 @@ script set without cache at the end; a changed set makes affected coverage
    Repeated input must not trap focus, stack overlays, or impair navigation.
    Record audible SFX `BLOCKED` when the harness cannot capture audio; use the
    automated SFX checks as separate non-browser evidence.
-6. Confirm the dashboard is meaningfully horizontal at desktop width without
+6. Capture visible `query-sync`, `query-resolve`, `route-transit`, and
+   `query-fault` instrument pulses when those real lifecycle states occur; mark
+   a naturally unreached state `BLOCKED` rather than manufacturing it. Across
+   all six themes, correlate duration, intensity, geometry, and travel CSS
+   variables with the observed API activity components, and require
+   theme-coherent color with zero overflow or layout shift. Verify silence
+   before an allowed press gesture and attempt audio evidence only after that
+   gesture; use `BLOCKED` when the harness cannot capture sound.
+7. Confirm the dashboard is meaningfully horizontal at desktop width without
    document-level horizontal overflow, clipped text, overlapping controls, or
    unreachable telemetry.
 
@@ -70,20 +79,28 @@ script set without cache at the end; a changed set makes affected coverage
    center-hit-testable, labels remain readable, focus is visible, and the active
    station is understandable without hover. The compact route dock must remain
    above the utility rail at the bottom of the viewport and must never overlap
-   the top identity/appearance row. Any exception is a `FAIL` and must identify
-   the exact control. Audit the focus-only skip control by keyboard after it is
-   revealed; do not treat its intentionally hidden resting position as a failed
-   pointer target.
+   the top identity/appearance row. Require `clientWidth >= scrollWidth` for
+   every compact dock label. The fixed Archive control must have zero geometric
+   overlap with the route dock. Any exception is a `FAIL` and must identify the
+   exact control. Audit the focus-only skip control by keyboard after it is
+   revealed: its computed stack must be above the compact navigation and its
+   center must hit itself. Do not treat its intentionally hidden resting
+   position as a failed pointer target.
 3. Confirm ordinary vertical scrolling reaches every surfaced signal and action;
    there must be zero document-level horizontal overflow, panel collision,
-   obscured fixed controls, or content hidden behind the shell. A contained
+   obscured fixed controls, or content hidden behind the shell. During ordinary
+   scroll traversal, center-hit-test each route control and require the Archive
+   control never intercept it. Require document, bridge, main, screen, and canvas
+   `scrollWidth` to remain at or below the 320px viewport. A contained
    contribution-calendar scroller may overflow only inside its own named region.
    Clipped `aria-hidden` ambient geometry is not document overflow; record it
    only if it enlarges a document or route scroll container.
 4. Exercise all six named themes and the same static/representative control scope
    at mobile width. Motion, glow, blur, and glass effects must remain responsive
-   and must not erase content contrast or cause blocking layout shifts. Report
-   audible SFX with the evidence limitation from desktop item 5.
+   and must not erase content contrast or cause blocking layout shifts. Repeat
+   the route pulse and any naturally occurring query pulses, requiring zero
+   overflow or shell displacement. Report audible SFX with the gesture and
+   evidence limitations from desktop items 5 and 6.
 
 ## Evidence and report
 

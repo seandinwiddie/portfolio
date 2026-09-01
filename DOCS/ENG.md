@@ -132,6 +132,17 @@ receive prepared props and must not invent store or network authority.
 The ambient scene is ECS data supplied by the API, projected by systems, and
 rendered by views. JSX must not become the world-data source.
 
+Signal activity extends that world with API-authored visual and acoustic
+component tables. RTK Query pending, fulfilled, and rejected lifecycles plus
+resolved route transitions dispatch semantic events into a small serializable
+`activeId`/`sequence` slice. Pure FP selectors join that ephemeral identity to
+the API ECS tables; the ambient view remounts one bounded instrument pulse, and
+listener middleware schedules its low-gain cue through the press-armed Web Audio
+bus with at most two concurrent voices and deterministic node cleanup. The flow
+stays `event -> reducer -> selector -> view/listener -> adapter`:
+no interval fabricates activity, no server document is copied into a client
+slice, and absent API configuration produces no invented local fallback.
+
 Diagnostics are Redux-owned, serializable, and bounded to the 30 newest observed
 actions. The observation middleware must ignore its own diagnostics events, and
 status projections must not create an unbounded action list or permanent hidden
@@ -396,6 +407,7 @@ automated contracts above:
 | Immediate feed projection | Correlate API completion with FEED LIVE, trace, and plate paint over repeated cold runs; fulfilled data must not wait in a mirrored client state. |
 | Console keyboard flow | Use a physical keyboard to open the deck, run consecutive commands without refocusing, close from the focused input with Escape, and confirm focus returns to the trigger. |
 | Button feedback | Hover and press representative buttons in every theme; require distinct deterministic RTK cue identities, no hover-time audio unlock, one press acknowledgement, original control behavior, and a silent safe path when Web Audio is unavailable. |
+| Signal activity | Correlate route transitions and RTK Query pending/fulfilled/rejected actions with the matching API-authored pulse and low-gain cue; audio remains silent before the first permitted visitor gesture, and reduced-motion/forced-color modes retain a bounded response instead of disabling the layer. |
 | Contrast | Measure computed/composited label, value, focus, and control colors in every theme against the required ratios. |
 | Responsive reach | At 320x568, 375x667, 568x320, 800px, 1024px, and desktop widths, require zero document overflow and reach the nav, dock, QR, plate, utility rail, theme control, and console by ordinary scrolling. |
 | Route semantics | Inspect served and hydrated titles, direct unknown-route handling, real links, normal new-tab behavior, and one history push per navigation. |

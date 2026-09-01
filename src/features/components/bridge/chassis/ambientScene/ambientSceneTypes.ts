@@ -1,3 +1,5 @@
+import type { SignalActivityWorld } from '../signalActivity/signalActivityTypes'
+
 export type SceneEntityId =
   | 'archive-orbit'
   | 'registry-spine'
@@ -43,4 +45,5 @@ export type SceneWorld = {
   readonly positions: Readonly<Record<SceneEntityId, PositionComponent>>
   readonly visuals: Readonly<Record<SceneEntityId, VisualComponent>>
   readonly motions: Readonly<Record<SceneEntityId, MotionComponent>>
+  readonly activity: SignalActivityWorld
 }

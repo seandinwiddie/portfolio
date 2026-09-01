@@ -19,6 +19,7 @@ const AmbientScene: React.FC<AmbientSceneViewProps> = ({
   relayBeacon,
   terminusHorizon,
   surveyMonolith,
+  signalActivity,
 }) =>
   visible ? (
     <div className={className} aria-hidden="true">
@@ -29,6 +30,15 @@ const AmbientScene: React.FC<AmbientSceneViewProps> = ({
       <Entity entity={relayBeacon} />
       <Entity entity={terminusHorizon} />
       <Entity entity={surveyMonolith} />
+      {signalActivity ? (
+        <span
+          key={`${signalActivity.id}:${signalActivity.sequence}`}
+          className={signalActivity.className}
+          data-signal-activity={signalActivity.id}
+          data-signal-sequence={signalActivity.sequence}
+          style={signalActivity.style}
+        />
+      ) : null}
     </div>
   ) : null
 

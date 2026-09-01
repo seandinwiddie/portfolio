@@ -1,0 +1,136 @@
+/* Real RTK Query and route events energize this API-authored instrument layer. */
+.orbital-signal-activity {
+  position: absolute;
+  left: var(--signal-activity-x);
+  top: var(--signal-activity-y);
+  width: var(--signal-activity-spread);
+  height: var(--signal-activity-spread);
+  pointer-events: none;
+  color: var(--signal-color, var(--accent-color));
+  opacity: 0;
+  transform-origin: center;
+  animation-duration: var(--signal-activity-duration);
+  animation-timing-function: cubic-bezier(0.16, 0.84, 0.24, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+.orbital-signal-sync {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor 45% 55%, transparent);
+  box-shadow: 0 0 12px currentColor;
+  animation-name: orbital-signal-sync;
+}
+
+.orbital-signal-resolve {
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  box-shadow: inset 0 0 18px var(--accent-alpha-09), 0 0 20px var(--accent-alpha-09);
+  animation-name: orbital-signal-resolve;
+}
+
+.orbital-signal-transit {
+  height: 3px;
+  clip-path: polygon(0 45%, 78% 0, 100% 50%, 78% 100%, 0 55%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    currentColor 72%,
+    var(--foreground-color)
+  );
+  filter: drop-shadow(0 0 7px currentColor);
+  animation-name: orbital-signal-transit;
+}
+
+.orbital-signal-fault {
+  border: 1px solid var(--error-color, currentColor);
+  color: var(--error-color, currentColor);
+  clip-path: polygon(0 18%, 82% 0, 100% 72%, 20% 100%);
+  animation-name: orbital-signal-fault;
+}
+
+@keyframes orbital-signal-sync {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(calc(var(--signal-activity-travel) * -0.5)) scaleX(0.25);
+  }
+  22% {
+    opacity: var(--signal-activity-intensity);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(var(--signal-activity-travel)) scaleX(1.15);
+  }
+}
+
+@keyframes orbital-signal-resolve {
+  0% {
+    opacity: var(--signal-activity-intensity);
+    transform: rotate(var(--signal-activity-rotation)) scale(0.18);
+  }
+  72% {
+    opacity: calc(var(--signal-activity-intensity) * 0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(calc(var(--signal-activity-travel) * 0.12)) scale(1.45);
+  }
+}
+
+@keyframes orbital-signal-transit {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(calc(var(--signal-activity-travel) * -1));
+  }
+  34% {
+    opacity: var(--signal-activity-intensity);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(var(--signal-activity-travel));
+  }
+}
+
+@keyframes orbital-signal-fault {
+  0%,
+  100% {
+    opacity: 0;
+    transform: rotate(var(--signal-activity-rotation)) scale(0.94);
+  }
+  28%,
+  62% {
+    opacity: var(--signal-activity-intensity);
+    transform: rotate(var(--signal-activity-rotation))
+      translateX(calc(var(--signal-activity-travel) * 0.08)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-signal-activity {
+    animation-name: orbital-signal-reduced !important;
+    animation-duration: calc(var(--signal-activity-duration) * 0.45) !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .orbital-signal-activity {
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}
+
+@keyframes orbital-signal-reduced {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: calc(var(--signal-activity-intensity) * 0.35);
+  }
+}

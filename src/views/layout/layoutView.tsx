@@ -17,6 +17,7 @@ import { useUtilityRailComposition } from '../../features/systems/bridge/chassis
 import { useLayoutComposition } from '../../features/systems/bridge/chassis/layout/layoutThunks'
 import { useNavigationComposition } from '../../features/systems/bridge/chassis/navigation/navigationThunks'
 import { useTelemetryComposition } from '../../features/systems/bridge/chassis/telemetry/telemetryThunks'
+import { useSignalActivityNavigation } from '../../features/systems/bridge/chassis/signalActivity/signalActivityThunks'
 import { useErrorBoundaryComposition } from '../../features/systems/substrate/ui/presentation/errorBoundary/errorBoundaryThunks'
 import ErrorBoundary from '../aperture/errorBoundary/errorBoundaryView'
 import AmbientScene from '../bridge/chassis/ambientScene/ambientSceneView'
@@ -63,6 +64,7 @@ const LayoutContent: React.FC = () => {
   const telemetry = useTelemetryComposition()
   const archiveControl = useArchiveControlComposition()
   useButtonFxComposition()
+  useSignalActivityNavigation(layout.pathname)
   useRouteStageFocus(layout.pathname)
 
   return (

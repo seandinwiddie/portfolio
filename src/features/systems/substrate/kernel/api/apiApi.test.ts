@@ -28,6 +28,12 @@ describe('apiSlice', () => {
     expect(result.data?.presentation).toEqual(response.presentation)
     expect(result.data).not.toHaveProperty('brandNameLoading')
     expect(result.data?.ambientScene.ids).toHaveLength(6)
+    expect(result.data?.ambientScene.activity.ids).toEqual([
+      'query-sync',
+      'query-resolve',
+      'route-transit',
+      'query-fault',
+    ])
     expect(result.data?.source).toBe('network')
   })
 

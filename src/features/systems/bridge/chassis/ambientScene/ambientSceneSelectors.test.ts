@@ -1,4 +1,5 @@
 import { TEST_AMBIENT_SCENE } from '../../../../../test/apiPayload.test.data'
+import { initialSignalActivityState } from '../../../../entities/bridge/chassis/signalActivity/signalActivitySlice'
 import { selectAmbientSceneViewModel, selectSceneEntities } from './ambientSceneSelectors'
 
 describe('always-cinematic ambient scene projection', () => {
@@ -7,11 +8,15 @@ describe('always-cinematic ambient scene projection', () => {
   })
 
   it('keeps the scene visible without an in-app FX-off mode', () => {
-    const model = selectAmbientSceneViewModel(TEST_AMBIENT_SCENE, true)
+    const model = selectAmbientSceneViewModel(
+      TEST_AMBIENT_SCENE,
+      true
+    )(initialSignalActivityState)
 
     expect(model.visible).toBe(true)
     expect(model.className).toContain('cinematic')
     expect(model.pilgrimTransit).not.toBeNull()
     expect(model.surveyMonolith).not.toBeNull()
+    expect(model.signalActivity).toBeNull()
   })
 })

@@ -192,6 +192,9 @@ const readHoverContext = (): Promise<AudioContext | null> =>
     unavailableContext
   )
 
+/** Shared browser audio bus after a visitor gesture has unlocked playback. */
+export const readArmedAudioContext = readHoverContext
+
 const contextByInteraction = {
   hover: readHoverContext,
   press: acquirePressContext,

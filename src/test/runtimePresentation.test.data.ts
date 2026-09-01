@@ -199,7 +199,7 @@ export const TEST_RUNTIME_PRESENTATION: RuntimePresentation = {
       units: 'units',
       loaded: 'loaded',
       actions: 'actions',
-      store: '4 slices · rtk query',
+      store: '5 slices · rtk query',
       noneYet: 'none yet',
       respected: 'respected',
       notRequested: 'not requested',

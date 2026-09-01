@@ -21,6 +21,7 @@ export const CONCERN_TREE = {
       'brandName',
       'layout',
       'navigation',
+      'signalActivity',
       'telemetry',
       'utilityRail',
     ],
