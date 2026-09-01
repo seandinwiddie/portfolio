@@ -2,8 +2,9 @@ flowchart TD
     A["api.sdin.dev authored JSON"] --> B["RTK Query API boundary"]
     G["GitHub upstream data"] --> B
     B --> C["RTK Query document cache"]
-    C --> D["Listener middleware projections"]
-    D --> E["Entity slices"]
-    E --> F["Pure selectors"]
+    C --> D["Feature compositions with selectFromResult"]
+    D --> F["Pure selectors"]
     F --> H["Prop-only views"]
     I["Canonical presentation profiles"] --> F
+    J["Preference and interaction events"] --> K["Listener middleware"]
+    K --> L["Persistence and audiovisual FX boundaries"]

@@ -25,7 +25,7 @@ export const draculaPalette = {
   functionalPurple: '#815CD6',
 } as const
 
-export const DRACULA_REVISION = 'b1f9d35242a1a7ac3e45f3ad34843ffab700f8d2'
+export const DRACULA_REVISION = 'ac4c351c763aeca2cc093b8ae77a6c3160bb1125'
 
 const surfaces = [
   draculaPalette.background,

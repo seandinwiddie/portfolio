@@ -1,5 +1,9 @@
-import type { InitialStateResponse } from '../features/components/platform/foundation/api/apiTypes'
-import type { SceneWorld } from '../features/components/shell/frame/ambientScene/ambientSceneTypes'
+import type {
+  InitialStateResponse,
+  RegistryPresentation,
+} from '../features/components/substrate/kernel/api/apiTypes'
+import type { SceneWorld } from '../features/components/bridge/chassis/ambientScene/ambientSceneTypes'
+import { TEST_RUNTIME_PRESENTATION } from './runtimePresentation.test.data'
 
 export const TEST_AMBIENT_SCENE: SceneWorld = {
   ids: [
@@ -44,18 +48,149 @@ export const TEST_AMBIENT_SCENE: SceneWorld = {
   },
 }
 
-export const TEST_INITIAL_STATE: InitialStateResponse = {
+export const TEST_INITIAL_STATE: InitialStateResponse & {
+  readonly presentation: RegistryPresentation
+} = {
   brandName: 'Test Brand',
   description: 'Test Description',
   iniTheme: 'light',
-  portfolioFeatures: [
+  registryCapabilities: [
     { id: '1', title: 'Test Feature', description: 'Test Feature Description' },
   ],
-  appProcedures: [
+  operatingProtocols: [
     { id: '1', title: 'Test Procedure', description: 'Test Procedure Description' },
   ],
   themeCustom: { customThemeName: null },
-  brandNameLoading: { isLoading: true },
-  about: null,
+  dossier: null,
   ambientScene: TEST_AMBIENT_SCENE,
+  presentation: {
+    metadata: {
+      registryName: 'Test Registry',
+      titleSuffix: ' — Test Owner',
+      defaultDescription: 'Test default description',
+      routes: {
+        ingress: { title: 'Test Ingress', description: 'Test ingress description' },
+        nexus: { title: 'Test Nexus', description: 'Test nexus description' },
+        dossier: { title: 'Test Dossier', description: 'Test dossier description' },
+        missions: { title: 'Test Missions', description: 'Test missions description' },
+        telemetry: { title: 'Test Telemetry', description: 'Test telemetry description' },
+        lostSignal: { title: 'Test missing', description: 'Test missing description' },
+      },
+    },
+    ingress: {
+      eyebrow: 'Test eyebrow',
+      identityLabel: 'Test identity',
+      name: 'Test Name',
+      statement: 'Test statement',
+      accessLabel: 'Test access',
+      accessCountLabel: 'Test links',
+      unitClass: 'Test class',
+      ctas: [
+        { href: '/missions', label: 'Test missions' },
+        { href: '/dossier', label: 'Test dossier' },
+        { href: '/telemetry', label: 'Test telemetry' },
+      ],
+      install: {
+        webUrl: 'https://example.com',
+        nativeUrl: null,
+        webTitle: 'Test web title',
+        webDescription: 'Test web description',
+        nativeTitle: 'Test native title',
+        nativeDescription: 'Test native description',
+      },
+    },
+    nexus: {
+      eyebrow: 'Test nexus eyebrow',
+      headline: 'Test nexus headline',
+      statement: 'Test nexus statement',
+      presenceLabel: 'Test presence label',
+      presences: [{ id: 'test', url: 'https://example.com', label: 'example.com' }],
+    },
+    missions: {
+      eyebrow: 'Test mission eyebrow',
+      headline: 'Test missions',
+      statement: 'Test mission statement',
+      loadingLabel: 'Test mission sync',
+      errorLabel: 'Test mission unavailable',
+      partialLabel: 'Test mission partial',
+      partialDetail: 'Test mission retry',
+      staleLabel: 'Test mission stale',
+      staleDetail: 'Test mission reconnect',
+      panels: {
+        contributions: 'Test contribution panel',
+        recorder: 'Test recorder panel',
+        activity: 'Test activity panel',
+        languages: 'Test languages panel',
+      },
+      metrics: {
+        repositories: 'Test repositories',
+        languages: 'Test languages',
+        events: 'Test events',
+        followers: 'Test followers',
+      },
+      copy: {
+        activityKinds: {
+          push: { singular: 'push', plural: 'pushes' },
+          issue: { singular: 'issue', plural: 'issues' },
+          pull_request: { singular: 'pull request', plural: 'pull requests' },
+          issue_comment: { singular: 'issue comment', plural: 'issue comments' },
+        },
+        today: 'today',
+        yesterday: 'yesterday',
+        daysAgoUnit: 'days ago',
+        monthsAgoUnit: 'months ago',
+        yearsAgoUnit: 'years ago',
+        changeKind: 'change',
+        updatedPrefix: 'Updated',
+        indexedUnit: 'indexed',
+        annualUnit: '/ yr',
+        eventsUnit: 'events',
+        publicEventsPrefix: 'public events since',
+        inUseUnit: 'in use',
+        repositoriesUnit: 'repos',
+        starPrefix: '★',
+      },
+    },
+    observatory: {
+      eyebrow: 'Test signal array',
+      headline: 'Test observatory',
+      statement: 'Test aggregate statement',
+      impactLabel: 'Test impact',
+      presenceLabel: 'Test presence',
+      analyticsLabel: 'Test audience',
+      discoveryLabel: 'Test discovery',
+      windowLabel: 'Test window',
+      baselineLabel: 'Test baseline',
+      liveLabel: 'Test live',
+      checkedLabel: 'Test observed',
+      syncLabel: 'Test synchronizing',
+      emptyLabel: 'Test baseline recorded',
+      partialLabel: 'Test partial',
+      staleLabel: 'Test stale',
+      unavailableLabel: 'Test unavailable',
+      unconfiguredLabel: 'Test unconfigured',
+      metrics: {
+        activeUsers: 'Test active audience',
+        sessions: 'Test sessions',
+        views: 'Test views',
+        clicks: 'Test arrivals',
+        impressions: 'Test appearances',
+        ctr: 'Test discovery rate',
+        position: 'Test discovery position',
+        followers: 'Test followers',
+        repositories: 'Test systems',
+        contributions: 'Test output',
+      },
+    },
+    utilityRail: {
+      links: [{ id: 'test-repo', url: 'https://example.com/repo', label: 'Test repo' }],
+    },
+    lostSignal: {
+      eyebrow: 'Test void',
+      headline: 'Test missing',
+      statement: 'Test coordinate',
+      actionLabel: 'Test return',
+    },
+    runtime: TEST_RUNTIME_PRESENTATION,
+  },
 }

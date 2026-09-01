@@ -37,7 +37,7 @@ body.theme-light {
   opacity: 1;
 }
 
-.orbital-shell {
+.orbital-bridge {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -49,7 +49,7 @@ body.theme-light {
     ), var(--background-color);
 }
 
-.orbital-shell > :not(.orbital-scene) {
+.orbital-bridge > :not(.orbital-scene) {
   position: relative;
   z-index: 2;
 }
@@ -191,10 +191,25 @@ body.theme-light {
   transition: border-color 160ms ease, color 160ms ease, background-color 160ms ease;
 }
 
-.registry-link::after {
-  content: "↗";
+.registry-link-arrow {
+  position: relative;
+  z-index: 1;
   margin-left: 1rem;
   color: var(--accent-color);
+}
+
+.theme-custom-feedback {
+  margin: 5px 2px 0;
+  color: var(--muted-text-color);
+  line-height: 1.4;
+}
+
+.theme-custom-feedback-success {
+  color: var(--success-text-color);
+}
+
+.theme-custom-feedback-error {
+  color: var(--error-text-color);
 }
 
 .flight-recorder {
@@ -205,7 +220,7 @@ body.theme-light {
   border-bottom: 1px solid var(--border-alpha-72);
 }
 
-.flight-recorder-row:hover {
+.flight-recorder-row:focus-within {
   background: var(--accent-alpha-05);
 }
 
@@ -223,15 +238,33 @@ body.theme-light {
   border: 0;
 }
 
+.archive-control-dialog::backdrop {
+  background: color-mix(in srgb, var(--background-color) 72%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 @keyframes route-resolve {
   from {
     opacity: 0;
-    transform: translateY(10px);
-    filter: blur(5px);
+    transform: translateX(18px) scale(0.992);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0) scale(1);
     filter: blur(0);
   }
 }
@@ -297,16 +330,23 @@ body.theme-light {
 }
 
 /* Day-shift is an architectural drawing, not a dimmed CRT. */
-.theme-light .orbital-shell {
+.theme-light .orbital-bridge {
   background: linear-gradient(var(--border-alpha-30) 1px, transparent 1px),
     linear-gradient(90deg, var(--border-alpha-30) 1px, transparent 1px),
     var(--background-color);
   background-size: 42px 42px;
 }
 
-.theme-light .orbital-stars,
+.theme-light .orbital-stars {
+  display: block;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+}
+
 .theme-light .crt-grain::after {
-  display: none;
+  display: block;
+  opacity: 0.12;
+  mix-blend-mode: multiply;
 }
 
 @media (max-width: 660px) {
@@ -318,7 +358,12 @@ body.theme-light {
     left: 2%;
   }
   .orbital-monolith {
-    display: none;
+    top: 12% !important;
+    left: 88% !important;
+    width: 18px !important;
+    height: 104px !important;
+    min-width: 18px;
+    min-height: 104px;
   }
 }
 

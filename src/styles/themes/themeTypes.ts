@@ -1,4 +1,11 @@
-export const BUILT_IN_THEME_IDS = ['dark', 'dracula', 'light', 'mirage', 'neon'] as const
+export const BUILT_IN_THEME_IDS = [
+  'dark',
+  'dracula',
+  'light',
+  'mirage',
+  'neon',
+  'ruby',
+] as const
 
 export const CUSTOM_THEME_ID = 'custom' as const
 

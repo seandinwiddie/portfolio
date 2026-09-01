@@ -1,0 +1,68 @@
+/* Checked projection of the original Ruby Crystal profile in rubyCrystalThemeProfile.ts. */
+/* biome-ignore format: Preserve authored palette hex casing. */
+.theme-ruby {
+  --theme-label: "Ruby Crystal";
+  --background-color: #090507;
+  --surface-color: #14080D;
+  --surface-raised-color: #241018;
+  --overlay-color: #050203;
+  --foreground-color: #FFF0F2;
+  --text-color: #FFF0F2;
+  --muted-color: #A5717E;
+  --muted-text-color: #A5717E;
+  --muted-ui-color: #7B3547;
+  --border-color: #7D1D36;
+  --border-alpha-30: #7D1D364D;
+  --border-alpha-72: #7D1D36B8;
+  --control-border-color: #9A4B5F;
+  --accent-color: #FF335F;
+  --accent-alpha-04: #FF335F0A;
+  --accent-alpha-05: #FF335F0D;
+  --accent-alpha-09: #FF335F17;
+  --accent-alpha-13: #FF335F21;
+  --accent-alpha-22: #FF335F38;
+  --accent-alpha-38: #FF335F61;
+  --accent-foreground-color: #090507;
+  --link-color: #FF7893;
+  --link-hover-color: #FFC2CF;
+  --selection-background: #FF335F38;
+  --selection-color: #FF335F38;
+  --line-highlight-color: #71183166;
+  --gutter-color: #A5717E;
+  --focus-color: #FF335F;
+  --control-background-color: #8F1533;
+  --control-hover-background-color: #5B1025;
+  --control-foreground-color: #FFF4F5;
+  --error-color: #FF4964;
+  --error-text-color: #FF4964;
+  --warning-color: #FFB36B;
+  --warning-text-color: #FFB36B;
+  --success-color: #67E1B0;
+  --success-text-color: #67E1B0;
+  --info-color: #82CFFF;
+  --info-text-color: #82CFFF;
+  --signal-color: #FF335F;
+  --danger-color: #FF4964;
+  --tag-color: #FF9AAE;
+  --function-color: #82CFFF;
+  --entity-color: #FF4964;
+  --string-color: #FFB36B;
+  --regexp-color: #FF7893;
+  --markup-color: #FF335F;
+  --keyword-color: #FF9AAE;
+  --special-color: #FF335F;
+  --comment-color: #A5717E;
+  --constant-color: #FF7893;
+  --operator-color: #FFB36B;
+  --contribution-step-0: #270B14;
+  --contribution-step-1: #5D1526;
+  --contribution-step-2: #931F39;
+  --contribution-step-3: #C9294C;
+  --contribution-step-4: #FF335F;
+  --visualization-axis-color: #A5717E;
+  --card-background: #14080D;
+  --theme-icon: 💎;
+  --fx-opacity: 0.66;
+
+  color-scheme: dark;
+}

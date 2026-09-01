@@ -46,7 +46,7 @@ const unexpected = (relativePath, actual, allowed, label) =>
 const featureStructureViolations = (bucket) => {
   const pillars = Object.keys(CONCERN_TREE)
   return [
-    ...unexpected(bucket, subdirs(bucket), pillars, 'portfolio design pillar'),
+    ...unexpected(bucket, subdirs(bucket), pillars, 'registry design pillar'),
     ...subdirs(bucket).flatMap((pillar) => {
       const branches = CONCERN_TREE[pillar]
       if (!branches) return []
@@ -136,7 +136,7 @@ export const runFanOutCheck = () => {
   console.log(
     total > 0
       ? `Fan-out check failed: ${findings.fanOut.length} node(s) over the ${MAX_SUBNODES}-subnode budget (aim for ~${SWEET_SPOT}), ${findings.structure.length} off-tree folder(s).`
-      : `Fan-out check passed: every owned node holds at most ${MAX_SUBNODES} direct subnodes and the declared portfolio concern tree matches the source tree.`
+      : `Fan-out check passed: every owned node holds at most ${MAX_SUBNODES} direct subnodes and the declared registry concern tree matches the source tree.`
   )
   return Number(total > 0)
 }

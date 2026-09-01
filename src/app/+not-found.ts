@@ -1,1 +1,1 @@
-export { default } from '../views/notFound/notFoundView'
+export { default } from '../views/lostSignal/lostSignalView'

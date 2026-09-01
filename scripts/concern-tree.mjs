@@ -1,23 +1,31 @@
-// Canonical portfolio concern tree. It preserves therapy-11's pillar -> branch
-// -> domain topology while using the portfolio's own bounded concerns. Runtime
-// authored data remains intentionally different: portfolio domains receive it
+// Canonical registry concern tree. It preserves therapy-11's pillar -> branch
+// -> domain topology while using the registry's own bounded concerns. Runtime
+// authored data remains intentionally different: registry domains receive it
 // through the system API/RTK Query boundary, never from a local data catalog.
 export const CONCERN_TREE = {
-  portfolio: {
-    profile: ['about', 'body', 'content', 'home', 'welcome'],
-    projects: ['projects'],
-    diagnostics: ['status'],
-    routing: ['notFound'],
+  registry: {
+    dossier: ['ingress', 'manifest', 'nexus', 'records'],
+    missions: ['operations'],
+    observatory: ['signalArray'],
+    telemetry: ['diagnostics'],
+    wayfinding: ['lostSignal'],
   },
-  platform: {
-    foundation: ['api', 'boot', 'composition'],
+  substrate: {
+    kernel: ['api', 'boot', 'composition'],
     observability: ['diagnostics'],
     ui: ['presentation'],
   },
-  shell: {
-    frame: ['ambientScene', 'brandName', 'layout', 'navigation', 'telemetry'],
-    controls: ['archiveControl', 'experience'],
-    themes: ['themeCustom', 'themeSelection'],
+  bridge: {
+    chassis: [
+      'ambientScene',
+      'brandName',
+      'layout',
+      'navigation',
+      'telemetry',
+      'utilityRail',
+    ],
+    console: ['archiveControl', 'buttonFx', 'overlayMatrix'],
+    spectrum: ['themeCustom', 'themeSelection'],
   },
 }
 
@@ -25,40 +33,40 @@ export const CONCERN_TREE = {
 // reusable presentation domains below them still use the same bounded concern
 // branches as the feature tree.
 export const VIEW_TREE = {
-  about: { '.': [] },
-  home: { '.': [] },
+  dossier: { '.': [] },
   html: { '.': [] },
-  index: { '.': [] },
+  ingress: { '.': [] },
   layout: { '.': [] },
-  notFound: { '.': [] },
-  projects: { '.': [] },
-  status: { '.': [] },
-  portfolio: {
-    profile: [
-      'about',
-      'content',
-      'contentSections',
-      'home',
-      'portfolioFeatures',
-      'welcome',
+  lostSignal: { '.': [] },
+  missions: { '.': [] },
+  nexus: { '.': [] },
+  telemetry: { '.': [] },
+  registry: {
+    dossier: [
+      'ingress',
+      'manifest',
+      'nexus',
+      'recordBanks',
+      'records',
+      'registryCapabilities',
     ],
-    projects: [
-      'contributionGraph',
-      'projectActivity',
-      'projectArchive',
-      'projectLanguages',
-      'projectOwners',
-      'projects',
+    missions: [
+      'missionArchive',
+      'missionCustodians',
+      'missionDialects',
+      'missionPulse',
+      'signalLattice',
     ],
-    diagnostics: ['installQr', 'signalTrace', 'status', 'statusPage', 'unitPlate'],
-    routing: ['notFound'],
+    observatory: ['signalArray'],
+    telemetry: ['diagnostics', 'installQr', 'signalTrace', 'telemetryDeck', 'unitPlate'],
+    wayfinding: ['lostSignal'],
   },
-  shared: {
-    '.': ['errorBoundary', 'pageHead', 'panel', 'screen'],
+  aperture: {
+    '.': ['errorBoundary', 'panel', 'screen', 'signalMeta'],
   },
-  shell: {
-    frame: ['ambientScene', 'brandName', 'footer', 'navigation', 'telemetry'],
-    controls: ['archiveControl', 'experienceToggle', 'themeCustom', 'themeToggle'],
+  bridge: {
+    chassis: ['ambientScene', 'brandName', 'navigation', 'telemetry', 'utilityRail'],
+    console: ['archiveControl', 'themeCustom', 'themeToggle'],
   },
 }
 

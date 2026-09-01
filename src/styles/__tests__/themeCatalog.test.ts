@@ -36,30 +36,42 @@ const contrastRatio = (foreground: string, background: string): number => {
   return (Math.max(...luminances) + 0.05) / (Math.min(...luminances) + 0.05)
 }
 
-describe('canonical theme profiles', () => {
-  it("keeps the five stored IDs stable and presents neon as SynthWave '84", () => {
-    expect(BUILT_IN_THEME_IDS).toEqual(['dark', 'dracula', 'light', 'mirage', 'neon'])
+describe('audited theme profiles', () => {
+  it('keeps the six stored IDs stable and presents the authored theme identities', () => {
+    expect(BUILT_IN_THEME_IDS).toEqual([
+      'dark',
+      'dracula',
+      'light',
+      'mirage',
+      'neon',
+      'ruby',
+    ])
     expect(themeProfiles.neon).toMatchObject({
       id: 'neon',
       label: "SynthWave '84",
     })
+    expect(themeProfiles.ruby).toMatchObject({
+      id: 'ruby',
+      label: 'Ruby Crystal',
+    })
   })
 
-  it('pins the current official upstream revisions', () => {
+  it('pins the audited upstream revisions', () => {
     expect(themeProfiles.dark.source.revision).toBe(
       'e3f44fdf2a1c83e3f183d4e8acd40c6a452dcb1c'
     )
     expect(themeProfiles.light.source.revision).toBe(themeProfiles.dark.source.revision)
     expect(themeProfiles.mirage.source.revision).toBe(themeProfiles.dark.source.revision)
     expect(themeProfiles.dracula.source.revision).toBe(
-      'b1f9d35242a1a7ac3e45f3ad34843ffab700f8d2'
+      'ac4c351c763aeca2cc093b8ae77a6c3160bb1125'
     )
     expect(themeProfiles.neon.source.revision).toBe(
       'ecfa2fe1279f7233663fa3f98a96e6756000567b'
     )
+    expect(themeProfiles.ruby.source.revision).toBe('visual-research-2026-08-31')
   })
 
-  it('preserves exact upstream palette and semantic role values', () => {
+  it('preserves exact upstream and authored palette values', () => {
     expect(canonicalPalettes).toMatchObject({
       dark: {
         surfaceBase: '#0D1017',
@@ -96,6 +108,13 @@ describe('canonical theme profiles', () => {
         tag: '#72F1B8',
         function: '#36F9F6',
         keyword: '#FEDE5D',
+      },
+      ruby: {
+        background: '#090507',
+        surface: '#14080D',
+        accent: '#FF335F',
+        crystal: '#FF9AAE',
+        controlBackground: '#8F1533',
       },
     })
   })

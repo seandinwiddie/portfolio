@@ -1,6 +1,7 @@
 import { ayuDarkPalette, ayuLightPalette, ayuMiragePalette } from './ayuThemePalettes'
 import { ayuDarkProfile, ayuLightProfile, ayuMirageProfile } from './ayuThemeProfiles'
 import { draculaPalette, draculaThemeProfile } from './draculaThemeProfile'
+import { rubyCrystalPalette, rubyCrystalThemeProfile } from './rubyCrystalThemeProfile'
 import { synthWavePalette, synthWaveThemeProfile } from './synthWaveThemeProfile'
 import { BUILT_IN_THEME_IDS, type BuiltInThemeId, type ThemeProfile } from './themeTypes'
 
@@ -12,6 +13,7 @@ export const canonicalPalettes = {
   light: ayuLightPalette,
   mirage: ayuMiragePalette,
   neon: synthWavePalette,
+  ruby: rubyCrystalPalette,
 } as const satisfies Record<BuiltInThemeId, Readonly<Record<string, string>>>
 
 export const themeProfiles = {
@@ -20,6 +22,7 @@ export const themeProfiles = {
   light: ayuLightProfile,
   mirage: ayuMirageProfile,
   neon: synthWaveThemeProfile,
+  ruby: rubyCrystalThemeProfile,
 } as const satisfies Record<BuiltInThemeId, ThemeProfile>
 
 export const builtInThemeProfiles = BUILT_IN_THEME_IDS.map((id) => themeProfiles[id])

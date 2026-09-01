@@ -1,12 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { apiSlice } from './features/systems/platform/foundation/api/apiApi'
-import { listenerMiddleware } from './features/systems/platform/foundation/boot/bootListeners'
-import { compositionReducers } from './features/systems/platform/foundation/composition/compositionReducers'
-import { actionLogMiddleware } from './features/systems/platform/observability/diagnostics/diagnosticsListeners'
-import './features/systems/shell/themes/themeSelection/themeSelectionListeners'
-import './features/systems/platform/foundation/api/apiListeners'
-import './features/systems/shell/controls/experience/experienceListeners'
+import { apiSlice } from './features/systems/substrate/kernel/api/apiApi'
+import { listenerMiddleware } from './features/systems/substrate/kernel/boot/bootListeners'
+import { compositionReducers } from './features/systems/substrate/kernel/composition/compositionReducers'
+import { initialThemeSelectionState } from './features/entities/bridge/spectrum/themeSelection/themeSelectionSlice'
+import { readBrowserBuiltInThemeAtBoot } from './features/systems/bridge/spectrum/themeSelection/themeSelectionAdapters'
+import { actionLogMiddleware } from './features/systems/substrate/observability/diagnostics/diagnosticsListeners'
+import './features/systems/bridge/console/buttonFx/buttonFxListeners'
+import './features/systems/bridge/spectrum/themeSelection/themeSelectionListeners'
 
 const rootReducer = combineReducers({
   ...compositionReducers,
@@ -31,7 +32,19 @@ export const makeStore = ({ preloadedState, autoBatch = true }: StoreOptions = {
     enhancers: (getDefaultEnhancers) => getDefaultEnhancers({ autoBatch }),
   })
 
-export const store = makeStore()
+const browserThemeAtBoot = readBrowserBuiltInThemeAtBoot()
+const browserPreloadedState: Partial<AppState> | undefined = browserThemeAtBoot
+  ? {
+      themeSelection: {
+        ...initialThemeSelectionState,
+        mode: browserThemeAtBoot,
+        restorationStatus: 'ready',
+        authority: 'stored',
+      },
+    }
+  : undefined
+
+export const store = makeStore({ preloadedState: browserPreloadedState })
 
 setupListeners(store.dispatch)
 

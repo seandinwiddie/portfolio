@@ -1,1 +1,1 @@
-export { default } from '../views/index/indexView'
+export { default } from '../views/ingress/ingressView'

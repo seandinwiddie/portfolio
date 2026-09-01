@@ -1,6 +1,6 @@
 /**
  * Metro implements `require.context` (Expo enables it by default), but the Node
- * typings do not know about it, so the theme-selection catalog discovery
+ * typings do not know dossier it, so the theme-selection catalog discovery
  * failed to typecheck.
  */
 interface MetroRequireContext {

@@ -96,7 +96,7 @@
   border-right: 2px solid;
 }
 
-/* Page-wide phosphor grain. Sits above the background, below content,
+/* Station-wide phosphor grain. Sits above the background, below records,
    and never intercepts a click. */
 .crt-grain::after {
   content: "";
@@ -114,11 +114,6 @@
   mix-blend-mode: multiply;
 }
 
-/* A light ground uses the blueprint grid in app.css instead of CRT grain. */
-.theme-light .crt-grain::after {
-  display: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .crt-grain::after {
     opacity: 0.25;
@@ -128,7 +123,7 @@
 /* ─────────────────────────────────────────────────────────────
    Ignition sequence.
    Space opera, not cyberpunk twitch: things have mass, arrive in
-   order, and settle rather than pop. One orchestrated page-load
+   order, and settle rather than pop. One orchestrated station-load
    moment; no per-element confetti.
    ───────────────────────────────────────────────────────────── */
 
@@ -239,8 +234,7 @@
   overflow: hidden;
 }
 
-.plate-scan::after {
-  content: "";
+.plate-scan-beam {
   position: absolute;
   left: 0;
   right: 0;
@@ -251,7 +245,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .plate-scan::after {
+  .plate-scan-beam {
     animation: none;
     opacity: 0;
   }

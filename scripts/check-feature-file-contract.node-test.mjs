@@ -13,18 +13,18 @@ import {
 test('folder prefix and approved role suffix pass together', () => {
   assert.deepEqual(
     validateFeatureFile(
-      '/repo/src/features/entities/portfolio/profile/body/bodySlice.ts'
+      '/repo/src/features/entities/registry/dossier/manifest/manifestSlice.ts'
     ),
     []
   )
   assert.deepEqual(
     validateFeatureFile(
-      '/repo/src/features/systems/shell/controls/archiveControl/archiveControlAdapters.test.ts'
+      '/repo/src/features/systems/bridge/console/archiveControl/archiveControlAdapters.test.ts'
     ),
     []
   )
   assert.deepEqual(
-    validateFeatureFile('/repo/src/features/systems/platform/foundation/api/apiApi.ts'),
+    validateFeatureFile('/repo/src/features/systems/substrate/kernel/api/apiApi.ts'),
     []
   )
 })
@@ -89,8 +89,8 @@ test('selector and requested selecter spellings remain explicitly accepted', () 
 test('the same subdomain name across different domains is allowed', () => {
   assert.deepEqual(
     subdomainCollisionViolations([
-      '/repo/src/features/entities/portfolio/profile/body/catalog/catalogSelectors.ts',
-      '/repo/src/features/entities/platform/observability/diagnostics/catalog/catalogSelectors.ts',
+      '/repo/src/features/entities/registry/dossier/manifest/catalog/catalogSelectors.ts',
+      '/repo/src/features/entities/substrate/observability/diagnostics/catalog/catalogSelectors.ts',
     ]),
     []
   )
@@ -98,20 +98,20 @@ test('the same subdomain name across different domains is allowed', () => {
 
 test('a subdomain name reused within one domain is flagged as a collision', () => {
   const findings = subdomainCollisionViolations([
-    '/repo/src/features/systems/portfolio/projects/projects/activity/activityAdapters.ts',
-    '/repo/src/features/systems/portfolio/projects/projects/archive/activity/activityAdapters.ts',
+    '/repo/src/features/systems/registry/missions/operations/activity/activityAdapters.ts',
+    '/repo/src/features/systems/registry/missions/operations/archive/activity/activityAdapters.ts',
   ])
   assert.equal(findings.length, 1)
   assert.match(findings[0], /FEATURE-FILE-004/)
   assert.match(findings[0], /"activity"/)
-  assert.match(findings[0], /portfolio\/projects\/projects/)
+  assert.match(findings[0], /registry\/missions\/operations/)
 })
 
 test('a canonical domain file with no subdomains never collides', () => {
   assert.deepEqual(
     subdomainCollisionViolations([
-      '/repo/src/features/entities/shell/themes/themeSelection/themeSelectionAdapters.ts',
-      '/repo/src/features/systems/platform/foundation/api/apiAdapters.ts',
+      '/repo/src/features/entities/bridge/spectrum/themeSelection/themeSelectionAdapters.ts',
+      '/repo/src/features/systems/substrate/kernel/api/apiAdapters.ts',
     ]),
     []
   )
@@ -120,9 +120,9 @@ test('a canonical domain file with no subdomains never collides', () => {
 test('a concern branch above a domain is never mistaken for a subdomain', () => {
   assert.deepEqual(
     subdomainCollisionViolations([
-      '/repo/src/features/entities/shell/frame/brandName/brandNameSlice.ts',
-      '/repo/src/features/entities/shell/frame/navigation/navigationSlice.ts',
-      '/repo/src/features/entities/shell/themes/themeSelection/themeSelectionSlice.ts',
+      '/repo/src/features/entities/bridge/chassis/brandName/brandNameSlice.ts',
+      '/repo/src/features/entities/bridge/chassis/navigation/navigationSlice.ts',
+      '/repo/src/features/entities/bridge/spectrum/themeSelection/themeSelectionSlice.ts',
     ]),
     []
   )

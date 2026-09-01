@@ -149,3 +149,15 @@ expo-env.d.ts
 .expo/
 package-lock.json
 .vercel
+
+# Browser Harness owns these machine-local runtime and recording artifacts.
+browser-playtests/.runtime/
+browser-playtests/harness-runs/
+
+# Graphify keeps the release graph tracked; local learning/query state does not
+graphify-out/.graphify_learning.json
+graphify-out/.graphify_python
+graphify-out/.vocab.txt
+graphify-out/cache/
+graphify-out/memory/
+graphify-out/reflections/

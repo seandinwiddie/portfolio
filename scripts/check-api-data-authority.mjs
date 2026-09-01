@@ -14,8 +14,8 @@ if (argumentsList.includes('--help') || argumentsList.includes('-h')) {
   console.info(`Usage:
   check-api-data-authority.mjs [project-root]
 
-Requires portfolio runtime data to flow through
-src/features/systems/platform/foundation/api and
+Requires registry runtime data to flow through
+src/features/systems/substrate/kernel/api and
 blocks local authored-data imports, every production JSON file under src, and
 direct fetch or axios elsewhere.`)
   process.exit(0)
@@ -35,7 +35,7 @@ if (!existsSync(projectRoot) || !statSync(projectRoot).isDirectory()) {
 const context = createProjectContext(projectRoot)
 const findings = collectApiDataAuthorityFindings(context)
 
-console.info('[check] portfolio API data-authority guardrails')
+console.info('[check] registry API data-authority guardrails')
 console.info(`[path] project: ${projectRoot}`)
 console.info(`[info] production source files discovered: ${context.sourceFiles.length}`)
 console.info(

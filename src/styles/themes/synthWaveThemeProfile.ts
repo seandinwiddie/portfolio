@@ -101,5 +101,5 @@ export const synthWaveThemeProfile: ThemeProfile = {
     ),
     axisInk: mutedText,
   },
-  effects: { opacity: '0.4' },
+  effects: { opacity: '0.56' },
 }

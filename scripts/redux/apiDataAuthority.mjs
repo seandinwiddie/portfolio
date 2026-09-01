@@ -7,9 +7,34 @@ const testPathPattern = /(?:^|\/)(?:__tests__\/|[^/]+\.(?:test|spec|stories)\.)/
 const localAuthorityPattern =
   /^src\/(?:data|content|fixtures|mocks|seeds|authored[-_]?data|local[-_]?data)(?:\/|$)/iu
 const localAssetAuthorityPattern = /^src\/assets\/(?:data|content)(?:\/|$)/iu
-const systemApiPath = 'src/features/systems/platform/foundation/api'
-const systemApiPattern = /^src\/features\/systems\/platform\/foundation\/api(?:\/|$)/u
+const systemApiPath = 'src/features/systems/substrate/kernel/api'
+const systemApiPattern = /^src\/features\/systems\/substrate\/kernel\/api(?:\/|$)/u
 const approvedNetworkRolePattern = /(?:Api|Adapters)\.(?:[cm]?[jt]sx?)$/u
+const governedPresentationSystemPattern =
+  /^src\/features\/systems\/(?:substrate\/ui\/presentation\/signalMeta|registry\/(?:dossier\/(?:ingress|nexus)|observatory\/signalArray|wayfinding\/lostSignal)|bridge\/chassis\/utilityRail)(?:\/|$)/u
+const authoredIdentityPattern = /(?:\bSean(?:\s+Dinwiddie)?\b|seandinwiddie|sdin\.dev)/iu
+const absoluteDestinationPattern = /^https?:\/\//iu
+const productionViewPattern = /^src\/views\/.*\.tsx$/u
+const presentationAttributeNames = new Set([
+  'accessibilityHint',
+  'accessibilityLabel',
+  'alt',
+  'aria-description',
+  'aria-label',
+  'description',
+  'label',
+  'legend',
+  'placeholder',
+  'title',
+])
+const requiredApiRoutes = [
+  '/data',
+  '/github',
+  '/github/commits',
+  '/observatory',
+  '/presence',
+  '/status',
+]
 
 const toPosix = (filePath) => filePath.split(path.sep).join('/')
 const relativeToProject = (context, filePath) =>
@@ -202,7 +227,7 @@ const moduleReferenceFindings = (context, sourceFile, references) => {
     if (!target) return []
     if (isJsonUnderSource(target)) {
       return [
-        `[fail] API-DATA-002 ${location} imports local JSON ${target}; portfolio runtime data must come from the API`,
+        `[fail] API-DATA-002 ${location} imports local JSON ${target}; registry runtime data must come from the API`,
       ]
     }
     // Type-only imports never enter this runtime-reference list. A filename
@@ -234,6 +259,50 @@ const networkCallFindings = (context, typescript, sourceFile) => {
   return findings
 }
 
+const literalText = (typescript, node) => {
+  if (
+    typescript.isStringLiteral(node) ||
+    typescript.isNoSubstitutionTemplateLiteral(node) ||
+    typescript.isJsxText(node)
+  ) {
+    return node.text.trim()
+  }
+  return null
+}
+
+const presentationLiteralFindings = (context, typescript, sourceFile) => {
+  const relative = relativeToProject(context, sourceFile.fileName)
+  const governedView = productionViewPattern.test(relative)
+  const governedSystem = governedPresentationSystemPattern.test(relative)
+  if (!governedView && !governedSystem) return []
+
+  const findings = []
+  walkNodes(typescript, sourceFile, (node) => {
+    const value = literalText(typescript, node)
+    if (!value) return
+    const visibleJsxCopy =
+      governedView &&
+      /\p{L}/u.test(value) &&
+      (typescript.isJsxText(node) ||
+        ((typescript.isStringLiteral(node) ||
+          typescript.isNoSubstitutionTemplateLiteral(node)) &&
+          typescript.isJsxExpression(node.parent)))
+    const presentationAttribute =
+      governedView &&
+      typescript.isStringLiteral(node) &&
+      typescript.isJsxAttribute(node.parent) &&
+      presentationAttributeNames.has(node.parent.name.getText(sourceFile))
+    const authoredIdentity = authoredIdentityPattern.test(value)
+    const destination = absoluteDestinationPattern.test(value)
+    if (visibleJsxCopy || presentationAttribute || authoredIdentity || destination) {
+      findings.push(
+        `[fail] API-DATA-006 ${locationOf(context, sourceFile, node)} embeds authored presentation copy or a destination in runtime; serve presentation content through /data and select it from RTK Query`
+      )
+    }
+  })
+  return findings
+}
+
 const findingsForFile = (context, typescript, filePath) => {
   const relative = relativeToProject(context, filePath)
   if (!relative.startsWith('src/') || testPathPattern.test(relative)) return []
@@ -242,6 +311,7 @@ const findingsForFile = (context, typescript, filePath) => {
   return [
     ...moduleReferenceFindings(context, sourceFile, references),
     ...networkCallFindings(context, typescript, sourceFile),
+    ...presentationLiteralFindings(context, typescript, sourceFile),
   ]
 }
 
@@ -250,7 +320,7 @@ const jsonFileFindings = (context) =>
     const relative = relativeToProject(context, filePath)
     return relative.startsWith('src/') && !testPathPattern.test(relative)
       ? [
-          `[fail] API-DATA-002 ${relative}:1 stores local JSON under src; portfolio runtime data must come from the API`,
+          `[fail] API-DATA-002 ${relative}:1 stores local JSON under src; registry runtime data must come from the API`,
         ]
       : []
   })
@@ -261,14 +331,30 @@ const apiBoundaryFindings = (context) =>
   )
     ? []
     : [
-        `[fail] API-DATA-004 ${systemApiPath}: portfolio requires an RTK Query createApi root inside the system API boundary`,
+        `[fail] API-DATA-004 ${systemApiPath}: registry requires an RTK Query createApi root inside the system API boundary`,
       ]
+
+const apiRouteFindings = (context) =>
+  context.apiFiles
+    .filter((filePath) => context.sourceFiles.includes(filePath))
+    .flatMap((filePath) => {
+      const source = context.readText(filePath)
+      return requiredApiRoutes
+        .filter(
+          (route) => !source.includes(`'${route}'`) && !source.includes(`"${route}"`)
+        )
+        .map(
+          (route) =>
+            `[fail] API-DATA-007 ${context.relativeToProject(filePath)}: required server-data route ${route} must be owned by the RTK Query API boundary`
+        )
+    })
 
 export const collectApiDataAuthorityFindings = (context) => {
   const typescript = resolveTypescript(context.projectRoot)
   return typescript
     ? [
         ...apiBoundaryFindings(context),
+        ...apiRouteFindings(context),
         ...jsonFileFindings(context),
         ...context.sourceFiles.flatMap((filePath) =>
           findingsForFile(context, typescript, filePath)

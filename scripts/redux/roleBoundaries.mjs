@@ -31,7 +31,9 @@ const ownedSourcePathSegmentPattern =
 const isTsxFile = (filePath) => /\.tsx$/i.test(filePath)
 const normalizedSourcePath = (rel) => rel.split('\\').join('/')
 const isTopLevelRouteView = (normalized) =>
-  /^src\/views\/(?!portfolio\/|shared\/|shell\/)[^/]+\/[^/]+View\.tsx$/i.test(normalized)
+  /^src\/views\/(?!registry\/|aperture\/|bridge\/)[^/]+\/[^/]+View\.tsx$/i.test(
+    normalized
+  )
 const isAppFile = (rel) => {
   const normalized = normalizedSourcePath(rel)
   return normalized.startsWith('app/') || isTopLevelRouteView(normalized)

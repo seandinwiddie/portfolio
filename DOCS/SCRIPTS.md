@@ -33,7 +33,6 @@ release verification.
 | Variable | Default | Purpose |
 | :---- | :---- | :---- |
 | `EXPO_PUBLIC_API_URL` | `https://api.sdin.dev` | Selects a compatible portfolio API base URL for the RTK Query boundary. |
-| `EXPO_PUBLIC_NATIVE_APP_URL` | unset | When present, changes the landing QR to the public native-app destination and install copy. When absent, the QR points to `https://portfolio.sdin.dev` and explicitly says no native install is linked. |
 | `AGENT_SKILLS_ROOT` | auto-discovered | Optional first-priority skill directory for conformance tooling. |
 | `CODEX_SKILLS_ROOT` | auto-discovered | Optional additional skill directory for conformance tooling. |
 
@@ -46,6 +45,10 @@ EXPO_PUBLIC_API_URL=http://localhost:3000 yarn web
 
 Do not place secrets in an `EXPO_PUBLIC_*` variable; Expo public variables are
 part of the client bundle.
+
+Ingress destinations and install copy are authored by the API `presentation`
+contract. They do not have a second environment-variable override in the
+client.
 
 ### Configuration ownership
 
@@ -69,6 +72,9 @@ path. Validate every consumer affected by a configuration change.
 | :---- | :---- | :---- |
 | `yarn start` | `expo start -c` | Starts Expo and clears Metro's cache. Success means the development server starts without configuration errors. |
 | `yarn web` | `expo start --web` | Starts the web development target. Verify the printed local URL and inspect browser/runtime output. |
+| `yarn browser:playtest:chrome` | `bash scripts/dev/browser-harness-chrome.sh` | Launches one owned, isolated Windows Chrome profile and writes its exact CDP endpoint and run identity below `browser-playtests/.runtime/`. Keep the process open until the playtest finishes, then enter `stop`. |
+| `yarn browser:playtest` | `bash scripts/dev/browser-harness-playtest.sh` | Reads Browser Harness Python statements from stdin, binds only to the isolated Chrome endpoint, records the session, and keeps machine-local evidence under `browser-playtests/harness-runs/<run-id>/`. The living acceptance authority is `browser-playtests/PROMPT.md`; reconcile it with visible production behavior after every run and rerun materially changed coverage. |
+| `yarn playtest:prompt` | `node scripts/dev/browser-playtest-prompt.mjs` | Prints the checked-in production acceptance prompt for an independent Browser Harness run. |
 | `yarn android` | `expo run:android` | Builds/runs the Android native target with the locally configured Android toolchain. |
 | `yarn ios` | `expo run:ios` | Builds/runs the iOS native target with the locally configured Apple toolchain; it requires a supported macOS/Xcode environment. |
 | `yarn test:watch` | `jest --watchAll` | Runs application tests interactively as files change. Stop it manually when finished. |
@@ -90,10 +96,10 @@ non-blocking; a BLOCK/fail finding must keep the command nonzero.
 | `yarn lint:fix` | `biome check --write .` | Applies Biome's mechanical safe formatting/lint rewrites. Review the diff and rerun the non-writing gate. |
 | `yarn check:tamagui` | `tamagui check` | Tamagui configuration/component diagnostics. This is not currently included in `verify`. |
 | `yarn check:fp` | `node scripts/fp/runFpChecks.mjs` | Runs five phases: Node checker fixtures and executable laws, Python contract fixtures, live TypeScript AST conformance, the installed functional-core contract, and a contextual surface review. |
-| `yarn check:api-data-authority` | `node --test scripts/redux/apiDataAuthority.node-test.mjs && node scripts/check-api-data-authority.mjs` | First validates the checker fixtures, then rejects local runtime data/JSON, unauthorized network calls, and a misplaced or absent RTK Query API boundary in the live tree. |
+| `yarn check:api-data-authority` | `node --test scripts/redux/apiDataAuthority.node-test.mjs && node scripts/check-api-data-authority.mjs` | First validates the checker fixtures, then unconditionally discovers and scans the complete production `src` tree. It rejects local runtime data/JSON, governed authored copy/destinations, unauthorized network calls, missing public RTK Query routes, and a misplaced or absent RTK Query API boundary. Tests are the sole fixture exemption; neutral control/static-export semantics remain allowed. |
 | `yarn check:rtk` | `node scripts/redux/runTests.mjs && node scripts/redux/checkConformance.mjs && node scripts/check-api-data-authority.mjs` | Runs every Redux `.node-test.mjs` fixture, live Redux/RTK Query role/store/listener/API checks, and the live API-only authority gate. |
 | `yarn check:ecs` | `node scripts/check-ecs-conformance.mjs` | Requires the components/entities/systems/view topology, allowed root files, concrete domains, and grouped views; rejects vague role-bucket folders. |
-| `yarn check:fan-out` | `node scripts/check-fan-out.mjs` | Enforces the declared portfolio/platform/shell concern tree, the explicit Expo route-view roots, and a maximum of seven direct subnodes everywhere below the route registry. |
+| `yarn check:fan-out` | `node scripts/check-fan-out.mjs` | Enforces the declared registry/substrate/bridge concern tree, the explicit Expo station-view roots, and a maximum of seven direct subnodes everywhere below the route registry. |
 | `yarn check:feature-files` | `node --test scripts/check-feature-file-contract.node-test.mjs && node scripts/check-feature-file-contract.mjs` | Validates and then applies immediate-folder prefixes, approved role suffixes, semantic subdomain nesting, domain-scoped name uniqueness, and barrel-decay notices. |
 | `yarn verify` | `bash scripts/verify-all.sh` | Runs FP, RTK/API authority, ECS, feature filename, fan-out, lint, TypeScript, and Jest gates while collecting every failed gate. It does not run the Tamagui diagnostic or static export, so those remain separate release steps. |
 
@@ -109,6 +115,7 @@ node scripts/check-ecs-conformance.mjs
 node scripts/check-feature-file-contract.mjs
 node --test scripts/redux/apiDataAuthority.node-test.mjs
 node --test scripts/check-feature-file-contract.node-test.mjs
+corepack yarn test --runInBand src/features/systems/registry/observatory/signalArray/signalArraySelectors.test.ts src/features/systems/registry/missions/operations/operationsSelectors.test.ts
 ```
 
 ## Build and export
@@ -145,11 +152,12 @@ directory. Use a code-only extraction only when no graph exists:
 graphify extract . --code-only --out .
 ```
 
-After source moves, deletions, or architectural refactors, force a current
-re-extraction, diagnose multigraph collapse risk, and refresh the token benchmark:
+After source moves, deletions, or architectural refactors, replace the release
+graph with a clean code-only extraction so deleted semantic nodes cannot survive,
+then diagnose multigraph collapse risk and refresh the token benchmark:
 
 ```bash
-graphify update . --force
+graphify extract . --force --code-only --out .
 graphify diagnose multigraph --graph graphify-out/graph.json --undirected
 graphify benchmark graphify-out/graph.json
 ```
@@ -163,7 +171,7 @@ Architecture queries use the generated graph explicitly:
 
 ```bash
 graphify query "How does API data reach route views?" --graph graphify-out/graph.json
-graphify affected "src/features/systems/platform/foundation/api/apiApi.ts" --graph graphify-out/graph.json
+graphify affected "src/features/systems/substrate/kernel/api/apiApi.ts" --graph graphify-out/graph.json
 graphify explain "src/store.ts" --graph graphify-out/graph.json
 ```
 
@@ -185,7 +193,7 @@ graphify explain "src/store.ts" --graph graphify-out/graph.json
 | `scripts/check-fan-out.mjs` | Live concern-tree membership and maximum-seven direct-subnode gate, with the Expo route registry as the explicit root exception. |
 | `scripts/check-feature-file-contract.mjs` | Feature leaf naming/nesting contract and non-blocking barrel-decay reporting. |
 | `scripts/check-feature-file-contract.node-test.mjs` | Executable fixture contract for feature filenames; update before or with a rule change. |
-| `scripts/concern-tree.mjs` | Single source of truth for portfolio/platform/shell feature pillars, reusable view concerns, and domain-scoped subdomain collision resolution. |
+| `scripts/concern-tree.mjs` | Single source of truth for registry/substrate/bridge feature pillars, reusable view concerns, and domain-scoped subdomain collision resolution. |
 | `scripts/verify-all.sh` | Unified non-short-circuiting local gate runner and complete failure summary. |
 | `scripts/skill-paths.mjs` | Portable installed-skill discovery via optional configured roots, workspace ancestors, and user skill directories. It must not embed one developer's home path. |
 

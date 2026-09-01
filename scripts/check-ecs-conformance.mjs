@@ -159,7 +159,7 @@ const checkViews = () => {
   }
 }
 
-console.log('[check] portfolio app ECS conformance guardrails')
+console.log('[check] registry ECS conformance guardrails')
 console.log(`[path] project: ${projectRoot}`)
 console.log('[info] checking app source: src')
 
@@ -170,7 +170,7 @@ checkRoleBuckets()
 checkViews()
 
 if (status === 0) {
-  console.log('[ok] portfolio app ECS topology matches app ownership')
+  console.log('[ok] registry ECS topology matches app ownership')
 }
 
 process.exit(status)
