@@ -9,6 +9,7 @@
       ".tamagui/**",
       ".vercel/**",
       ".yarn/**",
+      "browser-playtests/harness-runs/**",
       "dist/**",
       "graphify-out/**",
       "tamagui-web.css",
