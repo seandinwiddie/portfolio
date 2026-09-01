@@ -39,12 +39,12 @@ export const TEST_AMBIENT_SCENE: SceneWorld = {
     },
   },
   motions: {
-    'archive-orbit': { duration: 38, delay: 0, drift: 8 },
-    'registry-spine': { duration: 18, delay: 2, drift: 2 },
-    'pilgrim-transit': { duration: 14, delay: 4, drift: 18 },
-    'relay-beacon': { duration: 5, delay: 1, drift: 0 },
-    'terminus-horizon': { duration: 24, delay: 0, drift: 3 },
-    'survey-monolith': { duration: 28, delay: 5, drift: 5 },
+    'archive-orbit': { duration: 84, delay: -19, drift: 2 },
+    'registry-spine': { duration: 68, delay: -31, drift: 2 },
+    'pilgrim-transit': { duration: 36, delay: -11, drift: 12 },
+    'relay-beacon': { duration: 19, delay: -7, drift: 0 },
+    'terminus-horizon': { duration: 72, delay: -43, drift: 1 },
+    'survey-monolith': { duration: 64, delay: -23, drift: 2 },
   },
   activity: {
     ids: ['query-sync', 'query-resolve', 'route-transit', 'query-fault'],

@@ -100,7 +100,7 @@ body,
   );
   box-shadow: 0 0 0 5vw var(--accent-alpha-04), 0 0 0 11vw var(--accent-alpha-04);
   opacity: 0.72;
-  animation: command-lens 48s linear infinite;
+  animation: command-lens 72s linear infinite;
 }
 
 .system-route-region::after {
@@ -123,7 +123,7 @@ body,
     transform: rotate(0deg) scale(1);
   }
   50% {
-    transform: rotate(180deg) scale(1.015);
+    transform: rotate(180deg) scale(1.006);
   }
   to {
     transform: rotate(360deg) scale(1);
@@ -137,8 +137,8 @@ body,
     opacity: 0.28;
   }
   50% {
-    background-position: 8px -4px;
-    opacity: 0.38;
+    background-position: 2px -1px;
+    opacity: 0.31;
   }
 }
 
@@ -660,18 +660,17 @@ body,
 }
 
 .theme-neon .system-route-region::before {
-  opacity: 0.94;
-  filter: drop-shadow(0 0 10px var(--accent-color))
-    drop-shadow(0 0 22px var(--info-color));
+  opacity: 0.78;
+  filter: drop-shadow(0 0 7px var(--accent-color)) drop-shadow(0 0 15px var(--info-color));
 }
 
 .theme-neon .orbital-stars {
-  opacity: 0.38;
-  filter: drop-shadow(0 0 4px var(--info-color)) drop-shadow(0 0 9px var(--accent-color));
+  opacity: 0.26;
+  filter: drop-shadow(0 0 3px var(--info-color)) drop-shadow(0 0 6px var(--accent-color));
 }
 
 .theme-neon .orbital-entity {
-  filter: drop-shadow(0 0 7px var(--accent-color)) drop-shadow(0 0 15px var(--info-color));
+  filter: drop-shadow(0 0 5px var(--accent-color)) drop-shadow(0 0 10px var(--info-color));
 }
 
 .theme-neon .system-nav-link[aria-current="page"]::before {
@@ -745,18 +744,18 @@ body,
   clip-path: polygon(50% 0, 86% 14%, 100% 50%, 86% 86%, 50% 100%, 14% 86%, 0 50%, 14% 14%);
   filter: drop-shadow(0 0 9px var(--accent-color))
     drop-shadow(0 0 28px var(--danger-color));
-  opacity: 0.74;
+  opacity: 0.64;
 }
 
 .theme-ruby .orbital-stars {
-  opacity: 0.32;
-  filter: drop-shadow(0 0 4px var(--accent-color))
-    drop-shadow(0 0 10px var(--danger-color));
+  opacity: 0.23;
+  filter: drop-shadow(0 0 3px var(--accent-color))
+    drop-shadow(0 0 7px var(--danger-color));
 }
 
 .theme-ruby .orbital-entity {
-  filter: drop-shadow(0 0 7px var(--accent-color))
-    drop-shadow(0 0 17px var(--danger-color));
+  filter: drop-shadow(0 0 5px var(--accent-color))
+    drop-shadow(0 0 11px var(--danger-color));
 }
 
 .theme-ruby .system-nav-link[aria-current="page"]::before {
