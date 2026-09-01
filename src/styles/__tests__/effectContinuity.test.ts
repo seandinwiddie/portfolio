@@ -49,9 +49,9 @@ describe('continuous visual effects', () => {
   it('reserves a bounded 44px control inside the iPhone SE navigation budget', () => {
     const compact = system.slice(system.indexOf('@media (max-width: 360px)'))
 
-    expect(compact).toContain('flex: 0 0 44px')
-    expect(compact).toContain('max-width: min(185px, calc(100vw - 88px))')
-    expect(compact).toContain('padding-right: 0 !important')
+    expect(compact).toContain('flex: 0 0 auto')
+    expect(compact).toContain('max-width: min(185px, calc(100vw - 112px))')
+    expect(compact).toContain('min-width: 76px')
   })
 
   it('keeps the iPhone SE dock at the bottom and every persistent control tappable', () => {
@@ -74,7 +74,10 @@ describe('continuous visual effects', () => {
     expect(compact).toContain('max-width: calc(100% - 12px)')
     expect(phone).toContain('.telemetry-row-value {')
     expect(phone).toContain('overflow-wrap: anywhere')
-    expect(phone).toContain('font-size: 9px !important')
+    expect(phone).toContain('font-size: 11px !important')
+    expect(phone).not.toContain('font-size: 0 !important')
+    expect(phone).toContain('min-width: 76px')
+    expect(phone).toContain('content: none')
     expect(phone).toContain(
       ':is(.system-route-dock, [data-testid="route-dock"]) .system-nav-secondary {\n    display: none !important'
     )

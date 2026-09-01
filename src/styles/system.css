@@ -955,7 +955,8 @@ body,
 .observatory-chart-label,
 .observatory-presence-state,
 .observatory-baseline {
-  font-size: 9px !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
 }
 
 .observatory-metric-value {
@@ -1501,9 +1502,9 @@ body,
   .system-telemetry-region .telemetry span {
     max-width: 100%;
     overflow: hidden;
-    font-size: 9px !important;
-    line-height: 13px !important;
-    letter-spacing: 0.04em !important;
+    font-size: 11px !important;
+    line-height: 15px !important;
+    letter-spacing: 0.02em !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1569,9 +1570,9 @@ body,
     display: block;
     max-width: 100%;
     overflow: hidden;
-    font-size: 9px !important;
+    font-size: 11px !important;
     line-height: 1.1 !important;
-    letter-spacing: 0.02em !important;
+    letter-spacing: 0 !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1795,25 +1796,24 @@ body,
   }
 
   .system-navigation-bar .system-controls-toggle {
-    flex: 0 0 44px;
-    width: 44px;
-    padding-right: 0;
-    padding-left: 0;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 76px;
+    padding-right: 8px;
+    padding-left: 8px;
   }
 
   .system-controls-toggle-copy {
-    width: 16px;
-    overflow: hidden;
-    color: transparent !important;
-    font-size: 0 !important;
-    letter-spacing: 0 !important;
+    width: auto;
+    overflow: visible;
+    color: inherit;
+    font-size: 11px !important;
+    letter-spacing: 0.04em !important;
     white-space: nowrap;
   }
 
   .system-controls-toggle-copy::after {
-    color: var(--color);
-    content: "◈";
-    font-size: 14px;
+    content: none;
   }
 
   .observatory-impact-grid,
@@ -1827,9 +1827,9 @@ body,
 
   .system-navigation-bar [aria-label*="nexus" i] span,
   .system-navigation-bar [aria-label*="registry" i] span {
-    max-width: min(185px, calc(100vw - 88px));
+    max-width: min(185px, calc(100vw - 112px));
     overflow: hidden;
-    font-size: 19px !important;
+    font-size: 17px !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1839,7 +1839,7 @@ body,
   }
 
   :is(.system-route-dock, [data-testid="route-dock"]) .system-nav-primary {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0;
   }
 
