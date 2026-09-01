@@ -1,14 +1,19 @@
 import React from 'react'
 import { fireEvent } from '@testing-library/react-native'
 import ArchiveControl from './archiveControlView'
-import { useGetGithubSummaryQuery } from '../../../../features/systems/substrate/kernel/api/apiApi'
+import {
+  useGetGithubSummaryQuery,
+  useGetInitialStateQuery,
+} from '../../../../features/systems/substrate/kernel/api/apiApi'
 import { useArchiveControlComposition } from '../../../../features/systems/bridge/console/archiveControl/archiveControlThunks'
 import type { GithubSummary } from '../../../../features/components/substrate/kernel/api/apiTypes'
+import { TEST_INITIAL_STATE } from '../../../../test/apiPayload.test.data'
 import { renderWithProviders } from '../../../../test/providers.test.helper'
 
 jest.mock('../../../../features/systems/substrate/kernel/api/apiApi', () => ({
   ...jest.requireActual('../../../../features/systems/substrate/kernel/api/apiApi'),
   useGetGithubSummaryQuery: jest.fn(),
+  useGetInitialStateQuery: jest.fn(),
 }))
 
 const summary: GithubSummary = {
@@ -73,12 +78,18 @@ const summary: GithubSummary = {
 }
 
 const mockSummaryQuery = useGetGithubSummaryQuery as jest.Mock
+const mockInitialStateQuery = useGetInitialStateQuery as jest.Mock
 
 const ArchiveHarness = () =>
   React.createElement(ArchiveControl, useArchiveControlComposition())
 
 describe('ArchiveControl', () => {
   beforeEach(() => {
+    mockInitialStateQuery.mockImplementation((_argument, options) =>
+      options?.selectFromResult
+        ? options.selectFromResult({ data: TEST_INITIAL_STATE })
+        : { data: TEST_INITIAL_STATE }
+    )
     mockSummaryQuery.mockReturnValue({ data: summary, status: 'fulfilled' })
   })
 
@@ -91,7 +102,9 @@ describe('ArchiveControl', () => {
     const trigger = getByTestId('archive-control-trigger')
 
     expect(trigger.props.accessibilityRole).toBe('button')
-    expect(trigger.props.accessibilityLabel).toBe('Open Archive Control')
+    expect(trigger.props.accessibilityLabel).toBe(
+      TEST_INITIAL_STATE.presentation.runtime.archiveControl.openLabel
+    )
     expect(trigger.props['aria-keyshortcuts']).toBe('Control+K Meta+K `')
   })
 
@@ -118,7 +131,7 @@ describe('ArchiveControl', () => {
   })
 
   it('renders commit data through the command dispatch table', () => {
-    const { getByTestId, getByText } = renderWithProviders(
+    const { getAllByText, getByTestId } = renderWithProviders(
       React.createElement(ArchiveHarness)
     )
     fireEvent.press(getByTestId('archive-control-trigger'))
@@ -128,8 +141,10 @@ describe('ArchiveControl', () => {
     fireEvent(input, 'submitEditing')
 
     expect(
-      getByText(/abc1234 SEANDINWIDDIE\/portfolio\s+fix\(console\): keep command focus/)
-    ).toBeTruthy()
+      getAllByText(
+        /abc1234 SEANDINWIDDIE\/portfolio\s+fix\(console\): keep command focus/
+      )
+    ).not.toHaveLength(0)
     expect(getByTestId('archive-control-input').props.blurOnSubmit).toBe(false)
   })
 })
