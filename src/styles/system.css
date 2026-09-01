@@ -12,6 +12,8 @@
   --mobile-dock-height: 64px;
   --mobile-utility-rail-height: 44px;
   --mobile-archive-rail-height: 60px;
+  --desktop-utility-rail-height: 60px;
+  --desktop-archive-rail-height: 60px;
   --system-glass-surface: color-mix(in srgb, var(--surface-color) 82%, transparent);
   --system-glass-raised: color-mix(in srgb, var(--surface-raised-color) 88%, transparent);
   --system-glass-filter: blur(18px) saturate(1.18);
@@ -55,7 +57,9 @@ body,
   display: grid !important;
   grid-column: 2;
   grid-row: 1;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows:
+    auto minmax(0, 1fr) var(--desktop-archive-rail-height)
+    var(--desktop-utility-rail-height);
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -69,6 +73,7 @@ body,
 
 .system-route-region {
   position: relative;
+  grid-row: 2;
   min-height: 0;
   overflow: hidden;
 }
@@ -471,9 +476,27 @@ body,
 }
 
 @media (min-width: 1021px) {
+  .system-telemetry-region {
+    grid-row: 1;
+  }
+
+  .system-utility-rail-region {
+    grid-row: 4;
+    min-height: 0;
+  }
+
+  .system-utility-rail-region footer {
+    height: 100%;
+    min-height: 0;
+  }
+
   .archive-control-dialog {
     right: auto;
-    bottom: 44px;
+    bottom: calc(
+      var(--desktop-utility-rail-height) +
+      var(--desktop-archive-rail-height) +
+      8px
+    );
     left: calc(var(--command-rail-width) + 16px);
     width: min(640px, calc(100vw - var(--command-rail-width) - 32px));
   }
@@ -481,7 +504,7 @@ body,
   .archive-control-trigger-mount,
   .archive-control-native-mount {
     position: fixed !important;
-    bottom: 44px !important;
+    bottom: calc(var(--desktop-utility-rail-height) + 8px) !important;
     left: calc(var(--command-rail-width) + 16px) !important;
   }
 }

@@ -88,6 +88,18 @@ describe('continuous visual effects', () => {
     expect(phone).toContain('overflow-x: hidden !important')
   })
 
+  it('reserves a desktop archive lane between route content and utility chrome', () => {
+    const desktop = system.slice(system.indexOf('@media (min-width: 1021px)'))
+
+    expect(system).toContain('--desktop-utility-rail-height: 60px')
+    expect(system).toContain('--desktop-archive-rail-height: 60px')
+    expect(system).toContain('var(--desktop-archive-rail-height)')
+    expect(desktop).toContain('.system-utility-rail-region {\n    grid-row: 4')
+    expect(desktop).toContain(
+      'bottom: calc(var(--desktop-utility-rail-height) + 8px) !important'
+    )
+  })
+
   it('ships both navigation shells and lets media CSS own their visibility', () => {
     expect(system).toContain('.system-navigation--compact {\n  display: none !important;')
     expect(system).toContain('.system-navigation--rail {\n    display: none !important;')
