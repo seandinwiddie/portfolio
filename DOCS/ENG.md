@@ -178,10 +178,26 @@ one focus-gated GitHub refresh clock aligned to the API's ten-minute resource
 TTL; every route reuses that document. All live documents reconnect on
 focus/network return.
 
+The observatory document also owns the digital-estate ledger. Its `estates`
+array projects every Open Signal Channel destination with a stable ID, public
+URL, explicit public-source repository attributions, bounded presence evidence,
+and explicit Analytics/Search Console instrumentation state. Selectors
+partition instrumented and uninstrumented estates without creating another
+cache: measured Google values render only when the matching capability supplies
+them, while `not-instrumented`, unavailable, partial, and stale states remain
+first-class public evidence. Repository controls render only explicit API
+attributions—never homepage/name heuristics. Stable estate section IDs and
+machine-readable capability attributes make the same contract legible to
+browsers, assistive technology, test agents, and indexing agents.
+
 The observatory must:
 
 * show current and prior 28-day aggregate periods, absolute/percentage
   direction, realtime active users when available, and bounded daily traces;
+* render all six API-authored digital estates with their destination link,
+  explicit public-source repository controls, presence state, HTTP evidence,
+  latency, and selected observation period, while reserving Google metrics and
+  prior-period direction for explicitly instrumented capabilities;
 * treat measured zero as a real baseline and never invent a percentage from a
   zero prior value;
 * keep `available`, `partial`, `unconfigured`, `unavailable`, `cached`, and

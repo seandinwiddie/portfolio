@@ -2,6 +2,9 @@ import { fromNullable, match } from 'functional-programming-composition'
 import type {
   AnalyticsAggregate,
   DiscoveryAggregate,
+  EstateAnalyticsCapability,
+  EstateDiscoveryCapability,
+  EstatePresenceCapability,
   ObservatoryAvailability,
   ObservatoryDelta,
   ObservatoryMetricKey,
@@ -10,9 +13,12 @@ import type {
 } from '../../../../../components/registry/observatory/signalArray/signalArrayTypes'
 import type { ThemeVisualization } from '../../../../../../styles/themes/themeTypes'
 import type {
+  ObservatoryCapabilityViewModel,
   ObservatoryChartViewModel,
+  ObservatoryEstatePresenceViewModel,
+  ObservatoryEstateRepositoryViewModel,
+  ObservatoryEstateViewModel,
   ObservatoryMetricViewModel,
-  ObservatoryPropertyViewModel,
   ObservatoryTone,
 } from '../signalArraySelectors'
 
@@ -28,6 +34,26 @@ type ChartPalette = {
   readonly fill: string
   readonly axisInk: string
 }
+
+type InstrumentedAnalyticsCapability = Extract<
+  EstateAnalyticsCapability,
+  Readonly<{ instrumented: true }>
+>
+
+type InstrumentedDiscoveryCapability = Extract<
+  EstateDiscoveryCapability,
+  Readonly<{ instrumented: true }>
+>
+
+type InstrumentedPresenceCapability = Extract<
+  EstatePresenceCapability,
+  Readonly<{ instrumented: true }>
+>
+
+type EstateInstrumentationPartitions = Readonly<{
+  true: readonly ObservatoryEstateViewModel[]
+  false: readonly ObservatoryEstateViewModel[]
+}>
 
 const integer = (value: number): string => Math.round(value).toLocaleString()
 const percent = (value: number): string => `${(value * 100).toFixed(1)}%`
@@ -100,7 +126,7 @@ const metricsOf =
   ) =>
   (current: Aggregate | null, previous: Aggregate | null) =>
   (baselineLabel: string): readonly ObservatoryMetricViewModel[] =>
-    match(
+    match<Aggregate, readonly ObservatoryMetricViewModel[]>(
       fromNullable(current),
       (available) =>
         definitions.map((definition): ObservatoryMetricViewModel => {
@@ -177,68 +203,237 @@ const availabilityLabelOf = (
 const allZero = (values: readonly ObservatoryMetricViewModel[]): boolean =>
   values.length > 0 && values.every(({ value }) => Number.parseFloat(value) === 0)
 
-const propertyOf =
-  (presentation: ObservatoryPresentation, visualization: ThemeVisualization) =>
-  (property: PublicObservatory['properties'][number]): ObservatoryPropertyViewModel => {
-    const analytics = metricsOf(ANALYTICS_METRICS, presentation.metrics)(
-      property.analytics.current,
-      property.analytics.previous
-    )(presentation.baselineLabel)
-    const discovery = metricsOf(DISCOVERY_METRICS, presentation.metrics)(
-      property.searchConsole.current,
-      property.searchConsole.previous
-    )(presentation.baselineLabel)
-    const audiencePalette = {
-      stroke: visualization.contributionRamp[4],
-      fill: visualization.contributionRamp[1],
-      axisInk: visualization.axisInk,
-    }
-    const discoveryPalette = {
-      stroke: visualization.contributionRamp[3],
-      fill: visualization.contributionRamp[1],
-      axisInk: visualization.axisInk,
-    }
+const machineLabelOf = (availability: string): string =>
+  availability.replaceAll('-', ' ').toUpperCase()
+
+const estateObservedFormatter = Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'America/Los_Angeles',
+  timeZoneName: 'short',
+})
+
+const observedAt = (checkedAt: string): string =>
+  estateObservedFormatter.format(Date.parse(checkedAt))
+
+const presenceTone: Readonly<
+  Record<EstatePresenceCapability['availability'], ObservatoryTone>
+> = {
+  operational: 'positive',
+  limited: 'degraded',
+  unreachable: 'negative',
+  'not-instrumented': 'neutral',
+}
+
+const presenceOf =
+  (presentation: ObservatoryPresentation) =>
+  (capability: EstatePresenceCapability): ObservatoryEstatePresenceViewModel =>
+    match<InstrumentedPresenceCapability, ObservatoryEstatePresenceViewModel>(
+      fromNullable<InstrumentedPresenceCapability>(
+        capability.instrumented ? capability : null
+      ),
+      (signal) => ({
+        label: presentation.presenceLabel,
+        availability: signal.availability,
+        state: machineLabelOf(signal.availability),
+        checkedAt: signal.checkedAt,
+        observed: match(
+          fromNullable(signal.checkedAt),
+          (checkedAt) => `${presentation.checkedLabel} ${observedAt(checkedAt)}`,
+          () => presentation.unavailableLabel
+        ),
+        latency: signal.latencyMs === null ? '—' : `${signal.latencyMs} ms`,
+        httpStatus: signal.httpStatus === null ? '—' : `HTTP ${signal.httpStatus}`,
+        tone: presenceTone[signal.availability],
+      }),
+      () => ({
+        label: presentation.presenceLabel,
+        availability: capability.availability,
+        state: machineLabelOf(capability.availability),
+        checkedAt: null,
+        observed: presentation.unconfiguredLabel,
+        latency: '—',
+        httpStatus: '—',
+        tone: presenceTone[capability.availability],
+      })
+    )
+
+const repositoryOf = (
+  repository: PublicObservatory['estates'][number]['repositories'][number]
+): ObservatoryEstateRepositoryViewModel => ({
+  id: repository.id,
+  label: repository.id,
+  url: repository.sourceUrl,
+  status: repository.status,
+  statusLabel: machineLabelOf(repository.status),
+})
+
+const audiencePaletteOf = (visualization: ThemeVisualization): ChartPalette => ({
+  stroke: visualization.contributionRamp[4],
+  fill: visualization.contributionRamp[1],
+  axisInk: visualization.axisInk,
+})
+
+const discoveryPaletteOf = (visualization: ThemeVisualization): ChartPalette => ({
+  stroke: visualization.contributionRamp[3],
+  fill: visualization.contributionRamp[1],
+  axisInk: visualization.axisInk,
+})
+
+const emptyChartOf =
+  (id: string) =>
+  (label: string) =>
+  (palette: ChartPalette): ObservatoryChartViewModel =>
+    chartOf(id, label)([], palette)
+
+const analyticsOf =
+  (presentation: ObservatoryPresentation) =>
+  (visualization: ThemeVisualization) =>
+  (estateId: string) =>
+  (capability: EstateAnalyticsCapability): ObservatoryCapabilityViewModel =>
+    match<InstrumentedAnalyticsCapability, ObservatoryCapabilityViewModel>(
+      fromNullable<InstrumentedAnalyticsCapability>(
+        capability.instrumented ? capability : null
+      ),
+      (signal) => ({
+        label: presentation.analyticsLabel,
+        availability: signal.availability,
+        availabilityLabel: availabilityLabelOf(signal.availability, presentation),
+        tone: availabilityTone[signal.availability],
+        metrics: metricsOf(ANALYTICS_METRICS, presentation.metrics)(
+          signal.current ?? null,
+          signal.previous ?? null
+        )(presentation.baselineLabel),
+        chart: chartOf(`${estateId}-audience`, presentation.metrics.views)(
+          (signal.dateTrend ?? []).map(({ date, views }) => ({ date, value: views })),
+          audiencePaletteOf(visualization)
+        ),
+      }),
+      () => ({
+        label: presentation.analyticsLabel,
+        availability: capability.availability,
+        availabilityLabel: machineLabelOf(capability.availability),
+        tone: 'neutral',
+        metrics: [],
+        chart: emptyChartOf(`${estateId}-audience`)(presentation.metrics.views)(
+          audiencePaletteOf(visualization)
+        ),
+      })
+    )
+
+const discoveryOf =
+  (presentation: ObservatoryPresentation) =>
+  (visualization: ThemeVisualization) =>
+  (estateId: string) =>
+  (capability: EstateDiscoveryCapability): ObservatoryCapabilityViewModel =>
+    match<InstrumentedDiscoveryCapability, ObservatoryCapabilityViewModel>(
+      fromNullable<InstrumentedDiscoveryCapability>(
+        capability.instrumented ? capability : null
+      ),
+      (signal) => ({
+        label: presentation.discoveryLabel,
+        availability: signal.availability,
+        availabilityLabel: availabilityLabelOf(signal.availability, presentation),
+        tone: availabilityTone[signal.availability],
+        metrics: metricsOf(DISCOVERY_METRICS, presentation.metrics)(
+          signal.current ?? null,
+          signal.previous ?? null
+        )(presentation.baselineLabel),
+        chart: chartOf(`${estateId}-discovery`, presentation.metrics.impressions)(
+          (signal.dateTrend ?? []).map(({ date, impressions }) => ({
+            date,
+            value: impressions,
+          })),
+          discoveryPaletteOf(visualization)
+        ),
+      }),
+      () => ({
+        label: presentation.discoveryLabel,
+        availability: capability.availability,
+        availabilityLabel: machineLabelOf(capability.availability),
+        tone: 'neutral',
+        metrics: [],
+        chart: emptyChartOf(`${estateId}-discovery`)(presentation.metrics.impressions)(
+          discoveryPaletteOf(visualization)
+        ),
+      })
+    )
+
+const liveOf =
+  (presentation: ObservatoryPresentation) =>
+  (estateId: string) =>
+  (capability: EstateAnalyticsCapability): ObservatoryMetricViewModel | null =>
+    match(
+      fromNullable(capability.instrumented ? capability.realtime : null),
+      (realtime) => ({
+        id: `${estateId}-live`,
+        label: presentation.liveLabel,
+        value: integer(realtime.activeUsers),
+        baseline: null,
+        delta: null,
+        tone: realtime.activeUsers > 0 ? 'positive' : 'neutral',
+      }),
+      () => null
+    )
+
+const estateOf =
+  (presentation: ObservatoryPresentation) =>
+  (visualization: ThemeVisualization) =>
+  (window: string) =>
+  (estate: PublicObservatory['estates'][number]): ObservatoryEstateViewModel => {
+    const presence = presenceOf(presentation)(estate.capabilities.presence)
+    const analytics = analyticsOf(presentation)(visualization)(estate.id)(
+      estate.capabilities.analytics
+    )
+    const discovery = discoveryOf(presentation)(visualization)(estate.id)(
+      estate.capabilities.searchConsole
+    )
     return {
-      id: property.id,
-      label: property.label,
-      availabilityLabel: availabilityLabelOf(property.availability, presentation),
-      tone: availabilityTone[property.availability],
-      live: property.analytics.realtime
-        ? {
-            id: `${property.id}-live`,
-            label: presentation.liveLabel,
-            value: integer(property.analytics.realtime.activeUsers),
-            baseline: null,
-            delta: null,
-            tone: property.analytics.realtime.activeUsers > 0 ? 'positive' : 'neutral',
-          }
-        : null,
-      analyticsLabel: presentation.analyticsLabel,
+      id: estate.id,
+      label: estate.label,
+      url: estate.url,
+      window,
+      instrumented:
+        estate.capabilities.analytics.instrumented ||
+        estate.capabilities.searchConsole.instrumented,
+      availabilityLabel: presence.state,
+      tone: presence.tone,
+      presence,
+      repositoriesLabel: presentation.metrics.repositories,
+      repositories: estate.repositories.map(repositoryOf),
+      live: liveOf(presentation)(estate.id)(estate.capabilities.analytics),
       analytics,
-      analyticsChart: chartOf(`${property.id}-audience`, presentation.metrics.views)(
-        property.analytics.dateTrend.map(({ date, views }) => ({ date, value: views })),
-        audiencePalette
-      ),
-      discoveryLabel: presentation.discoveryLabel,
       discovery,
-      discoveryChart: chartOf(
-        `${property.id}-discovery`,
-        presentation.metrics.impressions
-      )(
-        property.searchConsole.dateTrend.map(({ date, impressions }) => ({
-          date,
-          value: impressions,
-        })),
-        discoveryPalette
-      ),
-      baselineRecorded: allZero([...analytics, ...discovery]),
+      baselineRecorded: allZero([...analytics.metrics, ...discovery.metrics]),
       baselineLabel: presentation.emptyLabel,
     }
   }
 
-export const selectPropertyProjections =
+const appendToInstrumentationPartition = (
+  partitions: EstateInstrumentationPartitions,
+  estate: ObservatoryEstateViewModel
+): EstateInstrumentationPartitions => {
+  const key = String(estate.instrumented) as keyof EstateInstrumentationPartitions
+  return {
+    ...partitions,
+    [key]: [...partitions[key], estate],
+  }
+}
+
+const instrumentedFirst = (
+  estates: readonly ObservatoryEstateViewModel[]
+): readonly ObservatoryEstateViewModel[] => {
+  const partitions = estates.reduce<EstateInstrumentationPartitions>(
+    appendToInstrumentationPartition,
+    { true: [], false: [] }
+  )
+  return [...partitions.true, ...partitions.false]
+}
+
+export const selectEstateProjections =
   (presentation: ObservatoryPresentation, visualization: ThemeVisualization) =>
-  (
-    properties: PublicObservatory['properties']
-  ): readonly ObservatoryPropertyViewModel[] =>
-    properties.map(propertyOf(presentation, visualization))
+  (window: string) =>
+  (estates: PublicObservatory['estates']): readonly ObservatoryEstateViewModel[] =>
+    instrumentedFirst(estates.map(estateOf(presentation)(visualization)(window)))

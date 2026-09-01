@@ -7,7 +7,7 @@ import type {
 import type { GithubSummary } from '../../../../components/substrate/kernel/api/apiTypes'
 import type { ApiDocumentStatusViewModel } from '../../../substrate/kernel/api/apiSelectors'
 import type { ThemeVisualization } from '../../../../../styles/themes/themeTypes'
-import { selectPropertyProjections } from './metrics/metricsAdapters'
+import { selectEstateProjections } from './metrics/metricsAdapters'
 import {
   selectFeedProjection,
   selectImpactProjection,
@@ -48,18 +48,48 @@ export interface ObservatoryChartViewModel {
   readonly empty: boolean
 }
 
-export interface ObservatoryPropertyViewModel {
-  readonly id: string
+export interface ObservatoryCapabilityViewModel {
   readonly label: string
+  readonly availability: string
   readonly availabilityLabel: string
   readonly tone: ObservatoryTone
+  readonly metrics: readonly ObservatoryMetricViewModel[]
+  readonly chart: ObservatoryChartViewModel
+}
+
+export interface ObservatoryEstatePresenceViewModel {
+  readonly label: string
+  readonly availability: string
+  readonly state: string
+  readonly checkedAt: string | null
+  readonly observed: string
+  readonly latency: string
+  readonly httpStatus: string
+  readonly tone: ObservatoryTone
+}
+
+export interface ObservatoryEstateRepositoryViewModel {
+  readonly id: string
+  readonly label: string
+  readonly url: string
+  readonly status: 'public-source'
+  readonly statusLabel: string
+}
+
+export interface ObservatoryEstateViewModel {
+  readonly id: string
+  readonly label: string
+  readonly url: string
+  readonly window: string
+  readonly instrumented: boolean
+  readonly availabilityLabel: string
+  readonly tone: ObservatoryTone
+  readonly presence: ObservatoryEstatePresenceViewModel
+  readonly repositoriesLabel: string
+  readonly repositories: readonly ObservatoryEstateRepositoryViewModel[]
   readonly live: ObservatoryMetricViewModel | null
-  readonly analyticsLabel: string
-  readonly analytics: readonly ObservatoryMetricViewModel[]
-  readonly analyticsChart: ObservatoryChartViewModel
-  readonly discoveryLabel: string
-  readonly discovery: readonly ObservatoryMetricViewModel[]
-  readonly discoveryChart: ObservatoryChartViewModel
+  readonly analytics: ObservatoryCapabilityViewModel
+  readonly discovery: ObservatoryCapabilityViewModel
   readonly baselineRecorded: boolean
   readonly baselineLabel: string
 }
@@ -86,7 +116,7 @@ export interface ObservatoryViewProps {
   readonly feedTone: ObservatoryTone
   readonly impact: readonly ObservatoryMetricViewModel[]
   readonly impactState: string | null
-  readonly properties: readonly ObservatoryPropertyViewModel[]
+  readonly estates: readonly ObservatoryEstateViewModel[]
   readonly presence: readonly PresenceChannelViewModel[]
   readonly presenceState: string | null
 }
@@ -111,6 +141,7 @@ const visibleObservatory = (
   input: ObservatorySelectorInput
 ): ObservatoryViewProps => {
   const feed = selectFeedProjection(presentation, input)
+  const window = selectWindow(presentation.windowLabel, input.observatory)
   return {
     dataStatus: input.dataStatus,
     visible: true,
@@ -119,16 +150,15 @@ const visibleObservatory = (
     statement: presentation.statement,
     impactLabel: presentation.impactLabel,
     presenceLabel: presentation.presenceLabel,
-    window: selectWindow(presentation.windowLabel, input.observatory),
+    window,
     observed: `${presentation.checkedLabel} ${selectObservedAt(input.observatory?.checkedAt)}`,
     feedLabel: feed.label,
     feedTone: feed.tone,
     impact: selectImpactProjection(presentation, input.github),
     impactState: selectImpactState(presentation, input),
-    properties: selectPropertyProjections(
-      presentation,
-      input.visualization
-    )(input.observatory?.properties ?? []),
+    estates: selectEstateProjections(presentation, input.visualization)(window)(
+      input.observatory?.estates ?? []
+    ),
     presence: selectPresenceProjection(input.presence),
     presenceState: selectPresenceState(presentation, input),
   }
@@ -148,7 +178,7 @@ const hiddenObservatory = (input: ObservatorySelectorInput): ObservatoryViewProp
   feedTone: 'degraded',
   impact: [],
   impactState: null,
-  properties: [],
+  estates: [],
   presence: [],
   presenceState: null,
 })

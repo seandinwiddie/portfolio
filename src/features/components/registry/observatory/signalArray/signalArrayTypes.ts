@@ -62,6 +62,66 @@ export interface ObservatoryProperty {
   readonly searchConsole: DiscoverySignal
 }
 
+export type PresenceState = 'operational' | 'limited' | 'unreachable'
+export type EstateInstrumentationState = 'not-instrumented'
+
+export type EstatePresenceCapability =
+  | Readonly<{
+      instrumented: true
+      availability: PresenceState
+      httpStatus: number | null
+      latencyMs: number | null
+      checkedAt: string | null
+    }>
+  | Readonly<{
+      instrumented: false
+      availability: EstateInstrumentationState
+    }>
+
+export type EstateAnalyticsCapability =
+  | Readonly<{
+      instrumented: true
+      availability: ObservatoryAvailability
+      realtime?: Readonly<{ activeUsers: number }> | null
+      current?: AnalyticsAggregate | null
+      previous?: AnalyticsAggregate | null
+      trend?: Readonly<Record<keyof AnalyticsAggregate, ObservatoryDelta>> | null
+      dateTrend?: readonly AnalyticsDateSignal[]
+    }>
+  | Readonly<{
+      instrumented: false
+      availability: EstateInstrumentationState
+    }>
+
+export type EstateDiscoveryCapability =
+  | Readonly<{
+      instrumented: true
+      availability: ObservatoryAvailability
+      current?: DiscoveryAggregate | null
+      previous?: DiscoveryAggregate | null
+      dateTrend?: readonly DiscoveryDateSignal[]
+    }>
+  | Readonly<{
+      instrumented: false
+      availability: EstateInstrumentationState
+    }>
+
+export interface ObservatoryEstate {
+  readonly id: string
+  readonly label: string
+  readonly url: string
+  readonly repositories: readonly Readonly<{
+    id: string
+    sourceUrl: string
+    status: 'public-source'
+  }>[]
+  readonly capabilities: Readonly<{
+    presence: EstatePresenceCapability
+    analytics: EstateAnalyticsCapability
+    searchConsole: EstateDiscoveryCapability
+  }>
+}
+
 export interface PublicObservatory {
   readonly checkedAt: string
   readonly cached: boolean
@@ -72,9 +132,8 @@ export interface PublicObservatory {
     previous: ObservatoryWindow
   }>
   readonly properties: readonly ObservatoryProperty[]
+  readonly estates: readonly ObservatoryEstate[]
 }
-
-export type PresenceState = 'operational' | 'limited' | 'unreachable'
 
 export interface PresenceChannel {
   readonly id: string

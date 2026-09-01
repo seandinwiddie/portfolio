@@ -1,10 +1,13 @@
 import type React from 'react'
 import Svg, { Circle, Line, Path } from 'react-native-svg'
-import { H2, H3, Paragraph, Text, XStack, YStack } from 'tamagui'
+import { Anchor, H2, H3, Paragraph, Text, XStack, YStack } from 'tamagui'
 import type {
+  ObservatoryCapabilityViewModel,
   ObservatoryChartViewModel,
+  ObservatoryEstatePresenceViewModel,
+  ObservatoryEstateRepositoryViewModel,
+  ObservatoryEstateViewModel,
   ObservatoryMetricViewModel,
-  ObservatoryPropertyViewModel,
   ObservatoryViewProps,
   PresenceChannelViewModel,
 } from '../../../../features/systems/registry/observatory/signalArray/signalArraySelectors'
@@ -85,44 +88,190 @@ const TrendChart: React.FC<ObservatoryChartViewModel> = ({
   )
 }
 
-const Property: React.FC<ObservatoryPropertyViewModel> = ({
+const Capability: React.FC<ObservatoryCapabilityViewModel> = ({
   label,
+  availability,
   availabilityLabel,
   tone,
+  metrics,
+  chart,
+}) => (
+  <YStack
+    className={`observatory-capability signal-tone-${tone}`}
+    dataSet={{ capabilityStatus: availability }}
+    gap="$2"
+  >
+    <XStack justifyContent="space-between" alignItems="center" gap="$2">
+      <Text className="system-kicker" fontFamily="$body">
+        {label}
+      </Text>
+      <Text className="observatory-capability-state" fontFamily="$body">
+        {availabilityLabel}
+      </Text>
+    </XStack>
+    <YStack className="observatory-metric-grid">{renderMetrics(metrics)}</YStack>
+    <TrendChart {...chart} />
+  </YStack>
+)
+
+const EstatePresence: React.FC<ObservatoryEstatePresenceViewModel> = ({
+  label,
+  availability,
+  state,
+  checkedAt,
+  observed,
+  latency,
+  httpStatus,
+  tone,
+}) => (
+  <XStack
+    className={`observatory-estate-presence signal-tone-${tone}`}
+    dataSet={{ capabilityStatus: availability, observedAt: checkedAt ?? '' }}
+    justifyContent="space-between"
+    alignItems="center"
+    gap="$3"
+  >
+    <YStack minWidth={0} gap="$1">
+      <Text className="system-kicker" fontFamily="$body">
+        {label}
+      </Text>
+      <Text className="observatory-presence-state" fontFamily="$body">
+        {state}
+      </Text>
+      <Text className="readout-label observatory-estate-observed" fontFamily="$body">
+        {observed}
+      </Text>
+    </YStack>
+    <YStack alignItems="flex-end" gap="$1">
+      <Text className="observatory-estate-latency" fontFamily="$body">
+        {latency}
+      </Text>
+      <Text className="readout-label" fontFamily="$body">
+        {httpStatus}
+      </Text>
+    </YStack>
+  </XStack>
+)
+
+const EstateRepository: React.FC<ObservatoryEstateRepositoryViewModel> = ({
+  id,
+  label,
+  url,
+  status,
+  statusLabel,
+}) => (
+  <XStack
+    testID={`estate-repository-${id}`}
+    dataSet={{ repositoryId: id, repositoryStatus: status }}
+    className="observatory-estate-repository"
+    justifyContent="space-between"
+    alignItems="center"
+    gap="$2"
+  >
+    <Anchor
+      className="observatory-estate-repository-link"
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {label}
+      <Text className="registry-link-arrow" aria-hidden={true}>
+        ↗
+      </Text>
+    </Anchor>
+    <Text className="readout-label observatory-estate-repository-status">
+      {statusLabel}
+    </Text>
+  </XStack>
+)
+
+const renderRepositories = (
+  repositories: readonly ObservatoryEstateRepositoryViewModel[]
+): React.ReactNode =>
+  repositories.map((repository) => (
+    <EstateRepository key={repository.id} {...repository} />
+  ))
+
+const Estate: React.FC<ObservatoryEstateViewModel> = ({
+  id,
+  label,
+  url,
+  window,
+  instrumented,
+  availabilityLabel,
+  tone,
+  presence,
+  repositoriesLabel,
+  repositories,
   live,
-  analyticsLabel,
   analytics,
-  analyticsChart,
-  discoveryLabel,
   discovery,
-  discoveryChart,
   baselineRecorded,
   baselineLabel,
 }) => (
-  <YStack className={`observatory-property panel-frame signal-tone-${tone}`} gap="$3">
+  <YStack
+    id={`estate-${id}`}
+    testID={`estate-${id}`}
+    tag="section"
+    aria-labelledby={`estate-${id}-heading`}
+    dataSet={{
+      estateId: id,
+      instrumented: String(instrumented),
+      presenceStatus: presence.availability,
+      analyticsStatus: analytics.availability,
+      searchConsoleStatus: discovery.availability,
+      sourceEndpoint: '/observatory',
+      observationPeriod: window,
+    }}
+    className={`observatory-property panel-frame signal-tone-${tone} ${
+      instrumented
+        ? 'observatory-property-instrumented'
+        : 'observatory-property-uninstrumented'
+    }`}
+    gap="$3"
+  >
     <XStack className="system-panel-header" justifyContent="space-between" gap="$3">
-      <H3 fontFamily="$heading" fontWeight="bold">
-        {label}
+      <H3 id={`estate-${id}-heading`} fontFamily="$heading" fontWeight="bold">
+        <Anchor
+          className="observatory-estate-link"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {label}
+          <Text className="registry-link-arrow" aria-hidden={true}>
+            ↗
+          </Text>
+        </Anchor>
       </H3>
       <Text className="observatory-availability" fontFamily="$body">
         {availabilityLabel}
       </Text>
     </XStack>
+    <Text className="readout-label observatory-estate-window" fontFamily="$body">
+      {window}
+    </Text>
+    <EstatePresence {...presence} />
+    {repositories.length > 0 ? (
+      <YStack
+        tag="nav"
+        aria-labelledby={`estate-${id}-repositories-heading`}
+        className="observatory-estate-repositories"
+        gap="$1"
+      >
+        <Text
+          id={`estate-${id}-repositories-heading`}
+          className="system-kicker"
+          fontFamily="$body"
+        >
+          {repositoriesLabel}
+        </Text>
+        {renderRepositories(repositories)}
+      </YStack>
+    ) : null}
     {live ? <Metric {...live} /> : null}
-    <YStack gap="$2">
-      <Text className="system-kicker" fontFamily="$body">
-        {analyticsLabel}
-      </Text>
-      <YStack className="observatory-metric-grid">{renderMetrics(analytics)}</YStack>
-      <TrendChart {...analyticsChart} />
-    </YStack>
-    <YStack gap="$2">
-      <Text className="system-kicker" fontFamily="$body">
-        {discoveryLabel}
-      </Text>
-      <YStack className="observatory-metric-grid">{renderMetrics(discovery)}</YStack>
-      <TrendChart {...discoveryChart} />
-    </YStack>
+    <Capability {...analytics} />
+    <Capability {...discovery} />
     {baselineRecorded ? (
       <Text className="observatory-baseline-recorded" fontFamily="$body">
         {baselineLabel}
@@ -131,10 +280,8 @@ const Property: React.FC<ObservatoryPropertyViewModel> = ({
   </YStack>
 )
 
-const renderProperties = (
-  properties: readonly ObservatoryPropertyViewModel[]
-): React.ReactNode =>
-  properties.map((property) => <Property key={property.id} {...property} />)
+const renderEstates = (estates: readonly ObservatoryEstateViewModel[]): React.ReactNode =>
+  estates.map((estate) => <Estate key={estate.id} {...estate} />)
 
 const PresenceChannel: React.FC<PresenceChannelViewModel> = ({
   id,
@@ -181,7 +328,7 @@ const Observatory: React.FC<ObservatoryViewProps> = ({
   feedTone,
   impact,
   impactState,
-  properties,
+  estates,
   presence,
   presenceState,
 }) =>
@@ -234,7 +381,7 @@ const Observatory: React.FC<ObservatoryViewProps> = ({
         {presenceState ? <Text className="readout-label">{presenceState}</Text> : null}
         <YStack className="observatory-presence-grid">{renderPresence(presence)}</YStack>
       </YStack>
-      {renderProperties(properties)}
+      {renderEstates(estates)}
     </YStack>
   ) : null
 

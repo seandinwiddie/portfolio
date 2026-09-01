@@ -45,6 +45,17 @@ script set without cache at the end; a changed set makes affected coverage
    `https://github.com/seandinwiddie/api.sdin.dev`.
 3. Confirm the ordinary production response renders API-backed presence,
    project, observatory, analytics, search, and status provenance honestly.
+   Within the observatory, require exactly six deterministic `estate-*`
+   sections matching the six Open Signal Channel destinations. Confirm every
+   estate exposes its API-supplied URL, selected observation period, observed
+   timestamp, presence state, HTTP result, latency, and machine-readable
+   presence/analytics/search status. Require real Google metric tiles,
+   prior-period direction, and traces only for explicitly instrumented estates;
+   the other estates must visibly report `not-instrumented` without synthetic
+   zero metrics. Require compact `public-source` repository controls only where
+   the API estate supplies repository attribution; confirm no inferred
+   repository controls appear for estates with an empty attribution array.
+   Confirm the visible API Source provenance link remains available.
    Record current, stale, partial, empty, timed-out, and unavailable variants
    that are actually reached. Mark unobserved variants `BLOCKED`; do not inject
    faults, mutate state, or treat unit-test evidence as browser evidence.
@@ -111,6 +122,35 @@ script set without cache at the end; a changed set makes affected coverage
    disable/visual-continuity/re-enable path without the drawer or control
    exceeding 320px. Report audible SFX with the gesture and evidence limitations
    from desktop items 5 and 6.
+
+## Agent and crawler discovery
+
+This section is the narrow exception to the ordinary-control-only rule: navigate
+directly to the listed public discovery resources, but do not call undocumented
+endpoints, mutate data, bypass rate limits, or inspect private security findings.
+
+1. In both the initial HTML response and the hydrated DOM for ingress, Nexus,
+   Dossier, Missions, and Telemetry, require one self-referential canonical URL
+   matching the visible route, one stable `sdin:route-id` named
+   `portfolio:<station>`, the current `sdin:manifest-schema`, one
+   `application/json` alternate link to the API agent manifest, and parseable
+   `WebPage` JSON-LD whose name and description match the API-backed document
+   metadata. On a genuinely missing coordinate, require
+   `portfolio:lost-signal`, `noindex,follow`, no canonical, and no JSON-LD. Confirm
+   these identities remain unchanged at desktop and iPhone SE widths.
+2. Open `/robots.txt`, `/sitemap.xml`, and `/llms.txt` and require successful
+   text/XML responses. Robots must allow the public interface and advertise the
+   canonical sitemap. The sitemap must contain exactly the five canonical
+   interface routes and exclude 404, lost-signal, Expo-internal, preview, and
+   query-string variants. `llms.txt` must identify the same routes, schema version,
+   provenance authority, HTTPS discovery links, and public read-only resources as
+   the current API manifest; stale or locally invented business copy is a `FAIL`.
+3. Open `https://api.sdin.dev/agent-manifest` and require JSON with a semantic
+   version, stable resource IDs, HTTPS links for `self`, `portfolio`,
+   `authoritative-data`, `documentation`, and `source`, explicit public read-only
+   access semantics, provenance back to `/data`, and advertised rate-limit
+   headers. Confirm the generated discovery files expose no credentials, raw scan
+   evidence, private findings, arbitrary scan targets, or mutation instructions.
 
 ## Evidence and report
 
